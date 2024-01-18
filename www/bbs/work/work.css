@@ -1,0 +1,78 @@
+@charset "utf-8";
+
+#layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:710px;}
+#layer_box {margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
+.sub_wrap {display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:100%;}
+.sub_box {flex:1 1 0%; position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0;}
+
+/* Filter Wrap STR */
+#filter_wrap {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; margin-bottom:12px; padding:8px; width:100%; background:#e5efff; gap:0 20px;}
+.filter_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0;}
+.filter_box > label {margin:0; margin-right:6px; padding:0; height:16px; font-family:'GmarketSansMedium'; font-weight:100; font-size:14px;}
+.filter_box > span {margin:0; padding:0 5px;}
+
+.form_input {padding:1px 2px;}
+.form_select {padding:1px 2px;}
+
+.x80 {width:80px;}
+.x100 {width:100px;}
+
+.ui-datepicker-trigger {margin-left:4px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
+/* Filter Wrap END */
+
+/* Work Wrap STR */
+.work_wrap {flex:1 1 0%; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:8px; width:100%; background:#e5efff;}
+
+.work_menu_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; width:100%; gap:0 6px;}
+.work_menu_list {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; border:0; border-radius:8px 8px 0px 0px; background:#6d9ac4;}
+#menu_list_act {background:#283144;}
+.work_menu_list_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:10px 8px 6px 8px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
+
+.client_list_box {position:relative; margin:0; padding:0; width:100%; max-width:1314px; height:309px; overflow:scroll; border:2px solid #283144; background:#fff;}
+.client_list_box::-webkit-scrollbar {width:3px; height:10px;}
+.client_list_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+.client_list_hd_tbl {position:sticky; left:0; top:0; margin:0; padding:0; width:max-content; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.client_list_hd_tbl > thead > tr > th {margin:0; padding:5px 5px 2px  5px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.client_list_hd_tbl > thead > tr > th:first-child {border-left:0;}
+
+.client_list_tbl {position:relative; margin:0; padding:0; width:max-content; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:0;}
+.client_list_tbl > tbody > tr > td {margin:0; padding:5px 5px; background:#fff; border:1px solid #374769; border-top:0; text-align:center;}
+.client_list_tbl > tbody > tr > td:first-child {border-left:0;}
+.client_list_tbl > tbody > tr:hover > td {background:#d8f8c0;}
+
+.work_box {display:flex; flex-direction:row; align-items:flex-start; justify-content:space-between; margin:0; margin-top:12px; padding:0; width:100%; max-width:1314px; flex:1 1 0%;}
+.work_member_box {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:40%; height:100%;}
+.work_member_top {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; margin-bottom:8px; padding:0; width:100%;}
+.work_link_box {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:59%; height:100%;}
+.work_link_top {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; margin-bottom:8px; padding:0; width:100%;}
+
+.work_member_top > div, .work_link_top > div {display:flex; flex-direction:row; align-items:center; justify-content:center; gap:0 6px;}
+.work_member_list, .work_link_list {flex:1 1 0; margin:0; padding:0; width:100%; overflow:scroll; border:2px solid #283144; background:#fff;}
+
+.work_member_list::-webkit-scrollbar, .work_link_list::-webkit-scrollbar {width:3px; height:10px;}
+.work_member_list::-webkit-scrollbar-thumb, .work_link_list::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+.work_member_list_hd_tbl, .work_link_list_hd_tbl {position:sticky; left:0; top:0; margin:0; padding:0; width:max-content; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.work_member_list_hd_tbl > thead > tr > th, .work_link_list_hd_tbl > thead > tr > th {margin:0; padding:5px 5px 2px  5px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.work_member_list_hd_tbl > thead > tr > th:first-child, .work_link_list_hd_tbl > thead > tr > th:first-child {border-left:0;}
+
+.work_member_list_tbl, .work_link_list_tbl {position:relative; margin:0; padding:0; width:max-content; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:0;}
+.work_member_list_tbl > tbody > tr > td, .work_link_list_tbl > tbody > tr > td {margin:0; padding:5px 5px; background:#fff; border:1px solid #374769; border-top:0; text-align:center;}
+.work_member_list_tbl > tbody > tr > td:first-child, .work_link_list_tbl > tbody > tr > td:first-child {border-left:0;}
+.work_member_list_tbl > tbody > tr:hover > td, .work_link_list_tbl > tbody > tr:hover > td {background:#d8f8c0;}
+
+.set_btn {display:inline-block; margin:0; padding:5px 11px 5px 11px; height:27px; line-height:21px; border:0; border-radius:4px; color:#fff; background:#434a54; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
+
+.talign_l {text-align:left !important;}
+.talign_r {text-align:right !important;}
+
+.x50 {width:50px;}
+.x56 {width:56px;}
+.x60 {width:60px;}
+.x70 {width:70px;}
+.x90 {width:90px;}
+.x110 {width:110px;}
+.x120 {width:120px;}
+.x130 {width:130px;}
+.x150 {width:150px;}
+.x400 {width:400px;}
+/* Work Wrap END */

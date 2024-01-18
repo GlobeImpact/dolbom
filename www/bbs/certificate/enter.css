@@ -1,0 +1,57 @@
+@charset "utf-8";
+
+@font-face {
+font-family: 'GmarketSansLight';
+src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'GmarketSansMedium';
+src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'GmarketSansBold';
+src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'LINESeedKR-Rg';
+src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Rg.woff2') format('woff2');
+font-weight: 400;
+font-style: normal;
+}
+
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+.enter_wrap {position:relative; margin:0; padding:15px; width:100%;}
+.enter_top {display:flex; flex-direction:row; align-items:center; justify-content:flex-end; margin:0; padding:0; padding-bottom:15px; width:100%;}
+.print_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:4px 8px; background:#ed5684; border:1px solid #ed5684; border-radius:4px; color:#fff; cursor:pointer;}
+.enter_box {position:relative; margin:0; padding:0; width:100%;}
+.enter_tbl {margin:0; padding:0; width:100%; border-collapse:collapse; border-spacing:0; border:2px solid #000; font-family:'NanumSquare',sans-serif; font-weight:500; font-size:17px;}
+.enter_tbl > tbody > tr > td {margin:0; padding:8px 10px; height:47px; border:1px solid #000; letter-spacing:1px;}
+.enter_tbl_tit {border-bottom:2px solid #000 !important; text-align:center;}
+.enter_tbl_tit > h3 {padding:10px 0 8px 0; transform:scaleX(0.85); font-family:'GmarketSansBold'; font-size:40px; letter-spacing:10px;}
+.enter_bottom {position:relative; border:2px solid #000 !important; padding:20px;}
+.enter_bottom_date {margin:0; padding:0; width:100%; text-align:center;}
+.enter_bottom_p1 {font-weight:800; font-size:17px;}
+.enter_bottom_p2 {margin:15px 0 50px 0; font-size:28px; color:#ababab;}
+.enter_bottom_sign {position:absolute; right:0; top:0; margin:0; padding:0; width:130px; height:120px; border-left:1px solid #000; border-bottom:1px solid #000;}
+.enter_bottom_sign > p {margin:0; padding:6px 0; width:100%; text-align:center; border-bottom:1px solid #000;}
+.enter_bottom > img {position:absolute; right:0; bottom:0; margin:0 7px 7px 0; width:100px;}
+
+.lineh_30 {line-height:30px;}
+.lineh_15 {line-height:15px;}
+
+.talign_c {text-align:center;}
+
+.x40 {width:40px;}
+.x110 {width:110px;}
+.x120 {width:120px;}
+.x230 {width:230px;}

@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+#layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:100%;}
+#layer_box {margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
+.sub_wrap {display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:100%;}
+.sub_wrap > .sub_left {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:480px; border:0; border-radius:7px; background:#283144; overflow:hidden;}
+.sub_left > .sub_left_top {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; padding:10px; background:#212939; border-bottom:1px solid #fff;}
+.sub_left_top > .filter_box {flex:1 1 0%; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; gap:0 8px;}
+.sub_left > .sub_left_list {position:relative; margin:0; padding:0; flex:1 1 0%; overflow-y:scroll;}
+
+#write_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; background:#6d9ac4; border:1px solid #1469b9; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
+.filter_select {padding:4px 7px; border-radius:3px; font-size:15px;}
+.filter_input {padding:5px 7px; width:120px; border-radius:3px; font-size:15px;}
+
+.list_tbl {position:relative; margin:0 auto; padding:0; width:100%; border-collapse:collapse;}
+.list_tbl > thead {position:sticky; top:0; background:#283144;}
+.list_tbl > thead > tr > th {margin:0; padding:8px 4px; border-left:1px solid #fff; border-right:1px solid #fff; color:#fff; font-family:'NanumSquare',sans-serif; font-weight:600; font-size:17px;}
+.list_tbl > thead > tr > th:first-child {border-left:0;}
+.list_tbl > thead > tr > th:last-child {border-right:0;}
+.list_tbl > tbody > tr > td {margin:0; padding:8px 4px; border-left:1px solid #fff; border-right:1px solid #fff; color:#fff; font-size:14px;}
+.list_tbl > tbody > tr > td:first-child {border-left:0;}
+.list_tbl > tbody > tr > td:last-child {border-right:0;}
+.list_tbl > tbody > tr:nth-child(odd) > td {background:#374769;}
+
+.talign_c {text-align:center;}
