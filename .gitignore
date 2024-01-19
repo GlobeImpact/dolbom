@@ -1,2 +1,13 @@
 # ignore dbconfig.php
-www/data/dbconfig.php
+dbconfig.php
+
+# ignore ETC
+/.htaccess
+data/
+test/
+log/
+g5_tree/
+.vscode/
+config.php
+*.key
+*.sh

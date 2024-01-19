@@ -76,7 +76,6 @@ $g5['g5_shop_inicis_log_table'] = G5_SHOP_TABLE_PREFIX.'inicis_log'; // 이니�
 
 
 
-
 /* 환경설정 STR */
 
     // 공통 환경설정
