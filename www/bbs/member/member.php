@@ -424,11 +424,9 @@ function list_act(mb_id) {
     let sch_service_category = '';
     let sch_mb_name = '';
 
-    if(mb_id == '') {
-        sch_activity_status = $('#sch_activity_status option:selected').val();
-        sch_service_category = $('#sch_service_category option:selected').val();
-        sch_mb_name = $('#sch_mb_name').val();
-    }
+    sch_activity_status = $('#sch_activity_status option:selected').val();
+    sch_service_category = $('#sch_service_category option:selected').val();
+    sch_mb_name = $('#sch_mb_name').val();
 
     $.ajax({
         url: g5_bbs_url + '/ajax.member_list.php',

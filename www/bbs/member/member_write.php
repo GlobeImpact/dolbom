@@ -146,7 +146,7 @@ if($w == 'u' && $mb_id != '') {
                     <tr>
                         <th>비고</th>
                         <td colspan="5">
-                            <textarea name="mb_memo" id="mb_memo" class="form_textarea"></textarea>
+                            <textarea name="mb_memo" id="mb_memo" class="form_textarea"><?php echo $write['mb_memo'] ?></textarea>
                         </td>
                     </tr>
                 </tbody>

@@ -1,40 +1,25 @@
 <?php
 include_once('./_common.php');
 
-$sch_activity_status = '';
-$sch_service_category = '';
-$sch_mb_name = '';
-$mb_id = $_POST['mb_id'];
+$now_year = '';
+$sch_value = '';
 
-$sch_activity_status = $_POST['sch_activity_status'];
-$sch_service_category = $_POST['sch_service_category'];
-$sch_mb_name = $_POST['sch_mb_name'];
+$now_year = $_POST['now_year'];
+$sch_value = $_POST['sch_value'];
 
 $list = Array();
 
-$where_str = "";
-$orderby_str = "";
+$set_sql = " select * from g5_member_education_set order by set_idx asc ";
+$set_qry = sql_query($set_sql);
+$set_num = sql_num_rows($set_qry);
 
-$where_str .= " and mb_menu = '{$_SESSION['this_code']}'";
-
-if($sch_activity_status != '') {
-    $where_str .= " and activity_status = '{$sch_activity_status}'";
+if($set_num > 0) {
+    for($i=0; $set_row = sql_fetch_array($set_qry); $i++) {
+        $sql = " select * from g5_member_education where set_idx = '{$set_row['set_idx']}' ";
+    }
 }
 
-if($sch_service_category != '') {
-    $where_str .= " and service_category = '{$sch_service_category}'";
-}
-
-if($sch_mb_name != '') {
-    $where_str .= " and mb_name like '%{$sch_mb_name}%'";
-}
-
-if($mb_id != '') {
-    $orderby_str .= " mb_id = '{$mb_id}' desc, activity_status = '보류' desc, activity_status = '활동중' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc";
-}else{
-    $orderby_str .= " activity_status = '보류' desc, activity_status = '활동중' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc";
-}
-
+/*
 $sql = " select * from g5_member where (1=1) and mb_level = 2 and mb_hide = '' {$where_str} order by {$orderby_str} ";
 $qry = sql_query($sql);
 $num = sql_num_rows($qry);
@@ -62,5 +47,6 @@ if($num > 0) {
         }
     }
 }
+*/
 
 echo json_encode($list);

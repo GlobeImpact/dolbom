@@ -6,7 +6,7 @@ $service_category = $_GET['service_category'];
 $mb_name = $_GET['mb_name'];
 
 header( "Content-type: application/vnd.ms-excel; charset=utf-8");
-header( "Content-Disposition: attachment; filename = excel_test.xls" );     //filename = 저장되는 파일명을 설정합니다.
+header( "Content-Disposition: attachment; filename = ".date('Ymd')."_excel.xls" );     //filename = 저장되는 파일명을 설정합니다.
 header( "Content-Description: PHP4 Generated Data" );
 
 $mn_sql = " select * from g5_menu where me_code = '{$_SESSION['this_code']}' ";
@@ -51,24 +51,24 @@ echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
             <th style="height:30px; border:1px solid #000; text-align:center; width:60px;">팀구분</th>
             <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">성명</th>
             <th style="height:30px; border:1px solid #000; text-align:center; width:130px;">연락처</th>
-            <th style="height:30px; border:1px solid #000; text-align:center; width:120px;">주민번호</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">계약형태</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">입사일자</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">프리미엄</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">취약계층여부</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">반려동물</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">주소</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">4대보험</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">보험상실</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">퇴사일자</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">급여</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">표준월소득액</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">은행</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">계좌번호</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">예금주</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">예금주(기타)</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">비고</th>
-            <th style="height:30px; border:1px solid #000; text-align:center;">특이사항</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:130px;">주민번호</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:80px;">계약형태</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">입사일자</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:70px;">프리미엄</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">취약계층여부</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:80px;">반려동물</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:300px;">주소</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">4대보험가입</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">보험상실</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">퇴사일자</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">급여</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:100px;">표준월소득액</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:120px;">은행</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:170px;">계좌번호</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:130px;">예금주</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:130px;">예금주(기타)</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:300px;">비고</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:300px;">특이사항</th>
         </tr>
     </thead>
     <?php
@@ -77,6 +77,25 @@ echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
     <tbody>
         <?php
         for($i=0; $row = sql_fetch_array($qry); $i++) {
+            $v_vulnerable = '';
+            if($row['vulnerable'] != '') {
+                if($row['vulnerable'] == '기타') {
+                    $v_vulnerable .= $row['vulnerable_etc'];
+                }else{
+                    $v_vulnerable .= $row['vulnerable'];
+                }
+            }
+
+            $v_mb_addr = '';
+            if($row['mb_zip1'] != '' || $row['mb_zip2'] != '') $v_mb_addr .= '['.$row['mb_zip1'].$row['mb_zip2'].'] ';
+            if($row['mb_addr1'] != '') {
+                if($v_mb_addr != '') $v_mb_addr .= ' ';
+                $v_mb_addr .= $row['mb_addr1'];
+            }
+            if($row['mb_addr2'] != '') {
+                if($v_mb_addr != '') $v_mb_addr .= ' ';
+                $v_mb_addr .= $row['mb_addr2'];
+            }
         ?>
         <tr>
             <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['activity_status'] ?></p></td>
@@ -86,22 +105,22 @@ echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
             <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['mb_hp'] ?></p></td>
             <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['security_number'] ?></p></td>
             <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['contract_type'] ?></p></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
-            <td style="height:26px; border:1px solid #000; text-align:center;"></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['enter_date'] ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo ($row['premium_use'] == 'y')?'Y':''; ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $v_vulnerable ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo ($row['pet_use'] != '')?$row['pet_use']:''; ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:left;"><p><?php echo $v_mb_addr ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo ($row['major4_insurance'] == '0000-00-00')?'':$row['major4_insurance']; ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo ($row['loss_insurance'] == '0000-00-00')?'':$row['loss_insurance']; ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo ($row['quit_date'] == '0000-00-00')?'':$row['quit_date']; ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:right;"><p style="padding-left:15px; padding-right:15px;"><?php echo number_format($row['basic_price']) ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:right;"><p style="padding-left:15px; padding-right:15px;"><?php echo number_format($row['monthly_income']) ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['bank_name'] ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['bank_account'] ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['account_holder'] ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['account_holder_etc'] ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:left;"><p style="padding-left:15px; padding-right:15px;"><?php echo $row['mb_memo'] ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:left;"><p style="padding-left:15px; padding-right:15px;"><?php echo $row['mb_memo2'] ?></p></td>
         </tr>
         <?php
         }

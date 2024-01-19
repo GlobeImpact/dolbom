@@ -1,0 +1,42 @@
+@charset "utf-8";
+
+/* Page Wrap STR */
+#layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:100%;}
+#layer_box {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
+/* Page Wrap END */
+
+/* Filter Wrap STR */
+.filter_wrap {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; margin-bottom:12px; padding:8px; width:100%; background:#e5efff;}
+
+.filter_year {flex:1 1 0%; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; gap:0 10px;}
+.filter_year_tit {height:25px; font-family:'GmarketSansMedium'; font-weight:100; font-size:24px;}
+.filter_year_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; cursor:pointer;}
+
+.filter_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-end; margin:0; padding:0; gap:0 6px;}
+.filter_input {margin:0; padding:6px 7px; width:170px; border:1px solid #000 !important; border-radius:3px; font-size:15px; outline:none !important; box-shadow:none !important;}
+#filter_submit {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; background:#434a54; border:1px solid #434a54; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
+/* Filter Wrap END */
+
+/* Member Education List Wrap STR */
+.member_education_list_wrap {flex:1 1 0%; flex:wrap; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; padding:12px; background:#e5efff;}
+.member_education_list_box {display:flex; flex-direction:row; align-items:flex-start; justify-content:flex-start; margin:0; padding:0; padding-bottom:12px; width:100%; height:100%; overflow-x:scroll; gap:15px;}
+.member_education_list_box::-webkit-scrollbar {height:10px;}
+.member_education_list_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+.member_education_list {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; padding-bottom:10px; min-width:300px; height:100%; border:0; border-radius:10px; background:#fff; overflow:hidden;}
+.member_education_list > p {margin:0; padding:10px; background:#212939; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:15px;}
+.member_education_list > ul {flex:1 1 0; display:block; margin:0; margin-top:10px; padding:0 10px; padding-top:2px; width:100%; list-style:none; overflow-y:scroll;}
+.member_education_list > ul::-webkit-scrollbar {width:3px;}
+.member_education_list > ul::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+.member_education_list > ul > li {display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; margin-bottom:10px; padding:0; width:100%; list-style:none; border:0; border-radius:7px; box-shadow:0px 0px 3px 1px #cdcdcd; overflow:hidden; cursor:pointer;}
+.member_education_list > ul > li:last-child {margin-bottom:2px !important;}
+.member_education_list_numb {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; width:40px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; background:#212939;}
+.member_education_list_data {margin:0; padding:0; flex:1 1 0%; padding:8px;}
+.member_education_list_date {margin-bottom:3px; font-family:'GmarketSansMedium'; font-weight:100; font-size:14px;}
+.member_education_list_tit {font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.member_education_list_counting {font-family:'Noto Sans KR',sans-serif; font-weight:300; font-size:13px;}
+/* Member Education List Wrap END */
+
+/* Bottom Wrap STR */
+.bottom_wrap {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:8px; padding-bottom:0; width:100%; gap:0 6px;}
+.write_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; background:#6d9ac4; border:1px solid #1469b9; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
+/* Bottom Wrap END */
