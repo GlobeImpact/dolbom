@@ -125,6 +125,10 @@ if($mb_id == '') $mb_id = $security_number;
 $mb_password    = isset($mb_id) ? trim($mb_id) : '';
 $mb_password_re = isset($mb_id) ? trim($mb_id) : '';
 
+if($quit_date != '') {
+    $activity_status = '퇴사';
+}
+
 run_event('register_form_update_before', $mb_id, $w);
 
 if ($w == '' || $w == 'u') {

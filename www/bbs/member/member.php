@@ -60,9 +60,15 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member.css?ve
                         </table>
                     </div>
                 </div>
+                <div class="list_left_bottom">
+                    <a class="excel_btn" id="member_excel_download_btn">엑셀 다운로드</a>
+                </div>
             </div>
             <div class="list_view_box">
+                <div class="list_view_top_box">
                 <h4 class="view_tit">제공인력 기본정보</h4>
+                <a id="del_btn">삭제</a>
+                </div>
                 <table class="view_tbl">
                     <tbody>
                         <tr>
@@ -117,52 +123,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member.css?ve
                     </tbody>
                 </table>
 
-                <?/*
-                <h4 class="view_tit mtop20">제공인력 교육정보</h4>
-                <table class="view_tbl">
-                    <thead>
-                        <tr>
-                            <th class="xp10">교육</th>
-                            <th class="xp15">기본</th>
-                            <th class="xp15">심화</th>
-                            <th class="xp15">경력자</th>
-                            <th class="xp15">보수</th>
-                            <th class="xp15">아동학대</th>
-                            <th class="xp15">독감예방</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>시작일</th>
-                            <td class="talign_c" id="v_training_str_date1">2023-12-30</td>
-                            <td class="talign_c" id="v_training_str_date2">2023-12-30</td>
-                            <td class="talign_c" id="v_training_str_date3">2023-12-30</td>
-                            <td class="talign_c" id="v_training_str_date4">2023-12-30</td>
-                            <td class="talign_c" id="v_training_str_date5">2023-12-30</td>
-                            <td class="talign_c" id="v_training_str_date6">2023-12-30</td>
-                        </tr>
-                        <tr>
-                            <th>종료일</th>
-                            <td class="talign_c" id="v_training_end_date1">2023-12-30</td>
-                            <td class="talign_c" id="v_training_end_date2">2023-12-30</td>
-                            <td class="talign_c" id="v_training_end_date3">2023-12-30</td>
-                            <td class="talign_c" id="v_training_end_date4">2023-12-30</td>
-                            <td class="talign_c" id="v_training_end_date5">2023-12-30</td>
-                            <td class="talign_c" id="v_training_end_date6">2023-12-30</td>
-                        </tr>
-                        <tr>
-                            <th>교육시간</th>
-                            <td class="talign_c" id="v_training_time1">24:00 ~ 24:00</td>
-                            <td class="talign_c" id="v_training_time2">24:00 ~ 24:00</td>
-                            <td class="talign_c" id="v_training_time3">24:00 ~ 24:00</td>
-                            <td class="talign_c" id="v_training_time4">24:00 ~ 24:00</td>
-                            <td class="talign_c" id="v_training_time5">24:00 ~ 24:00</td>
-                            <td class="talign_c" id="v_training_time6">24:00 ~ 24:00</td>
-                        </tr>
-                    </tbody>
-                </table>
-                */?>
-
                 <ul class="menu_box mtop20">
                     <li class="menu_list" id="menu_list_act"><a class="menu_list_btn">급여정보</a></li>
                     <li class="menu_list"><a class="menu_list_btn">교육정보</a></li>
@@ -200,10 +160,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member.css?ve
                             <td class="x110" id="v_account_holder"></td>
                             <th class="x90">예금주(기타)</th>
                             <td id="v_account_holder_etc"></td>
-                            <?/*
-                            <th>계좌정보</th>
-                            <td colspan="7" id="v_bank_info"></td>
-                            */?>
                         </tr>
                         <tr>
                             <th>특이사항</th>
@@ -238,6 +194,46 @@ $(function(){
 
         $('#layer_popup').css('display', 'block');
         $('#layer_popup_bg').css('display', 'block');
+    });
+
+    $('#del_btn').click(function(){
+        if(confirm('한번 삭제되면 복구가 불가능합니다.\n그래도 삭제하시겠습니까?')) {
+            let mb_id = $('#v_mb_id').val();
+
+            $.ajax({
+                url: g5_bbs_url + '/ajax.member_delete.php',
+                type: "POST",
+                data: {'mb_id': mb_id},
+                dataType: "json",
+                success: function(response) {
+                    // 전송이 성공한 경우 받는 응답 처리
+                    console.log(response);
+
+                    if(response.msg != '') {
+                        alert(response.msg);
+                    }
+                    if(response.code == '0000') {
+                        list_act('');
+                    }else{
+                        location.reload();
+                    }
+                },
+                error: function(error) {
+                    // 전송이 실패한 경우 받는 응답 처리
+                    location.reload();
+                }
+            });
+        }
+
+        return false;
+    });
+
+    $('#member_excel_download_btn').click(function(){
+        let sch_activity_status = $('#sch_activity_status option:selected').val();
+        let sch_service_category = $('#sch_service_category option:selected').val();
+        let sch_mb_name = $('#sch_mb_name').val();
+
+        window.location.href = g5_bbs_url + '/member_excel_download.php?activity_status=' + sch_activity_status + '&service_category=' + sch_service_category + '&mb_name=' + sch_mb_name;
     });
 
     $('#certificate_nav_btn').click(function(){
@@ -317,47 +313,11 @@ $(function(){
             return false;
         }
 
-        if($('#w').val() == 'u' && $('#mb_id').val() == '') {
-            alert('아이디를 입력해주세요');
-            $('#mb_id').focus();
+        if($('#activity_status').val() == '퇴사' && $('#quit_date').val() == '') {
+            alert('활동현황이 퇴사일 경우 퇴사일자를 선택/입력해주셔야 합니다.');
+            $('#quit_date').focus();
             return false;
         }
-
-        /*
-        if($('#w').val() == '') {
-            if($('#mb_password').val() == '') {
-                alert('비밀번호를 입력해주세요');
-                $('#mb_password').focus();
-                return false;
-            }
-
-            if($('#mb_password_re').val() == '') {
-                alert('비밀번호 확인을 입력해주세요');
-                $('#mb_password_re').focus();
-                return false;
-            }
-
-            if($('#mb_password').val() != $('#mb_password_re').val()) {
-                alert('비밀번호와 비밀번호 확인이 불일치합니다.');
-                $('#mb_password').focus(); 
-                return false;
-            }
-        }else{
-            if($('#mb_password').val() != '' && $('#mb_password_re').val() == '') {
-                alert('비밀번호 확인을 입력해주세요');
-                $('#mb_password_re').focus();
-                return false;
-            }
-
-            if($('#mb_password').val() != '' && $('#mb_password_re').val() != '') {
-                if($('#mb_password').val() != $('#mb_password_re').val()) {
-                    alert('비밀번호와 비밀번호 확인이 불일치합니다.');
-                    $('#mb_password').focus();
-                    return false;
-                }
-            }
-        }
-        */
 
         if($('#basic_price').val() == '') {
             alert('급여를 입력해주세요');
@@ -458,6 +418,8 @@ function inputNum(id) {
 
 // 리스트 추출
 function list_act(mb_id) {
+    $(".list_left_list_box").animate({ scrollTop: 0 }, 0); 
+
     let sch_activity_status = '';
     let sch_service_category = '';
     let sch_mb_name = '';

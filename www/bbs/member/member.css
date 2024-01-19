@@ -7,7 +7,7 @@
 
 /* Member List Layer STR */
 .list_wrap {display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:100%;}
-.list_wrap > .list_left {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:480px; border:0; border-radius:7px; background:#283144; overflow:hidden;}
+.list_wrap > .list_left {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:480px; border:0; border-radius:7px; overflow:hidden;}
 .list_wrap > .list_view_box {position:relative; flex:1 1 0%; margin:0; margin-left:20px; padding:0;}
 /* Member List Layer END */
 
@@ -21,7 +21,10 @@
 #edit_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:4px 8px; width:100%; background:#ed5684; border:1px solid #ed5684; border-radius:4px; color:#fff; cursor:pointer;}
 #edit_btn:hover {background:#e93e72;}
 
-.list_left > .list_left_list {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; flex:1 1 0%; overflow:hidden;}
+.list_left > .list_left_bottom {position:sticky; left:0; bottom:0; display:flex; flex-direction:row; align-items:center; justify-content:flex-end; margin:0; padding:8px 10px; width:100%; background:#e5efff;}
+.excel_btn {display:block; margin:0; padding:7px 11px 5px 11px; border:0; border-radius:4px; color:#fff; background:#434a54; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
+
+.list_left > .list_left_list {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; flex:1 1 0%; background:#283144; overflow:hidden;}
 .list_left_list .list_tbl {margin:0 auto; padding:0; width:100%; border-collapse:collapse;}
 .list_tbl > thead > tr > th {margin:0; padding:8px 2px; border-left:1px solid #12161e; border-right:1px solid #12161e; color:#ededed; font-family:'GmarketSansLight'; font-weight:600; font-size:15px;}
 .list_tbl > thead > tr > th:first-child {border-left:0;}
@@ -43,15 +46,16 @@
 /* Member List Left Layer END */
 
 /* Member List View Layer STR */
-.list_left > .list_view_box {position:relative; flex:1 1 0%; margin:0; margin-left:20px; padding:0; overflow-y:scroll;}
+.list_view_box > .list_view_top_box {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; margin-bottom:4px; padding:0; width:100%;}
 .list_view_box .view_tit {color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px;}
-.mtop20 {margin-top:20px !important;}
+.list_view_top_box > #del_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:4px 10px; background:#ff0000; border:1px solid #ff0000; border-radius:4px; color:#fff; cursor:pointer;}
 .view_tbl {margin:0 auto; padding:0; width:100%; border-collapse:collapse; border:2px solid #283144;}
 .view_tbl > thead > tr > th {margin:0; padding:5px; border:1px solid #374769; background:#e5efff; font-size:13px;}
 .view_tbl > tbody > tr > th {margin:0; padding:5px; border:1px solid #374769; background:#e5efff; font-size:13px;}
 .view_tbl > tbody > tr > td {margin:0; padding:5px; border:1px solid #374769; background:#fff; font-size:13px;}
 #profile_wrap {position:relative; margin:0 auto; padding:0; width:100%;}
 #profile_wrap > img {display:block; margin:0; padding:0; width:100%; max-height:158px;}
+.mtop20 {margin-top:20px !important;}
 .x100 {width:100px;}
 .x110 {width:110px;}
 .x120 {width:120px;}

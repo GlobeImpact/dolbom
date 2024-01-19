@@ -80,8 +80,8 @@ $g5['g5_shop_inicis_log_table'] = G5_SHOP_TABLE_PREFIX.'inicis_log'; // 이니�
 
     // 공통 환경설정
     $set_bank_name_arr = Array('경남', '광주', '국민', '기업', '농협', '농축협(지역)', '대구', '부산', '산업', '새마을금고', '수협', '신한', '신협', '외환', '우리', '우체국', '전북', '제주', '하나', '한국씨티', '카카오뱅크', '토스뱅크', '케이뱅크');   // 은행명
-    $set_pet_use_arr = Array('없음', '애완견', '애완묘');
-    $set_vulnerable_arr = Array('한부모', '저소득', '장애인', '기타');
+    $set_pet_use_arr = Array('없음', '애완견', '애완묘');                                   // 반려동물
+    $set_vulnerable_arr = Array('한부모', '저소득', '장애인', '기타');                       // 취약계층
 
     /* 가사서비스 환경설정 STR */
 
