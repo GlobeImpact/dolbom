@@ -58,7 +58,7 @@ $mb_id = $_POST['mb_id'];
 
 $list = Array();
 
-$sql = " select * from g5_member where (1=1) and mb_level = 2 and mb_id = '{$mb_id}' ";
+$sql = " select * from g5_member where (1=1) and mb_level = 2 and mb_id = '{$mb_id}' and mb_hide = '' ";
 $row = sql_fetch($sql);
 
 $birthday = wz_get_age($row['security_number']);

@@ -125,8 +125,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member.css?ve
 
                 <ul class="menu_box mtop20">
                     <li class="menu_list" id="menu_list_act"><a class="menu_list_btn">급여정보</a></li>
-                    <li class="menu_list"><a class="menu_list_btn">교육정보</a></li>
-                    <li class="menu_list"><a class="menu_list_btn">건강검진정보</a></li>
 
                     <li id="certificate_nav">
                         <a id="certificate_nav_btn">증명서</a>

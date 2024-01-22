@@ -1,0 +1,88 @@
+@charset "utf-8";
+
+/* Page Wrap STR */
+#layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:100%;}
+#layer_box {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
+/* Page Wrap END */
+
+/* Menu STR */
+.menu_box {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:12px 12px 0px 12px; width:100%; background:#e5efff; border:0; border-radius:8px 8px 0px 0px; gap:0 6px;}
+.menu_list {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; border:0; border-radius:8px 8px 0px 0px; background:#6d9ac4;}
+#menu_list_act {background:#283144;}
+.menu_list_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:10px 8px 6px 8px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
+/* Menu END */
+
+/* Filter Wrap STR */
+.filter_wrap {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; margin-bottom:12px; padding:8px; width:100%; background:#e5efff;}
+
+.filter_year {flex:1 1 0%; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; gap:0 10px;}
+.filter_year_tit {height:25px; font-family:'GmarketSansMedium'; font-weight:100; font-size:24px;}
+.filter_year_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; cursor:pointer;}
+
+.filter_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-end; margin:0; padding:0; gap:0 6px;}
+.filter_input {margin:0; padding:6px 7px; width:170px; border:1px solid #000 !important; border-radius:3px; font-size:15px; outline:none !important; box-shadow:none !important;}
+#filter_submit, #filter_submit2 {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:7px 10px 4px 10px; background:#434a54; border:1px solid #434a54; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
+/* Filter Wrap END */
+
+/* List Wrap STR */
+.list_wrap {flex:1 1 0%; display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; padding:0 12px 12px 12px; width:100%; background:#e5efff; overflow-y:hidden;}
+.list_box {position:relative; margin:0; padding:0; width:100%; height:100%; overflow-y:scroll; border:2px solid #283144; background:#fff;}
+.list_box::-webkit-scrollbar {width:3px;}
+.list_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+
+.list_hd_tbl {position:sticky; left:0; top:0; margin:0; padding:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.list_hd_tbl > thead > tr > th {margin:0; padding:5px 5px 2px  5px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.list_hd_tbl > thead > tr > th:first-child {border-left:0;}
+
+.list_tbl {position:relative; margin:0; padding:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:0;}
+.list_tbl > tbody > tr > td {margin:0; padding:5px 5px; background:#fff; border:1px solid #374769; border-bottom:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.list_tbl > tbody > tr > td:first-child {border-left:0;}
+.list_tbl > tbody > tr:hover > td {background:#d8f8c0; cursor:pointer;}
+.cell_hover > td {background:#d8f8c0 !important;}
+
+.member_health_write_btn > div {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; padding:0; width:100%;}
+.member_health_write_btn > div > p {margin:0; padding:0; width:50%; text-align:center;}
+.member_health_write_btn > div > p:first-child {text-align:right;}
+
+.x60 {width:60px;}
+.x100 {width:100px;}
+.x120 {width:120px;}
+.x140 {width:140px;}
+.x160 {width:160px;}
+/* List Wrap END */
+
+/* Layer Popup STR */
+#layer_popup_bg {display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0, 0, 0, 0.6); z-index:1000;}
+#layer_popup {display:none; position:fixed; left:50%; top:50%; margin:0; padding:0; transform:translate(-50%, -50%); width:500px; background:#fff; border:0; border-radius:10px; overflow:hidden; z-index:1001;}
+/* Layer Popup END */
+
+/* Member Health Write | Edit Wrap STR */
+#layer_popup_top {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; padding:6px 12px; width:100%; background:#e5efff; border-bottom:1px solid #fff;}
+#layer_popup_top > h3 {height:19px; font-family:'GmarketSansMedium'; font-weight:100; font-size:17px;}
+#popup_close_btn {display:inline-block; margin:0; padding:0; cursor:pointer;}
+
+#layer_popup_content {margin:0; padding:12px; width:100%;}
+.layer_popup_form {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; max-height:75vh; overflow-y:scroll;}
+.layer_popup_form::-webkit-scrollbar {width:0px; display:none;}
+.layer_popup_form::-webkit-scrollbar-thumb {border:0;border-radius:0;background:#6d9ac4;}
+.layer_popup_tit {color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px;}
+
+.write_tbl {margin:0 auto; padding:0; width:100%; border-collapse:collapse; border:2px solid #283144;}
+.write_tbl > thead > tr > th {margin:0; padding:5px; border:1px solid #374769; background:#e5efff; font-size:13px;}
+.write_tbl > tbody > tr > th {margin:0; padding:5px; border:1px solid #374769; background:#e5efff; font-size:13px; height:37.5px;}
+.write_tbl > tbody > tr > td {margin:0; padding:5px; border:1px solid #374769; background:#fff; font-size:13px; height:37.5px;}
+
+.submit_btn {position:relative; display:block; margin:0 auto; margin-top:10px; padding:15px; width:100%; text-align:center; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:18px; letter-spacing:1px; background:#ed5684; border:0; border-radius:3px; cursor:pointer;}
+.submit_btn:hover {background:#e93e72;}
+
+.required_txt {margin-left:2px; color:#ff0000;}
+
+.form_input {position:relative; margin:0; padding:2px 5px; height:26px; border:1px solid #8e8e8e;}
+
+.x80 {width:80px;}
+
+.ui-datepicker-trigger {margin-left:4px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
+
+.td_flex_row {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; gap:0 6px;}
+.td_flex_row .ui-datepicker-trigger {margin-left:-3px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
+/* Member Health Write | Edit Wrap END */

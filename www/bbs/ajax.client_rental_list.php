@@ -1,7 +1,7 @@
 <?php
 include_once('./_common.php');
 
-$edu_idx = $_POST['edu_idx'];
+$rent_idx = $_POST['rent_idx'];
 $sch_value2 = $_POST['sch_value2'];
 
 $list = Array();
@@ -31,10 +31,10 @@ if($num > 0) {
         $list[$i]['team_category'] = $row['team_category'];
         $list[$i]['security_number'] = substr($row['security_number'], 0, 8);
 
-        $edul_sql = " select * from g5_member_education_list where edu_idx = '{$edu_idx}' and edul_mb_id = '{$row['mb_id']}' limit 0, 1 ";
+        $edul_sql = " select * from g5_member_education_list where rent_idx = '{$rent_idx}' and edul_mb_id = '{$row['mb_id']}' limit 0, 1 ";
         $edul_row = sql_fetch($edul_sql);
 
-        if($edul_row['edul_idx'] != '' && $edu_idx != '') {
+        if($edul_row['edul_idx'] != '' && $rent_idx != '') {
             $list[$i]['list_selected'] = 'y';
         }else{
             $list[$i]['list_selected'] = '';

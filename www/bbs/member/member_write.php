@@ -6,7 +6,7 @@ $popup_tit = '제공인력등록';
 if($w == 'u') $popup_tit = '제공인력수정';
 
 if($w == 'u' && $mb_id != '') {
-    $sql = " select * from g5_member where mb_id = '{$mb_id}' ";
+    $sql = " select * from g5_member where mb_id = '{$mb_id}' and mb_hide = '' ";
     $write = sql_fetch($sql);
 
     if($write['major4_insurance'] == '0000-00-00') $write['major4_insurance'] = '';
