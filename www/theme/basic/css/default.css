@@ -1,7 +1,6 @@
 @charset "utf-8";
 
-@import url('//fonts.googleapis.com/earlyaccess/notosanskr.css');
-@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 
 @font-face {
   font-family: 'GmarketSansLight';
@@ -464,3 +463,69 @@ box-sizing:content-box;
 /* Mobile화면으로 */
 #device_change {display:block;margin:0.3em;padding:0.5em 0;border:1px solid #eee;border-radius:2em;background:#fff;color:#000;font-size:2em;text-decoration:none;text-align:center}
 
+
+
+
+
+
+/* Layer Popup STR */
+#layer_popup_bg, #write_layer_popup_bg {display:none; position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0, 0, 0, 0.6); z-index:20;}
+#layer_popup, #write_layer_popup {display:none; position:fixed; left:50%; top:50%; margin:0; padding:0; transform:translate(-50%, -50%); background:#fff; border:0; border-radius:10px; overflow:hidden; z-index:21;}
+#layer_popup_top {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; padding:6px 12px; width:100%; background:#e5efff; border-bottom:1px solid #fff;}
+#layer_popup_top > h3 {margin:0; padding:0; height:19px; line-height:22px; font-family:'GmarketSansMedium'; font-weight:100; font-size:17px;}
+#popup_close_btn, #write_popup_close_btn {display:block; margin:0; padding:0; width:32px; height:32px; cursor:pointer;}
+#popup_close_btn > img {display:block;}
+
+#layer_popup_content {margin:0; padding:12px; width:100%;}
+.layer_popup_form {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; max-height:75vh; overflow-y:scroll;}
+.layer_popup_form::-webkit-scrollbar {width:0px; display:none;}
+.layer_popup_form::-webkit-scrollbar-thumb {border:0;border-radius:0;background:#6d9ac4;}
+
+.layer_popup_tit {color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px;}
+/* Layer Popup END */
+
+/* Write Form STR */
+.form_tbl_wrap {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; border:1px solid #283144;}
+.form_tbl {margin:0 auto; padding:0; width:100%; border-collapse:collapse; border:1px solid #283144;}
+.form_tbl > tbody > tr > th {margin:0; padding:6px 6px; border:1px solid #374769; background:#e5efff; font-size:13px;}
+.form_tbl > tbody > tr > td {margin:0; padding:6px 6px; border:1px solid #374769; background:#ffffff;}
+
+.form_input {position:relative; margin:0; padding:0 5px; height:25px; border:1px solid #8e8e8e; outline:none !important;}
+.form_input_date {position:relative; margin:0; padding:0 5px; width:105px; height:25px; border:1px solid #8e8e8e; outline:none !important;}
+.form_input_date + .ui-datepicker-trigger {position:relative; margin:0; margin-left:-22px; margin-right:6px; padding:0; vertical-align:text-top; cursor:pointer; z-index:1;}
+.form_select {position:relative; margin:0; padding:0 5px; height:25px; border:1px solid #8e8e8e;  outline:none !important;}
+.form_label {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; width:fit-content;}
+.form_checkbox {position:relative; margin:0; margin-right:3px; padding:0; vertical-align:baseline; width:16px; height:16px;  outline:none !important;}
+.form_radio {position:relative; margin:0; margin-right:3px; padding:0; vertical-align:baseline; width:16px; height:16px;  outline:none !important;}
+.form_textarea {position:relative; display:block; margin:0; padding:5px 5px; width:100%; border:1px solid #8e8e8e; resize:none !important;}
+
+.flex_row {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; gap:0 6px;}
+.flex_row_between {justify-content:space-between !important;}
+
+.form_btn1 {display:inline-block; margin:0; padding:3px 6px; border:1px solid #1469b9; border-radius:3px; color:#ffffff; font-weight:400; font-size:12px; text-align:center; background:#6d9ac4; cursor:pointer;}
+
+.submit_btn {position:relative; display:block; margin:0 auto; margin-top:10px; padding:15px; width:100%; text-align:center; color:#ffffff; font-family:'GmarketSansMedium'; font-weight:100; font-size:18px; letter-spacing:1px; background:#ed5684; border:0; border-radius:3px; cursor:pointer;}
+.submit_btn:hover {background:#e93e72;}
+
+.required_txt {margin-left:2px; color:#ff0000;}
+/* Write Form END */
+
+/* Client Select Form STR */
+.client_select_filter_wrap {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; margin-bottom:12px; padding:8px; width:100%; background:#e5efff;}
+.client_select_filter_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-end; margin:0; padding:0; width:100%; gap:0 6px;}
+.client_select_filter_input {position:relative; margin:0; padding:0 6px; width:120px; height:33px; border:1px solid #000; border-radius:3px; font-size:15px; outline:none !important;}
+.client_select_filter_submit {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; background:#434a54; border:1px solid #434a54; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px; cursor:pointer;}
+.client_select_list_box {position:relative; margin:0; padding:0; width:100%; height:250px; overflow-y:scroll; border:2px solid #283144; background:#fff;}
+.client_select_list_box::-webkit-scrollbar {width:3px;}
+.client_select_list_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+
+.client_select_list_hd_tbl {position:sticky; left:0; top:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.client_select_list_hd_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:26px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.client_select_list_hd_tbl > thead > tr > th:first-child {border-left:0;}
+
+.client_select_list_ft_tbl {position:sticky; left:0; bottom:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.client_select_list_ft_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:26px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.client_select_list_ft_tbl > thead > tr > th:first-child {border-left:0;}
+
+.x45 {width:45px;}
+/* Client Select Form END */

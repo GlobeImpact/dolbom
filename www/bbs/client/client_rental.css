@@ -81,25 +81,25 @@
 
 .write_tbl {margin:0 auto; padding:0; width:100%; border-collapse:collapse; border:2px solid #283144;}
 .write_tbl > thead > tr > th {margin:0; padding:5px; border:1px solid #374769; background:#e5efff; font-size:13px;}
-.write_tbl > tbody > tr > th {margin:0; padding:5px; border:1px solid #374769; background:#e5efff; font-size:13px; height:40px;}
-.write_tbl > tbody > tr > td {margin:0; padding:5px; border:1px solid #374769; background:#fff; font-size:13px; height:40px;}
+.write_tbl > tbody > tr > th {margin:0; padding:5px; border:1px solid #374769; background:#e5efff; font-size:13px;}
+.write_tbl > tbody > tr > td {margin:0; padding:5px; border:1px solid #374769; background:#fff; font-size:13px;}
 
 .submit_btn {position:relative; display:block; margin:0 auto; margin-top:10px; padding:15px; width:100%; text-align:center; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:18px; letter-spacing:1px; background:#ed5684; border:0; border-radius:3px; cursor:pointer;}
 .submit_btn:hover {background:#e93e72;}
 
 .required_txt {margin-left:2px; color:#ff0000;}
 
-.form_input {position:relative; margin:0; padding:2px 5px; height:26px; border:1px solid #8e8e8e;}
+.form_input {position:relative; margin:0; padding:0px 5px; height:25.2px; border:1px solid #8e8e8e;}
 
 .x80 {width:80px;}
 .x150 {width:150px;}
 
-.ui-datepicker-trigger {margin-left:4px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
+.ui-datepicker-trigger {margin-left:4px; margin-top:0px; vertical-align:text-top; cursor:pointer;}
 
-.td_flex_row {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; gap:0 6px;}
-.td_flex_row .ui-datepicker-trigger {margin-left:-3px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
+.td_flex_row {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; height:26.5px; gap:0 6px;}
+.td_flex_row .ui-datepicker-trigger {margin-left:-3px; margin-top:0px; vertical-align:text-top; cursor:pointer;}
 
-#mb_select_btn, #mb_select_btn2 {display:inline-block; margin:0; margin-top:3px; padding:3px 3px; border:1px solid #1469b9; border-radius:4px; color:#fff; font-size:11px; text-align:center; background:#6d9ac4; cursor:pointer;}
+#mb_select_btn, #mb_select_btn2 {display:inline-block; margin:0; padding:3px 3px; border:1px solid #1469b9; border-radius:4px; color:#fff; font-size:11px; text-align:center; background:#6d9ac4; cursor:pointer;}
 /* Client Rental Write | Edit Wrap END */
 
 /* Member Select Layer Popup STR */

@@ -2,16 +2,6 @@
 add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_complaints.css?ver=1">', 0);
 ?>
 
-<!-- 달력 API -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="<?php echo G5_JS_URL ?>/jquery-ui.js"></script>
-
-<!-- 다음지도 API -->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=575b55abed8a1a6c4569d200321142b9&libraries=services"></script>
-
-<!-- 다음주소 API -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" async></script>
-
 <input type="hidden" id="now_year" value="<?php echo date('Y') ?>">
 
 <div id="layer_wrap">
@@ -24,7 +14,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
                 <a class="filter_year_btn" id="next_year_btn" year="<?php echo (int) date('Y') + 1 ?>"><img src="<?php echo G5_IMG_URL ?>/arrow_next.png"></a>
             </div>
             <div class="filter_box">
-                <input type="text" class="filter_input x120" id="sch_date" value="" placeholder="접수일자" readonly>
+                <input type="text" class="filter_input x120 date_api" id="sch_date" value="" placeholder="접수일자" readonly>
                 <input type="text" class="filter_input" id="sch_value" value="" placeholder="신청자명 입력">
                 <a id="filter_submit">검색</a>
             </div>
@@ -81,11 +71,11 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
 </div>
 
 <div id="layer_popup_bg"></div>
-<div id="layer_popup"></div>
+<div id="layer_popup" class="x1050"></div>
 
 <script>
 $(function(){
-    $('#prev_year_btn, #next_year_btn').click(function(){
+    $('#prev_year_btn, #next_year_btn, #take_date').click(function(){
         let year = $(this).attr('year');
         let prev_year = parseInt(year || 0) - 1;
         let next_year = parseInt(year || 0) + 1;
@@ -117,11 +107,43 @@ $(function(){
         $('#layer_popup_bg').css('display', 'block');
     });
 
+    $(document).on('click', '#form_select_btn', function(){
+        let idx = $('#comp_idx').val();
+        let tit = '고객';
+        $("#write_layer_popup").load(g5_bbs_url + "/client_select_form.php?idx=" + idx + "&tit=" + tit);
+
+        $('#write_layer_popup').css('display', 'block');
+        $('#write_layer_popup_bg').css('display', 'block');
+
+        client_select_form_timer = setInterval(function(){
+            client_select_form();
+        }, 600);
+    });
+
     $(document).on('click', '#popup_close_btn', function(){
         $('#layer_popup').empty();
 
         $('#layer_popup').css('display', 'none');
         $('#layer_popup_bg').css('display', 'none');
+    });
+
+    $(document).on('click', '#write_popup_close_btn', function(){
+        $('#layer_popup').css('height', 'auto');
+
+        $('#write_layer_popup').empty();
+
+        $('#write_layer_popup').css('display', 'none');
+        $('#write_layer_popup_bg').css('display', 'none');
+    });
+
+    $(document).on('keyup', '#sch_value2', function(key){
+        if(key.keyCode == 13){
+            $('#filter_submit2').click();
+        }
+    });
+
+    $(document).on('click', '#filter_submit2', function(){
+        client_select_form();
     });
 });
 
@@ -131,6 +153,7 @@ function list_act() {
     let sch_value = $('#sch_value').val();
 
     $.ajax({
+        /*
         url: g5_bbs_url + "/ajax.client_complaints_list_all.php", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
         data: {'now_year': now_year, 'sch_value': sch_value, 'set_idx': set_idx},  // HTTP 요청과 함께 서버로 보낼 데이터
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
@@ -144,7 +167,7 @@ function list_act() {
 
             if(response.length > 0) {
                 for(let i=0; i<response.length; i++) {
-                    datas += '<tr class="" rent_idx="' + response[i].rent_idx + '">';
+                    datas += '<tr class="" comp_idx="' + response[i].comp_idx + '">';
                     datas += '<td class="x60">' + (i+1) + '</td>';
                     datas += '<td class="x200">' + response[i].set_tit + '</td>';
                     datas += '<td class="x200">' + response[i].rent_numb + '</td>';
@@ -153,8 +176,8 @@ function list_act() {
                     datas += '<td class="x140">' + response[i].rent_return_date + '</td>';
                     datas += '<td class="x140">' + response[i].rent_return_name + '</td>';
                     datas += '<td class=""><div class="btn_flex">';
-                    datas += '<a class="edit_btn" rent_idx="' + response[i].rent_idx + '">수정</a>';
-                    datas += '<a class="del_btn" rent_idx="' + response[i].rent_idx + '">삭제</a>';
+                    datas += '<a class="edit_btn" comp_idx="' + response[i].comp_idx + '">수정</a>';
+                    datas += '<a class="del_btn" comp_idx="' + response[i].comp_idx + '">삭제</a>';
                     datas += '</div></td>';
                     datas += '</tr>';
                 }
@@ -166,51 +189,62 @@ function list_act() {
 
             return false;
         }
+        */
     });
 }
-</script>
 
-<script>
-$(function(){
-    $("#sch_date").datepicker({	// UI 달력을 사용할 Class / Id 를 콤마(,) 로 나누어서 다중으로 가능
-        showOn: 'button',	// Input 오른쪽 위치에 버튼 생성
-        buttonImage: "https://jqueryui.com/resources/demos/datepicker/images/calendar.gif",	// Input 오른쪽 위치에 생성된 버튼의 이미지 경로
-        buttonImageOnly: true,	// 버튼을 이미지로 사용할지 유무
-        buttonText: "Select date",
-        dateFormat: "yy-mm-dd",	// Form에 입력될 Date Type
-        prevText: '이전 달',	// ◀ 에 마우스 오버하면 나타나는 타이틀
-        nextText: '다음 달',	// ▶ 에 마우스 오버하면 나타나는 타이틀
-        changeMonth: true,	// 월 SelectBox 형식으로 선택변경 유무
-        changeYear: true,	// 년 SelectBox 형식으로 선택변경 유무
-        showMonthAfterYear: true,	// 년도 다음에 월이 나타나게 할지 여부 ( true : 년 월 , false : 월 년 )
-        showButtonPanel: true,	// UI 하단에 버튼 사용 유무
-        monthNames :  [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-        monthNamesShort: [ "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월" ],
-        dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],	// 요일에 마우스 오버하면 나타나는 타이틀
-        dayNamesMin: ['일','월','화','수','목','금','토'],	// 요일 텍스트 값
-        // 최소한의 날짜 조건 제한주기
-        // new Date(년,월,일)
-        // ex) 2016-02-10 이전의 날짜는 선택 안되도록 하려면 new Date(2016, 2-1, 10)
-        // d : 일 , m : 월 , y : 년
-        // +1d , -1d , +1m , -1m , +1y , -1y
-        // ex) minDate: '-100d' 이런 방식도 가능
-        minDate: new Date(2016, 2-1, 10),
-        // 오늘을 기준으로 선택할 수 있는 최대한의 날짜 조건 제한주기
-        // d : 일 , m : 월 , y : 년
-        // +1d , -1d , +1m , -1m , +1y , -1y
-        maxDate: '+5y',
-        duration: 'fast', // 달력 나타나는 속도 ( Slow , normal , Fast )
-        // [행(tr),열(td)]
-        // [1,2] 이면 한줄에 2개의 월이 나타남
-        numberOfMonths: [1,1],
-        // 달력 Show/Hide 이벤트
-        // 종류 : show , slideDown , fadeIn , blind , bounce , clip , drop , fold , slide ( '' 할경우 애니매이션 효과 없이 작동 )
-        showAnim: 'slideDown',
-        // 달력에서 좌우 선택시 이동할 개월 수
-        stepMonths: 2,
-        // 년도 범위 설정
-        // minDate , maxDate 사용시 작동 안됨
-        //yearRange: '2012:2020',
+function client_select_form() {
+    let comp_idx = $('#comp_idx').val();
+    let sch_value2 = $('#sch_value2').val();
+
+    $('.select_all_check').prop('checked', false);
+
+    $.ajax({
+        url: g5_bbs_url + "/ajax.client_select_list.php", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+        data: {'comp_idx': comp_idx, 'sch_value2': sch_value2},  // HTTP 요청과 함께 서버로 보낼 데이터
+        method: "POST",   // HTTP 요청 메소드(GET, POST 등)
+        dataType: "json", // 서버에서 보내줄 데이터의 타입
+        success: function(response){
+            console.log(response);
+
+            $('#select_list').empty();
+
+            let datas = '';
+            let list_selected = '';
+            let list_checked = '';
+            if(response.length > 0) {
+                for(let i=0; i<response.length; i++) {
+                    list_selected = '';
+                    list_checked = '';
+                    if(response[i].list_selected == 'y') {
+                        list_selected = 'list_selected';
+                        list_checked = 'checked';
+                    }
+
+                    datas += '<tr class="' + list_selected + '">';
+                    datas += '<td class="select_check_td x45">';
+                    datas += '<input type="radio" class="select_check" name="select_mb_id" id="select_mb_id' + i + '" value="' + response[i].mb_id + '" ' + list_checked + ' service_category="' + response[i].service_category + '" mb_name="' + response[i].mb_name + '">';
+                    datas += '</td>';
+                    datas += '<td class="x60">' + response[i].activity_status + '</td>';
+                    datas += '<td class="x80">' + response[i].mb_name + '</td>';
+                    datas += '<td class="x90">' + response[i].service_category + '</td>';
+                    datas += '<td class="x40">' + response[i].team_category + '</td>';
+                    datas += '<td>' + response[i].security_number + '</td>';
+                    datas += '</tr>';
+                }
+            }
+
+            $('#select_list').append(datas);
+            $('#select_tot').text(response.length);
+
+            clearInterval(client_select_form_timer);
+
+            return false;
+        }
     });
+}
+
+$(document).ready(function(){
+    list_act('');
 });
 </script>

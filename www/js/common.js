@@ -804,3 +804,40 @@ $(function() {
         return true;
     });
 });
+
+// 휴번폰 연락처 정규식
+function autoHyphen(target) {
+    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+}
+
+//주민번호 정규식
+function autoHyphen2(target) {
+    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,6})(\d{0,7})$/g, "$1-$2").replace(/(\-{1,2})$/g, "");
+}
+
+// 날짜 정규식
+function autoHyphen3(target) {
+    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+}
+
+// 숫자만 입력 정규식
+function inputNum(id) {
+    let element = document.getElementById(id);
+    element.value = element.value.replace(/[^0-9]/gi, "");
+}
+
+// 숫자만 입력 + 소수점 정규식
+function inputNum2(id) {
+    let element = document.getElementById(id);
+    element.value = element.value.replace(/[^-\.0-9]/g, "");
+}
+
+// 소수점 콤마 정규식
+function addComma(value) {
+    return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// 콤마 제거 정규식
+function removeComma(value) {
+    return value.toString().replace(/,/g, "");
+}

@@ -1,7 +1,8 @@
 <?php
-$edu_idx = $_GET['edu_idx'];
+$idx = $_GET['idx'];
 
-$popup_tit = '참석자 리스트';
+$tit = $_GET['tit'];
+$popup_tit = $tit.' 리스트';
 ?>
 
 <div id="layer_popup_top">
@@ -10,21 +11,21 @@ $popup_tit = '참석자 리스트';
 </div>
 <div id="layer_popup_content">
 
-    <input type="hidden" name="edu_idx" id="edu_idx" value="<?php echo $edu_idx ?>">
+    <input type="hidden" name="idx" id="idx" value="<?php echo $idx ?>">
 
     <div class="layer_popup_form">
-        <div class="filter_wrap">
-            <div class="filter_box xp100">
-                <input type="text" class="filter_input" id="sch_value2" value="" placeholder="이름 조회">
-                <a id="filter_submit2">검색</a>
+        <div class="client_select_filter_wrap">
+            <div class="client_select_filter_box">
+                <input type="text" class="client_select_filter_input" id="sch_value2" value="" placeholder="이름 조회">
+                <a class="client_select_filter_submit" id="filter_submit2">검색</a>
             </div>
         </div>
 
-        <div class="edul_list_box">
-            <table class="edul_list_hd_tbl">
+        <div class="client_select_list_box">
+            <table class="client_select_list_hd_tbl">
                 <thead>
                     <tr>
-                        <th class="x45"><input type="checkbox" class="edul_all_check"></th>
+                        <th class="x45"></th>
                         <th class="x60">현황</th>
                         <th class="x80">직원명</th>
                         <th class="x90">서비스</th>
@@ -34,15 +35,15 @@ $popup_tit = '참석자 리스트';
                 </thead>
             </table>
 
-            <table class="edul_list_tbl">
-                <tbody id="edul_list"></tbody>
+            <table class="client_select_list_tbl">
+                <tbody id="select_list"></tbody>
             </table>
 
-            <table class="edul_list_ft_tbl">
+            <table class="client_select_list_ft_tbl">
                 <thead>
                     <tr>
                         <th class="xp100">
-                            전체 : <span id="edul_tot"></span>명
+                            전체 : <span id="select_tot"></span>명
                         </th>
                     </tr>
                 </thead>
@@ -50,6 +51,6 @@ $popup_tit = '참석자 리스트';
         </div>
     </div>
     <div>
-        <a class="submit_btn" id="edul_submit_btn">참석자 선택완료</a>
+        <a class="submit_btn" id="select_submit_btn">선택완료</a>
     </div>
 </div>

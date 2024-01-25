@@ -2,16 +2,6 @@
 add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member.css?ver=2">', 0);
 ?>
 
-<!-- 달력 API -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="<?php echo G5_JS_URL ?>/jquery-ui.js"></script>
-
-<!-- 다음지도 API -->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=575b55abed8a1a6c4569d200321142b9&libraries=services"></script>
-
-<!-- 다음주소 API -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" async></script>
-
 <div id="layer_wrap">
     <div id="layer_box">
 
@@ -392,27 +382,6 @@ $(function(){
         window.open(g5_bbs_url + '/certificate.php?mode=' + mode + '&mb_id=' + mb_id, '', 'width=800px,height=700px,scrollbars=yes');
     });
 });
-
-// 휴번폰 연락처 정규식
-function autoHyphen(target) {
-    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-}
-
-//주민번호 정규식
-function autoHyphen2(target) {
-    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,6})(\d{0,7})$/g, "$1-$2").replace(/(\-{1,2})$/g, "");
-}
-
-// 날짜 정규식
-function autoHyphen3(target) {
-    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-}
-
-// 숫자만 입력 정규식
-function inputNum(id) {
-    let element = document.getElementById(id);
-    element.value = element.value.replace(/[^0-9]/gi, "");
-}
 
 // 리스트 추출
 function list_act(mb_id) {

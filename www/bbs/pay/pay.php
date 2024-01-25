@@ -2,13 +2,6 @@
 add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/pay/pay.css">', 0);
 ?>
 
-<!-- 달력 API -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="<?php echo G5_JS_URL ?>/jquery-ui.js"></script>
-
-<!-- 다음주소 API -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" async></script>
-
 <div id="layer_wrap">
     <div id="layer_box">
 

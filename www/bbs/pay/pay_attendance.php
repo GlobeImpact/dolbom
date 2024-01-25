@@ -2,10 +2,6 @@
 add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/pay/pay_attendance.css">', 0);
 ?>
 
-<!-- 달력 API -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="<?php echo G5_JS_URL ?>/jquery-ui.js"></script>
-
 <div id="layer_wrap">
     <div id="layer_box">
 
@@ -586,28 +582,6 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/pay/pay_attendance.c
             });
         });
     });
-
-    // 숫자만 입력 정규식
-    function inputNum(id) {
-        let element = document.getElementById(id);
-        element.value = element.value.replace(/[^0-9]/gi, "");
-    }
-
-    // 숫자만 입력 + 소수점 정규식
-    function inputNum2(id) {
-        let element = document.getElementById(id);
-        element.value = element.value.replace(/[^-\.0-9]/g, "");
-    }
-
-    // 소수점 콤마 정규식
-    function addComma(value) {
-        return value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-    }
-
-    // 콤마 제거 정규식
-    function removeComma(value) {
-        return value.toString().replace(/,/g, "");
-    }
 
     // 리스트 추출
     function list_act(set_idx) {

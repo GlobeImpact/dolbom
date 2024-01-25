@@ -2,16 +2,6 @@
 add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member_education.css?ver=2">', 0);
 ?>
 
-<!-- 달력 API -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="<?php echo G5_JS_URL ?>/jquery-ui.js"></script>
-
-<!-- 다음지도 API -->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=575b55abed8a1a6c4569d200321142b9&libraries=services"></script>
-
-<!-- 다음주소 API -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" async></script>
-
 <input type="hidden" id="now_year" value="<?php echo date('Y') ?>">
 
 <div id="layer_wrap">
@@ -364,17 +354,6 @@ $(function(){
         $('#layer_popup_bg').css('display', 'block');
     });
 });
-
-// 날짜 정규식
-function autoHyphen3(target) {
-    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-}
-
-// 숫자만 입력 정규식
-function inputNum(id) {
-    let element = document.getElementById(id);
-    element.value = element.value.replace(/[^0-9]/gi, "");
-}
 
 function button_act() {
     $.ajax({

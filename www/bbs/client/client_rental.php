@@ -1,16 +1,6 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_rental.css?ver=3">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_rental.css?ver=6">', 0);
 ?>
-
-<!-- 달력 API -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="<?php echo G5_JS_URL ?>/jquery-ui.js"></script>
-
-<!-- 다음지도 API -->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=575b55abed8a1a6c4569d200321142b9&libraries=services"></script>
-
-<!-- 다음주소 API -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" async></script>
 
 <input type="hidden" id="now_year" value="<?php echo date('Y') ?>">
 
@@ -91,6 +81,8 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_rental
 
 <script>
 let write_ajax;
+let list_act2_timer;
+
 $(function(){
     $('#prev_year_btn, #next_year_btn').click(function(){
         let year = $(this).attr('year');
