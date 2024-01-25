@@ -22,7 +22,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
 
         <div class="layer_list_wrap">
             <div class="layer_list_box">
-                <table class="list_hd_tbl">
+                <table class="layer_list_hd_tbl">
                     <thead>
                         <tr>
                             <th class="x60">번호</th>
@@ -38,7 +38,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
                     </thead>
                 </table>
 
-                <table class="list_tbl">
+                <table class="layer_list_tbl">
                     <tbody id="client_complaints_list">
                         <?php for($i=0; $i<100; $i++) { ?>
                             <tr>

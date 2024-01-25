@@ -15,22 +15,10 @@
 /* Bottom Wrap END */
 
 /* List Wrap STR */
-.list_hd_tbl {position:sticky; left:0; top:0; margin:0; padding:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
-.list_hd_tbl > thead > tr > th {margin:0; padding:5px 5px 2px  5px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
-.list_hd_tbl > thead > tr > th:first-child {border-left:0;}
-
-.list_tbl {position:relative; margin:0; padding:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:0;}
-.list_tbl > tbody > tr > td {margin:0; padding:5px 5px; background:#fff; border:1px solid #374769; border-bottom:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
-.list_tbl > tbody > tr > td:first-child {border-left:0;}
-.list_tbl > tbody > tr:hover > td {background:#d8f8c0; cursor:pointer;}
-.cell_hover > td {background:#d8f8c0 !important;}
-
 .edit_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:3px 8px 1px 8px; width:fit-content; background:#ed5684; border:1px solid #ed5684; border-radius:4px; color:#fff; cursor:pointer;}
 .edit_btn:hover {background:#e93e72;}
 .del_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:3px 8px 1px 8px; width:fit-content; background:#ff0000; border:1px solid #ff0000; border-radius:4px; color:#fff; cursor:pointer;}
 .del_btn:hover {background:#ff0000;}
-
-.btn_flex {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; width:100%; gap:0 6px;}
 
 .x60 {width:60px;}
 .x130 {width:130px;}

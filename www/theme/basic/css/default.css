@@ -520,14 +520,17 @@ box-sizing:content-box;
 .client_select_list_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
 
 .client_select_list_hd_tbl {position:sticky; left:0; top:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
-.client_select_list_hd_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:26px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.client_select_list_hd_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:30px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
 .client_select_list_hd_tbl > thead > tr > th:first-child {border-left:0;}
 
-.client_select_list_ft_tbl {position:sticky; left:0; bottom:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
-.client_select_list_ft_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:26px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
-.client_select_list_ft_tbl > thead > tr > th:first-child {border-left:0;}
+.client_select_list_tbl {position:relative; margin:0; padding:0; width:100%; background:#fff; border:0; border-collapse:collapse; border-spacing:0; z-index:0;}
+.client_select_list_tbl > tbody > tr > td {margin:0; padding:6px 5px 2px 5px; height:28px; background:#fff; border:1px solid #374769; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.client_select_list_tbl > tbody > tr > th:first-child {border-left:0;}
+.client_select_list_tbl > tbody > tr:hover > td {background:#d8f8c0; cursor:pointer;}
 
-.x45 {width:45px;}
+.client_select_list_ft_tbl {position:sticky; left:0; bottom:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.client_select_list_ft_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:30px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:left; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.client_select_list_ft_tbl > thead > tr > th:first-child {border-left:0;}
 /* Client Select Form END */
 
 /* Year Filter Layer STR */
@@ -546,4 +549,18 @@ box-sizing:content-box;
 .layer_list_box {position:relative; margin:0; padding:0; width:100%; height:100%; overflow-y:scroll; border:2px solid #283144; background:#fff;}
 .layer_list_box::-webkit-scrollbar {width:3px; height:10px;}
 .layer_list_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+
+.layer_list_hd_tbl {position:sticky; left:0; top:0; margin:0; padding:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.layer_list_hd_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:30px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.layer_list_hd_tbl > thead > tr > th:first-child {border-left:0;}
+
+.layer_list_tbl {position:relative; margin:0; padding:0; width:100%; background:#fff; border:0; border-collapse:collapse; border-spacing:0; z-index:0;}
+.layer_list_tbl > tbody > tr > td {margin:0; padding:6px 5px 2px 5px; height:28px; background:#fff; border:1px solid #374769; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.layer_list_tbl > tbody > tr > td:first-child {border-left:0;}
+.layer_list_tbl > tbody > tr:hover > td {background:#d8f8c0; cursor:pointer;}
+.layer_list_tbl > tbody > tr > td > .btn_flex {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; padding-bottom:4px; width:100%; gap:0 6px;}
+
+.layer_list_ft_tbl {position:sticky; left:0; bottom:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
+.layer_list_ft_tbl > thead > tr > th {margin:0; padding:6px 5px 2px 5px; height:30px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:left; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.layer_list_ft_tbl > thead > tr > th:first-child {border-left:0;}
 /* Layer List Wrap END */
