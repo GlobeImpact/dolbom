@@ -7,21 +7,21 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
 <div id="layer_wrap">
     <div id="layer_box">
 
-        <div class="filter_wrap">
-            <div class="filter_year">
+        <div class="filter_year_wrap">
+            <div class="year_box">
                 <a class="filter_year_btn" id="prev_year_btn" year="<?php echo (int) date('Y') - 1 ?>"><img src="<?php echo G5_IMG_URL ?>/arrow_prev.png"></a>
-                <span class="filter_year_tit">2024년</span>
+                <span class="filter_year_tit"><?php echo date('Y') ?>년</span>
                 <a class="filter_year_btn" id="next_year_btn" year="<?php echo (int) date('Y') + 1 ?>"><img src="<?php echo G5_IMG_URL ?>/arrow_next.png"></a>
             </div>
             <div class="filter_box">
-                <input type="text" class="filter_input x120 date_api" id="sch_date" value="" placeholder="접수일자" readonly>
+                <input type="text" class="filter_input_date date_api" id="sch_date" value="" placeholder="접수일자" maxlength="10" oninput="autoHyphen3(this)">
                 <input type="text" class="filter_input" id="sch_value" value="" placeholder="신청자명 입력">
-                <a id="filter_submit">검색</a>
+                <a class="filter_submit" id="filter_submit">검색</a>
             </div>
         </div>
 
-        <div class="list_wrap">
-            <div class="list_box">
+        <div class="layer_list_wrap">
+            <div class="layer_list_box">
                 <table class="list_hd_tbl">
                     <thead>
                         <tr>

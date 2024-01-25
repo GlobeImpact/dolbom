@@ -5,25 +5,6 @@
 #layer_box {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
 /* Page Wrap END */
 
-/* Menu STR */
-.menu_box {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:12px 12px 0px 12px; width:100%; background:#e5efff; border:0; border-radius:8px 8px 0px 0px; gap:0 6px;}
-.menu_list {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; border:0; border-radius:8px 8px 0px 0px; background:#6d9ac4;}
-#menu_list_act {background:#283144;}
-.menu_list_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:10px 8px 6px 8px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
-/* Menu END */
-
-/* Filter Wrap STR */
-.filter_wrap {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; margin-bottom:12px; padding:8px; width:100%; background:#e5efff;}
-
-.filter_year {flex:1 1 0%; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; gap:0 10px;}
-.filter_year_tit {height:25px; font-family:'GmarketSansMedium'; font-weight:100; font-size:24px;}
-.filter_year_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; cursor:pointer;}
-
-.filter_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-end; margin:0; padding:0; gap:0 6px;}
-.filter_input {margin:0; padding:6px 7px; width:170px; border:1px solid #000 !important; border-radius:3px; font-size:15px; outline:none !important; box-shadow:none !important;}
-#filter_submit {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:7px 10px 4px 10px; background:#434a54; border:1px solid #434a54; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
-/* Filter Wrap END */
-
 /* Bottom Wrap STR */
 .bottom_wrap {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:8px; padding-bottom:0; width:100%; gap:0 6px;}
 .write_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; background:#6d9ac4; border:1px solid #1469b9; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
@@ -34,11 +15,6 @@
 /* Bottom Wrap END */
 
 /* List Wrap STR */
-.list_wrap {flex:1 1 0%; display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; padding:12px; width:100%; background:#e5efff; overflow-y:hidden;}
-.list_box {position:relative; margin:0; padding:0; width:100%; height:100%; overflow-y:scroll; border:2px solid #283144; background:#fff;}
-.list_box::-webkit-scrollbar {width:3px;}
-.list_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
-
 .list_hd_tbl {position:sticky; left:0; top:0; margin:0; padding:0; width:100%; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:20;}
 .list_hd_tbl > thead > tr > th {margin:0; padding:5px 5px 2px  5px; background:#e5efff; border:1px solid #374769; border-top:0; text-align:center; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
 .list_hd_tbl > thead > tr > th:first-child {border-left:0;}
