@@ -8,33 +8,17 @@
 /* Bottom Wrap STR */
 .bottom_wrap {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:8px; padding-bottom:0; width:100%; gap:0 6px;}
 .write_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; background:#6d9ac4; border:1px solid #1469b9; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
-
-#ui-datepicker-div {z-index:30 !important;}
-#sch_date + .ui-datepicker-trigger {margin-left:-28px; margin-right:6px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
-.x120 {width:100px;}
 /* Bottom Wrap END */
 
-/* List Wrap STR */
-.edit_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:3px 8px 1px 8px; width:fit-content; background:#ed5684; border:1px solid #ed5684; border-radius:4px; color:#fff; cursor:pointer;}
-.edit_btn:hover {background:#e93e72;}
-.del_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:3px 8px 1px 8px; width:fit-content; background:#ff0000; border:1px solid #ff0000; border-radius:4px; color:#fff; cursor:pointer;}
-.del_btn:hover {background:#ff0000;}
-
-.x60 {width:60px;}
-.x130 {width:130px;}
-.x150 {width:150px;}
-.x180 {width:180px;}
-/* List Wrap END */
-
-/* Write Form STR */
-.x100 {width:100px;}
+/* Client Complaints Write STR */
+.x120 {width:120px;}
 .x140 {width:140px;}
+.x390 {width:390px;}
+.x500 {width:500px;}
 .x1050 {width:1050px;}
 
 .y100 {height:100px;}
 .y180 {height:180px;}
-/* Write Form END */
 
-/* User Select Wrap STR */
-.x500 {width:500px;}
-/* User Select Wrap END */
+.select_all_check {display:none;}
+/* Client Complaints Write END */

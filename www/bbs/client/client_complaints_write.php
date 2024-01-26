@@ -35,28 +35,30 @@ if($w == 'u' && $idx != '') {
                 <table class="form_tbl">
                     <tbody>
                         <tr>
-                            <th>상담구분</th>
-                            <td>
+                            <th class="x120">상담구분<span class="required_txt">*</span></th>
+                            <td class="x390">
                                 <select name="comp_category" id="comp_category" class="form_select x140">
+                                    <option value="">상담구분 선택</option>
                                     <?php for($l=0; $l<count($set_comp_category_arr); $l++) { ?>
-                                        <option value="<?php echo $set_comp_category_arr[$l] ?>"><?php echo $set_comp_category_arr[$l] ?></option>
+                                        <option value="<?php echo $set_comp_category_arr[$l] ?>" <?php echo ($set_comp_category_arr[$l] == $write['comp_category'])?'selected':''; ?>><?php echo $set_comp_category_arr[$l] ?></option>
                                     <?php } ?>
                                 </select>
                             </td>
-                            <th>조치구분</th>
+                            <th class="x120">조치구분</th>
                             <td>
                                 <select name="take_category" id="take_category" class="form_select x140">
+                                    <option value="">조치구분 선택</option>
                                     <?php for($l=0; $l<count($set_take_category_arr); $l++) { ?>
-                                        <option value="<?php echo $set_take_category_arr[$l] ?>"><?php echo $set_take_category_arr[$l] ?></option>
+                                        <option value="<?php echo $set_take_category_arr[$l] ?>" <?php echo ($set_take_category_arr[$l] == $write['take_category'])?'selected':''; ?>><?php echo $set_take_category_arr[$l] ?></option>
                                     <?php } ?>
                                 </select>
                             </td>
                         </tr>
                         <tr>
-                            <th>고객선택</th>
+                            <th>고객선택<span class="required_txt">*</span></th>
                             <td>
-                                <input type="hidden" name="comp_mb_id" id="comp_mb_id" value="<?php echo $write['comp_mb_id'] ?>">
-                                <input type="text" name="comp_mb_name" id="comp_mb_name" class="form_input x100" value="<?php echo $write['comp_mb_name'] ?>" readonly>
+                                <input type="hidden" name="comp_client_idx" id="comp_client_idx" value="<?php echo $write['comp_client_idx'] ?>">
+                                <input type="text" name="comp_client_name" id="comp_client_name" class="form_input x100" value="<?php echo $write['comp_client_name'] ?>" readonly>
                                 <a class="form_btn1" id="form_select_btn">고객선택</a>
                             </td>
                             <th>조치일자</th>
@@ -88,8 +90,8 @@ if($w == 'u' && $idx != '') {
     <a class="submit_btn" id="submit_btn">저장하기</a>
 </div>
 
-<div id="write_layer_popup_bg"></div>
-<div id="write_layer_popup" class="x500"></div>
+<div id="select_layer_popup_bg"></div>
+<div id="select_layer_popup" class="x500"></div>
 
 <script>
 $(function(){
