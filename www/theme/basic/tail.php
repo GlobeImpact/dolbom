@@ -18,6 +18,10 @@ if(G5_COMMUNITY_USE === false) {
             <?/*<li><a href="<?php echo G5_BBS_URL ?>/setting.php">시스템 설정</a></li>*/?>
             <li><a href="<?php echo G5_BBS_URL ?>/sitemap.php" <?php echo ($mn_cd == 'sitemap')?'id="left_menu_sitemap_active"':''; ?>>전체 메뉴</a></li>
 
+            <?php if($is_admin) { ?>
+            <li><a href="<?php echo G5_BBS_URL ?>/branch_set.php" <?php echo ($mn_cd == 'branch')?'id="left_menu_sitemap_active"':''; ?>>지점 설정</a></li>
+            <?php } ?>
+
             <li>
                 <?php
                 $lmn_where = "";

@@ -43,26 +43,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
                 </table>
 
                 <table class="layer_list_tbl">
-                    <tbody id="client_complaints_list">
-                        <?php for($i=0; $i<100; $i++) { ?>
-                            <tr>
-                                <td class="layer_list_numb">1</td>
-                                <td class="layer_list_date">2024-01-04</td>
-                                <td class="layer_list_comp_category">민원(제공인력변경)</td>
-                                <td class="layer_list_name">우태하</td>
-                                <td class="layer_list_service_category">베이비시터</td>
-                                <td class="layer_list_tel">010-5180-2446</td>
-                                <td class="layer_list_status">접수</td>
-                                <td class="layer_list_date">2024-01-05</td>
-                                <td>
-                                    <div class="btn_flex">
-                                        <a class="edit_btn" comp_idx="">수정</a>
-                                        <a class="del_btn" comp_idx="">삭제</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
+                    <tbody id="client_complaints_list"></tbody>
                 </table>
             </div>
         </div>
@@ -196,6 +177,13 @@ $(function(){
             return false;
         }
 
+        // 조치일자가 등록되어 있고 조치구분을 선택하지 않았을 경우 조치구분 Required
+        if($('#take_date').val() != '' && $('#take_category').val() == '') {
+            alert('조치구분을 선택해주세요');
+            $('#take_category').focus();
+            return false;
+        }
+
         // FormData Set
         let writeForm = document.getElementById("fregisterform");
         let formData = new FormData(writeForm);
@@ -270,6 +258,66 @@ $(function(){
 
         return false;
     });
+
+    $(document).on('click', '.edit_btn', function(e){
+        e.stopPropagation();
+
+        let idx = $(this).attr('idx');
+        
+        // Layer Popup 초기화
+        $('#layer_popup').empty();
+
+        // Layer Popup : 민원수정 불러오기
+        $("#layer_popup").load(g5_bbs_url + "/client_complaints_write.php?w=u&idx=" + idx);
+
+        // Layer Popup 보이기
+        $('#layer_popup').css('display', 'block');
+        $('#layer_popup_bg').css('display', 'block');
+    });
+
+    $(document).on('click', '.view_btn', function(e){
+        e.stopPropagation();
+
+        let idx = $(this).attr('idx');
+        
+        // Layer Popup 초기화
+        $('#layer_popup').empty();
+
+        // Layer Popup : 민원수정 불러오기
+        $("#layer_popup").load(g5_bbs_url + "/client_complaints_view.php?idx=" + idx);
+
+        // Layer Popup 보이기
+        $('#layer_popup').css('display', 'block');
+        $('#layer_popup_bg').css('display', 'block');
+    });
+
+    $(document).on('click', '.del_btn', function(e){
+        e.stopPropagation();
+
+        let idx = $(this).attr('idx');
+        if(confirm('정말 삭제하시겠습니까?')) {
+            $.ajax({
+                url: g5_bbs_url + "/ajax.client_complaints_delete.php", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+                data: {'idx': idx},  // HTTP 요청과 함께 서버로 보낼 데이터
+                method: "POST",   // HTTP 요청 메소드(GET, POST 등)
+                dataType: "json", // 서버에서 보내줄 데이터의 타입
+                success: function(response){
+                    console.log(response);
+
+                    // code : 0000 성공 / code : 9999 실패
+                    if(response.code == '0000') {
+                        // 리스트 불러오기
+                        list_act();
+                    }else{
+                        // 전송이 실패한 경우 받는 응답 처리
+                        location.reload();
+                    }
+
+                    return false;
+                }
+            });
+        }
+    });
 });
 
 // 민원 리스트 불러오기
@@ -288,29 +336,28 @@ function list_act() {
 
             $('#client_complaints_list').empty();
 
-            /*
             let datas = '';
 
             if(response.length > 0) {
                 for(let i=0; i<response.length; i++) {
-                    datas += '<tr class="" comp_idx="' + response[i].comp_idx + '">';
-                    datas += '<td class="x60">' + (i+1) + '</td>';
-                    datas += '<td class="x200">' + response[i].set_tit + '</td>';
-                    datas += '<td class="x200">' + response[i].rent_numb + '</td>';
-                    datas += '<td class="x140">' + response[i].rent_date + '</td>';
-                    datas += '<td class="x140">' + response[i].rent_name + '</td>';
-                    datas += '<td class="x140">' + response[i].rent_return_date + '</td>';
-                    datas += '<td class="x140">' + response[i].rent_return_name + '</td>';
+                    datas += '<tr class="view_btn" idx="' + response[i].idx + '">';
+                    datas += '<td class="layer_list_numb">' + (i+1) + '</td>';
+                    datas += '<td class="layer_list_date">' + response[i].comp_date + '</td>';
+                    datas += '<td class="layer_list_comp_category">' + response[i].comp_category + '</td>';
+                    datas += '<td class="layer_list_name">' + response[i].comp_client_name + '</td>';
+                    datas += '<td class="layer_list_service_category">' + response[i].service_category + '</td>';
+                    datas += '<td class="layer_list_tel">' + response[i].tel + '</td>';
+                    datas += '<td class="layer_list_status">' + response[i].status + '</td>';
+                    datas += '<td class="layer_list_date">' + response[i].take_date + '</td>';
                     datas += '<td class=""><div class="btn_flex">';
-                    datas += '<a class="edit_btn" comp_idx="' + response[i].comp_idx + '">수정</a>';
-                    datas += '<a class="del_btn" comp_idx="' + response[i].comp_idx + '">삭제</a>';
+                    datas += '<a class="edit_btn" idx="' + response[i].idx + '">수정</a>';
+                    datas += '<a class="del_btn" idx="' + response[i].idx + '">삭제</a>';
                     datas += '</div></td>';
                     datas += '</tr>';
                 }
             }else{
-                datas += '<tr><td colspan="9">접수된 민원이 없습니다.</td></tr>';
+                datas += '<tr><td class="not_list" colspan="9">접수된 민원이 없습니다.</td></tr>';
             }
-            */
 
             $('#client_complaints_list').append(datas);
 

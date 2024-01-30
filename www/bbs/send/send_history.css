@@ -1,0 +1,12 @@
+@charset "utf-8";
+
+/* Page Wrap STR */
+#layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:710px;}
+#layer_box {margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
+/* Page Wrap END */
+
+/* List Wrap STR */
+.sms_message_box {margin:0; padding:0; width:100%; height:40px; text-align:left; overflow-y:scroll;}
+.sms_message_box::-webkit-scrollbar {width:3px;}
+.sms_message_box::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
+/* List Wrap END */

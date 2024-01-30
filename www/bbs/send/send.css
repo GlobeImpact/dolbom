@@ -1,53 +1,26 @@
 @charset "utf-8";
 
+/* Page Wrap STR */
 #layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:710px;}
 #layer_box {margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
+/* Page Wrap END */
 
 /* Layer Wrap STR */
-.flex_row {display:flex; flex-direction:row; align-items:flex-start; justify-content:stretch; margin:0; padding:0; width:100%; gap:15px;}
-.flex_sub1 {position:relative; margin:0; padding:0; width:480px; border:0;}
-.flex_sub2 {position:relative; margin:0; padding:0; width:400px;}
-.flex_sub3 {position:relative; margin:0; padding:0; flex:1 1 0%;}
-.sub_tit {display:block; margin:0; margin-bottom:5px; padding:8px 8px 0px 8px; width:100%; color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.flex_row {display:flex; flex-direction:row; align-items:flex-start; justify-content:stretch; margin:0; padding:0; width:100%; height:100%; gap:15px;}
+.flex_sub1 {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:480px; height:100%;}
+.flex_sub2 {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:400px; height:100%; overflow:hidden;}
+.flex_sub3 {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; flex:1 1 0%; height:100%;}
+.sub_tit {display:block; margin:0; margin-bottom:5px; padding:8px 8px 0px 8px; width:100%; color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px;}
 /* Layer Wrap END */
 
-/* Menu STR */
-.menu_box {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; margin-bottom:12px; padding:8px 8px 0px 8px; width:100%; background:#e5efff; border:0; border-radius:8px 8px 0px 0px; gap:0 6px;}
-.menu_list {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; border:0; border-radius:8px 8px 0px 0px; background:#6d9ac4;}
-#menu_list_act {background:#283144;}
-.menu_list_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:10px 8px 6px 8px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
-/* Menu END */
-
-/* User Select Wrap STR */
-.user_wrap {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:584px; border:0; border-radius:7px; background:#283144; overflow:hidden;}
-.user_wrap > .user_list::-webkit-scrollbar {width: 3px;}
-.user_wrap > .user_list::-webkit-scrollbar-thumb {border:0;border-radius:0;background:#6d9ac4;}
-.user_top {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; padding:10px; background:#212939; border-bottom:1px solid #fff;}
-.filter_box {flex:1 1 0%; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; gap:0 8px;}
-.filter_select {margin:0; padding:4px 7px; border-radius:3px; font-size:15px;}
-.filter_input {padding:6px 7px; width:120px; border-radius:3px; font-size:15px; outline:none !important; box-shadow:none !important; border:0 !important;}
-.user_list {position:relative; margin:0; padding:0; flex:1 1 0%; overflow-y:scroll;}
-.user_list_tbl {margin:0 auto; padding:0; width:100%; border-collapse:collapse;}
-.user_list_tbl > thead {position:sticky; top:0; background:#283144;}
-.user_list_tbl > thead > tr > th {margin:0; padding:8px 4px; border-left:1px solid #fff; border-right:1px solid #fff; color:#fff; font-family:'NanumSquare',sans-serif; font-weight:600; font-size:17px;}
-.user_list_tbl > thead > tr > th:first-child {border-left:0;}
-.user_list_tbl > thead > tr > th:last-child {border-right:0;}
-.x45 {width:45px;}
-.x50 {width:50px;}
-.x70 {width:70px;}
-.x80 {width:80px;}
-.x90 {width:90px;}
-.user_list_tbl > tbody > tr {cursor:pointer;}
-.user_list_tbl > tbody > tr > td {margin:0; padding:8px 4px; border-left:1px solid #fff; border-right:1px solid #fff; color:#fff; font-size:14px;}
-.user_list_tbl > tbody > tr > td:first-child {border-left:0;}
-.user_list_tbl > tbody > tr > td:last-child {border-right:0;}
-.user_list_tbl > tbody > tr:nth-child(odd) > td {background:#374769;}
-.talign_c {text-align:center;}
-.talign_r {text-align:right;}
-/* User Select Wrap END */
+/* Filter STR */
+.member {display:none;}
+.client {display:none;}
+.manager {display:none;}
+/* Filter END */
 
 /* To Wrap STR */
-.to_wrap {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:12px; width:100%; height:637px; background:#f3f3f3; border:1px solid #cdcbca;}
+.to_wrap {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:12px; width:100%; height:100%; background:#f3f3f3; border:1px solid #cdcbca; overflow:hidden;}
 .to_tit {display:block; margin:0; margin-bottom:5px; padding:0; width:100%; color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
 .to_add_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; margin-bottom:10px; padding:0; width:100%; gap:0 5px;}
 .to_add_input {padding:6px 7px; width:120px; border-radius:3px; font-size:15px; outline:none !important; box-shadow:none !important; border:1px solid #ddeded !important;}
@@ -61,49 +34,23 @@
 .to_list_all_del_btn {display:inline-block; margin:0; margin-top:10px; padding:3px 5px; width:fit-content; color:#fff; font-size:14px; background:#ff7573; border:1px solid #ff3633; border-radius:4px; text-align:center; cursor:pointer;}
 /* To Wrap END */
 
+/* SMS Message Wrap STR */
+.sms_message_wrap {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:100%; border:2px solid #283144;}
+.sms_message_sbj {margin:0; padding:10px; width:100%; font-weight:600; font-size:14px; background:#e5efff; text-align:center; border-bottom:1px solid #283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
+.sms_message_box {position:relative; margin:0; padding:0; width:100%; flex:1 1 0%; background:#fff; overflow-y:scroll;}
+.sms_message_box::-webkit-scrollbar {width:3px;}
+.sms_message_box::-webkit-scrollbar-thumb {border:0;border-radius:0;background:#6d9ac4;}
+.sms_message_list {margin:0; padding:6px 3px; border-bottom:1px solid #283144; font-size:13px; cursor:pointer; font-family:'NanumSquare',sans-serif; font-weight:500; font-size:14px;}
+.sms_message_list:hover {background:#d8f8c0; cursor:pointer;}
+/* SMS Message Wrap END */
 
-
-
-
-
-
-
-/* Sub Page Wrap STR */
-.sub_wrap {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:615px;}
-/* Sub Page Wrap END */
-
-/* Form Wrap STR */
-.form_wrap {display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; margin:0; padding:12px; width:100%; flex:1 1 0%; background:#e5efff; gap:10px 0;}
-.form_row {display:flex; flex-direction:row; align-items:stretch; justify-content:space-between; margin:0; padding:0; width:100%;}
-.form_box {position:relative; margin:0; padding:0; width:19.1%; background:#eff5fd;}
-.xp79_9 {width:79.9%;}
-.form_tbl {margin:0; padding:6px; width:100%; background:#eff5fd;}
-.form_tbl > tbody > tr > th {margin:0; padding:2px 5px 2px 0px; width:55%; text-align:right; border:0; font-size:14px;}
-.form_tbl > tbody > tr > td {margin:0; padding:2px 0px; width:45%; border:0;}
-.xp100 {width:100%;}
-.xp13 {width:13%;}
-.xp75 {width:75%;}
-.xp30 {width:30%;}
-.xp66 {width:66%;}
-.form_tbl2 {margin:0; padding:6px; width:50%; background:#eff5fd;}
-.form_tbl2 > thead > tr > th {margin:0; padding:4px 5px 4px 0px; text-align:center; border:0; font-size:14px; color:#fff; background:#6d9ac4;}
-.form_tbl2 > tbody > tr > th {margin:0; padding:2px 5px 2px 0px; width:20%; text-align:right; border:0; font-size:14px;}
-.form_tbl2 > tbody > tr > td {margin:0; padding:2px 0px; border:0;}
-.form_tbl2 > tbody > tr > td:nth-child(2), .form_tbl2 > tbody > tr > td:nth-child(3) {width:18%;}
-.form_tbl2 > tbody > tr > td:nth-child(3) {padding-left:15px; width:22%;}
-.form_tbl2 > tbody > tr > td:last-child {text-align:center; font-size:14px;}
-#form_submit_btn {position:relative; display:block; margin:0 auto; padding:5px 15px 3px 15px; text-align:center; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:15px; letter-spacing:1px; background:#ed5684; border:0; border-radius:3px; cursor:pointer;}
-#form_submit_btn:hover {background:#e93e72}
-/* Form Wrap End */
-
-/* List Wrap STR */
-.list_wrap {position:relative; margin:0; margin-top:12px; padding:0; width:100%; height:114px; overflow-y:scroll; border-top:2px solid #283144; border-bottom:2px solid #283144; border-right:2px solid #283144;}
-.list_tbl {position:relative; margin:0 auto; padding:0; width:100%; border:2px solid #283144; border-top:0; border-bottom:0; border-right:0; border-collapse:collapse;}
-.list_tbl > thead {position:sticky; top:0; background:#283144; z-index:100;}
-.list_tbl > thead > tr > th {margin:0; padding:5px; border:1px solid #374769; border-top:0; background:#e5efff;}
-.list_tbl > tbody > tr > td {margin:0; padding:5px; border:1px solid #374769; background:#ffffff;}
-.x60 {width:60px;}
-.x120 {width:120px;}
-.x160 {width:160px;}
-.x200 {width:200px;}
-/* List Wrap END */
+/* SMS Send Wrap STR */
+.sms_send_wrap {position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:10px; width:100%; background:#f3f3f3; border:1px solid #cdcbca;}
+.message_box {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px; width:100%; border:1px solid #cdcbca; background:#fbfbfb;}
+.sms_send_wrap #send_message {position:relative; margin:10px 0; padding:10px; width:100%; height:150px; background:#e5efff; border:1px solid #1469b9; resize:none; overflow-y:scroll;}
+.message_box > label {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; margin-right:6px;}
+.message_box > label > input[type="checkbox"] {margin-right:4px;}
+#booking_date {margin:0; padding:4px 8px; width:100px; height:28px; background:#fff; border:1px solid #ddd;}
+#booking_date + .ui-datepicker-trigger {margin-left:-22px; margin-right:6px; cursor:pointer;}
+#booking_time {margin:0; margin-left:6px; padding:4px 8px; height:28px; border:1px solid #ddd;}
+/* SMS Send Wrap END */

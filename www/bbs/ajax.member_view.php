@@ -1,59 +1,6 @@
 <?php
 include_once('./_common.php');
 
-// 주민번호로 만나이 계산
-function wz_get_age($ymd = '') {
-    if (!$ymd || empty($ymd)) {
-        return false;
-    }
-
-    $birth = '';
-    switch (substr(trim($ymd),7,1)) {
-        case '1':
-        case '2':
-            $birth = '19'.substr(trim($ymd),0,2);
-        break;
-        case '3':
-        case '4':
-            $birth = '20'.substr(trim($ymd),0,2);
-        break;
-    }
-
-    $age = '';
-    if (!empty($birth)) {
-        $today = date('Ymd');
-        $birthday = $birth.substr(trim($ymd),2,4);
-        $age = floor(($today - $birthday) / 10000);
-    }
-
-    return $age;
-}
-
-// 주민번호로 성별 계산
-function wz_get_gender($ymd = '') {
-    if (!$ymd || empty($ymd)) { 
-        return false;
-    }
-
-    $gender = '';
-    switch (substr(trim($ymd),7,1)) {
-        case '1':
-        case '3':
-        case '5':
-        case '7':
-            $gender = '남';
-        break;
-        case '2':
-        case '4':
-        case '6':
-        case '8':
-            $gender = '여';
-        break;
-    }
-
-    return $gender;
-}
-
 $mb_id = $_POST['mb_id'];
 
 $list = Array();

@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/sitemap/sitemap.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/sitemap/sitemap.css?ver=2">', 0);
 ?>
 
 <div id="layer_wrap">
@@ -25,10 +25,29 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/sitemap/sitemap.css"
                 if($stm_mn2_num > 0) {
                     for($j=0; $stm_mn2_row = sql_fetch_array($stm_mn2_qry); $j++) {
         ?>
-            <a class="sitemap_box" href="<?php echo $stm_mn2_row['me_link'] ?>?this_code=<?php echo $stm_mn1_row['me_code'] ?>" target="_<?php echo $stm_mn2_row['me_target'] ?>">
-                <img src="<?php echo G5_IMG_URL ?>/sitemap_<?php echo $j ?>.png">
-                <p><?php echo $stm_mn2_row['me_name'] ?></p>
-            </a>
+            <div class="sitemap_box">
+                <a class="sitemap_list" href="<?php echo $stm_mn2_row['me_link'] ?>?this_code=<?php echo $stm_mn1_row['me_code'] ?>" target="_<?php echo $stm_mn2_row['me_target'] ?>">
+                    <img src="<?php echo G5_IMG_URL ?>/sitemap_<?php echo $j ?>.png">
+                    <p><?php echo $stm_mn2_row['me_name'] ?></p>
+                </a>
+
+                <?php
+                $stm_mn3_sql = " select * from g5_menu where (1=1) and length(`me_code`) = 6 and me_use = 1 and me_code like '{$stm_mn2_row['me_code']}%' ";
+                $stm_mn3_qry = sql_query($stm_mn3_sql);
+                $stm_mn3_num = sql_num_rows($stm_mn3_qry);
+                if($stm_mn3_num > 0) {
+                    echo '<ul class="sitemap_sub_box">';
+                    for($k=0; $stm_mn3_row = sql_fetch_array($stm_mn3_qry); $k++) {
+                ?>
+                        <li class="sitemap_sub_list">
+                            <a href=""><?php echo $stm_mn3_row['me_name'] ?></a>
+                        </li>
+                <?php
+                    }
+                    echo '</ul>';
+                }
+                ?>
+            </div>
         <?php
                     }
                 }
@@ -38,28 +57,5 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/sitemap/sitemap.css"
             }
         }
         ?>
-        <?/*
-        <div class="sitemap_wrap">
-            <?php
-            $stm_mn_sql = " select * from g5_menu where length(`me_code`) = 2 and me_use = 1 order by me_order asc, me_code asc ";
-            echo $stm_mn_sql;
-            $stm_mn_qry = sql_query($stm_mn_sql);
-            $stm_mn_num = sql_num_rows($stm_mn_qry);
-            if($stm_mn_num > 0) {
-                for($i=0; $stm_mn_row = sql_fetch_array($stm_mn_qry); $i++) {
-            ?>
-            <div class="sitemap_box">
-                <a href=""><img src="<?php echo G5_IMG_URL ?>/sitemap_0.png"></a>
-            </div>
-            <?php
-                }
-            }
-            ?>
-            <div class="sitemap_box">2</div>
-            <div class="sitemap_box">3</div>
-            <div class="sitemap_box">4</div>
-            <div class="sitemap_box">5</div>
-        </div>
-        */?>
     </div>
 </div>

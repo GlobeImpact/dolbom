@@ -16,6 +16,9 @@ if($w == '') {
 if($w == 'u' && $idx != '') {
     $sql = " select * from g5_client_complaints where idx = '{$idx}' ";
     $write = sql_fetch($sql);
+
+    if($write['comp_date'] == '0000-00-00') $write['comp_date'] = '';
+    if($write['take_date'] == '0000-00-00') $write['take_date'] = '';
 }
 ?>
 
