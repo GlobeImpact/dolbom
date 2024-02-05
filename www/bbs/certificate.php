@@ -11,12 +11,19 @@ switch($mode) {
     case 'enter':
         $g5['title'] = '재직증명서';
     break;
+
+    case 'career':
+        $g5['title'] = '경력증명서';
+    break;
+
     case 'activity':
         $g5['title'] = '활동증명서';
     break;
+
     case 'quit':
         $g5['title'] = '퇴직확인원';
     break;
+
     default:
     break;
 }

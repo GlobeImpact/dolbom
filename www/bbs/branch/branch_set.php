@@ -71,7 +71,6 @@ $(function(){
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
 
                 // Ajax Result Message
                 if(response.msg != '') {
@@ -120,7 +119,6 @@ function list_act() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
-            console.log(response);
 
             $('#branch_list').empty();
 
@@ -183,7 +181,6 @@ function list_act() {
                 method: "POST",   // HTTP 요청 메소드(GET, POST 등)
                 dataType: "json", // 서버에서 보내줄 데이터의 타입
                 success: function(response){
-                    console.log(response);
 
                     // code : 0000 성공 / code : 9999 실패
                     if(response.code == '0000') {

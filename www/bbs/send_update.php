@@ -51,6 +51,7 @@ $booking_time = str_replace(':', '', $_POST['booking_time']);
 $booking_datetime = '';
 if($booking == 'y') {
     $booking_datetime = $booking_date.''.$booking_time;
+    $booking_datetime_val = $_POST['booking_date'].' '.$_POST['booking_time'].':00';
 }
 $send_message = $_POST['send_message'];
 $send_list = $_POST['send_list'];
@@ -72,7 +73,7 @@ if(count($send_list) > 0) {
                     recv_name = '{$recv_name}', 
                     recv_hp = '{$recv_hp}', 
                     send_hp = '{$send_hp}', 
-                    booking_datetime = '{$booking_datetime}', 
+                    booking_datetime = '{$booking_datetime_val}', 
                     send_message = '{$send_message}', 
                     reg_date = '".date('Y-m-d H:i:s')."' ";
                 sql_query($sql);

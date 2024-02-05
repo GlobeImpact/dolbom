@@ -61,14 +61,14 @@ switch ($user_category) {
     break;
 
     case 'manager':
-        $select_str .= "select * from g5_member";
-        $where_str .= " and mb_menu = '{$_SESSION['this_code']}' and mb_level = '5'";
+        $select_str .= "select distinct(g5_management.me_code1), g5_member.* from g5_member left join g5_management on g5_management.me_code1 = '{$_SESSION['this_code']}'";
+        $where_str .= " and g5_member.mb_level = '5'";
 
         if($filter_user_name != '') {
-            $where_str .= " and mb_name like '%{$filter_user_name}%'";
+            $where_str .= " and g5_member.mb_name like '%{$filter_user_name}%'";
         }
 
-        $orderby_str .= " mb_name asc";
+        $orderby_str .= " g5_member.mb_name asc";
     break;
 
     default:

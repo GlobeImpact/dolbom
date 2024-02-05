@@ -5,8 +5,13 @@ $g5['title'] = "로그인 검사";
 
 $mb_id       = isset($_POST['mb_id']) ? trim($_POST['mb_id']) : '';
 $mb_password = isset($_POST['mb_password']) ? trim($_POST['mb_password']) : '';
+$login_level = isset($_POST['login_level']) ? trim($_POST['login_level']) : '';
 
 run_event('member_login_check_before', $mb_id);
+
+if (!$login_level) {
+    alert('회원분류를 선택해야 합니다.', G5_BBS_URL.'/login.php');
+}
 
 if (!$mb_id || run_replace('check_empty_member_login_password', !$mb_password, $mb_id))
     alert('회원아이디나 비밀번호가 공백이면 안됩니다.');
@@ -38,6 +43,18 @@ if (!$is_need_not_password && (! (isset($mb['mb_id']) && $mb['mb_id']) || !login
     run_event('password_is_wrong', 'login', $mb);
 
     alert('가입된 회원아이디가 아니거나 비밀번호가 틀립니다.\\n비밀번호는 대소문자를 구분합니다.');
+}
+
+if($mb['mb_id'] && $mb['mb_level'] != $login_level) {
+    alert('회원분류가 일치하지 않습니다.', G5_BBS_URL.'/login.php');
+}
+
+if($mb['mb_level'] < 5) {
+    alert('접속이 불가능합니다.\n매니저 또는 관리자 로그인만 해주세요', G5_BBS_URL.'/login.php');
+}
+
+if($mb['mb_hide'] != '') {
+    alert('삭제된 회원입니다.', G5_BBS_URL.'/login.php');
 }
 
 // 차단된 아이디인가?

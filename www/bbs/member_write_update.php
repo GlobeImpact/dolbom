@@ -14,6 +14,26 @@ if(!$is_member) {
     exit;
 }
 
+// 로그인이 되어 있지 않을 경우 등록/수정 불가
+if($member['mb_level'] < 5) {
+    $list['msg'] = '매니저 또는 관리자 접속이 필요합니다.';
+    $list['code'] = '9999';
+    echo json_encode($list);
+    exit;
+}
+
+// 매니저 등록/수정 권한 확인
+if(!$is_admin) {
+    $management_sql = " select count(*) as cnt from g5_management where me_code = '{$_SESSION['this_mn_cd_full']}' and mb_id = '{$member['mb_id']}' and mode = 'write' ";
+    $management_row = sql_fetch($management_sql);
+    if($management_row['cnt'] == 0) {
+        $list['msg'] = '등록/수정 권한이 없습니다.';
+        $list['code'] = '9999';
+        echo json_encode($list);
+        exit;
+    }
+}
+
 $mb_id = isset($_POST['mb_id']) ? trim($_POST['mb_id']) : '';
 
 // 수정일 경우 아이디가 틀리면 수정 불가
@@ -32,9 +52,6 @@ $mb_name        = isset($_POST['mb_name']) ? trim($_POST['mb_name']) : '';
 $mb_nick        = $mb_name;
 $mb_email       = isset($_POST['mb_email']) ? trim($_POST['mb_email']) : '';
 $mb_sex         = isset($_POST['mb_sex'])           ? trim($_POST['mb_sex'])         : "";
-$mb_birth       = isset($_POST['mb_birth'])         ? trim($_POST['mb_birth'])       : "";
-$mb_homepage    = isset($_POST['mb_homepage'])      ? trim($_POST['mb_homepage'])    : "";
-$mb_tel         = isset($_POST['mb_tel'])           ? trim($_POST['mb_tel'])         : "";
 $mb_hp          = isset($_POST['mb_hp'])            ? trim($_POST['mb_hp'])          : "";
 $mb_zip1        = isset($_POST['mb_zip'])           ? substr(trim($_POST['mb_zip']), 0, 3) : "";
 $mb_zip2        = isset($_POST['mb_zip'])           ? substr(trim($_POST['mb_zip']), 3)    : "";
@@ -45,22 +62,8 @@ $mb_addr_jibeon = isset($_POST['mb_addr_jibeon'])   ? trim($_POST['mb_addr_jibeo
 $mb_area        = isset($_POST['mb_area'])          ? trim($_POST['mb_area'])        : "";
 $mb_area_x      = isset($_POST['mb_area_x'])        ? trim($_POST['mb_area_x'])      : "";
 $mb_area_y      = isset($_POST['mb_area_y'])        ? trim($_POST['mb_area_y'])      : "";
-$mb_signature   = isset($_POST['mb_signature'])     ? trim($_POST['mb_signature'])   : "";
 $mb_profile     = isset($_POST['mb_profile'])       ? trim($_POST['mb_profile'])     : "";
-$mb_recommend   = isset($_POST['mb_recommend'])     ? trim($_POST['mb_recommend'])   : "";
-$mb_mailling    = isset($_POST['mb_mailling'])      ? trim($_POST['mb_mailling'])    : "";
-$mb_sms         = isset($_POST['mb_sms'])           ? trim($_POST['mb_sms'])         : "";
 $mb_open        = isset($_POST['mb_open'])          ? trim($_POST['mb_open'])        : "0";
-$mb_1           = isset($_POST['mb_1'])             ? trim($_POST['mb_1'])           : "";
-$mb_2           = isset($_POST['mb_2'])             ? trim($_POST['mb_2'])           : "";
-$mb_3           = isset($_POST['mb_3'])             ? trim($_POST['mb_3'])           : "";
-$mb_4           = isset($_POST['mb_4'])             ? trim($_POST['mb_4'])           : "";
-$mb_5           = isset($_POST['mb_5'])             ? trim($_POST['mb_5'])           : "";
-$mb_6           = isset($_POST['mb_6'])             ? trim($_POST['mb_6'])           : "";
-$mb_7           = isset($_POST['mb_7'])             ? trim($_POST['mb_7'])           : "";
-$mb_8           = isset($_POST['mb_8'])             ? trim($_POST['mb_8'])           : "";
-$mb_9           = isset($_POST['mb_9'])             ? trim($_POST['mb_9'])           : "";
-$mb_10          = isset($_POST['mb_10'])            ? trim($_POST['mb_10'])          : "";
 
 $security_number    = isset($_POST['security_number'])            ? trim($_POST['security_number'])          : "";
 $activity_status    = isset($_POST['activity_status'])            ? trim($_POST['activity_status'])          : "";
@@ -85,33 +88,12 @@ $vulnerable_etc     = isset($_POST['vulnerable_etc'])             ? trim($_POST[
 $pet_use            = isset($_POST['pet_use'])                    ? trim($_POST['pet_use'])                  : "";
 $mb_memo            = isset($_POST['mb_memo'])                    ? trim($_POST['mb_memo'])                  : "";
 $mb_memo2           = isset($_POST['mb_memo2'])                   ? trim($_POST['mb_memo2'])                 : "";
+$branch_id          = isset($_POST['branch_id'])                  ? trim($_POST['branch_id'])                : "";
 
-$training_str_date1 = isset($_POST['training_str_date1'])         ? trim($_POST['training_str_date1'])       : "";
-$training_end_date1 = isset($_POST['training_end_date1'])         ? trim($_POST['training_end_date1'])       : "";
-$training_time1     = isset($_POST['training_time1'])             ? trim($_POST['training_time1'])           : "";
-
-$training_str_date2 = isset($_POST['training_str_date2'])         ? trim($_POST['training_str_date2'])       : "";
-$training_end_date2 = isset($_POST['training_end_date2'])         ? trim($_POST['training_end_date2'])       : "";
-$training_time2     = isset($_POST['training_time2'])             ? trim($_POST['training_time2'])           : "";
-
-$training_str_date3 = isset($_POST['training_str_date3'])         ? trim($_POST['training_str_date3'])       : "";
-$training_end_date3 = isset($_POST['training_end_date3'])         ? trim($_POST['training_end_date3'])       : "";
-$training_time3     = isset($_POST['training_time3'])             ? trim($_POST['training_time3'])           : "";
-
-$training_str_date4 = isset($_POST['training_str_date4'])         ? trim($_POST['training_str_date4'])       : "";
-$training_end_date4 = isset($_POST['training_end_date4'])         ? trim($_POST['training_end_date4'])       : "";
-$training_time4     = isset($_POST['training_time4'])             ? trim($_POST['training_time4'])           : "";
-
-$training_str_date5 = isset($_POST['training_str_date5'])         ? trim($_POST['training_str_date5'])       : "";
-$training_end_date5 = isset($_POST['training_end_date5'])         ? trim($_POST['training_end_date5'])       : "";
-$training_time5     = isset($_POST['training_time5'])             ? trim($_POST['training_time5'])           : "";
-
-$training_str_date6 = isset($_POST['training_str_date6'])         ? trim($_POST['training_str_date6'])       : "";
-$training_end_date6 = isset($_POST['training_end_date6'])         ? trim($_POST['training_end_date6'])       : "";
-$training_time6     = isset($_POST['training_time6'])             ? trim($_POST['training_time6'])           : "";
+$education_memo     = isset($_POST['education_memo'])             ? trim($_POST['education_memo'])           : "";
+$career_memo        = isset($_POST['career_memo'])                ? trim($_POST['career_memo'])              : "";
 
 $mb_name        = clean_xss_tags($mb_name);
-$mb_homepage    = clean_xss_tags($mb_homepage);
 $mb_tel         = clean_xss_tags($mb_tel);
 $mb_zip1        = preg_replace('/[^0-9]/', '', $mb_zip1);
 $mb_zip2        = preg_replace('/[^0-9]/', '', $mb_zip2);
@@ -124,6 +106,10 @@ if($mb_id == '') $mb_id = $security_number;
 
 $mb_password    = isset($mb_id) ? trim($mb_id) : '';
 $mb_password_re = isset($mb_id) ? trim($mb_id) : '';
+
+if($activity_status == '활동중') {
+    $quit_date = '';
+}
 
 if($quit_date != '') {
     $activity_status = '퇴사';
@@ -218,9 +204,6 @@ if ($w == '') {
                      mb_name = '{$mb_name}',
                      mb_nick = '{$mb_nick}',
                      mb_nick_date = '".G5_TIME_YMD."',
-                     mb_email = '{$mb_email}',
-                     mb_homepage = '{$mb_homepage}',
-                     mb_tel = '{$mb_tel}',
                      mb_hp = '{$mb_hp}',
                      mb_zip1 = '{$mb_zip1}',
                      mb_zip2 = '{$mb_zip2}',
@@ -238,8 +221,6 @@ if ($w == '') {
                      mb_level = '{$config['cf_register_level']}',
                      mb_recommend = '{$mb_recommend}',
                      mb_login_ip = '{$_SERVER['REMOTE_ADDR']}',
-                     mb_mailling = '{$mb_mailling}',
-                     mb_sms = '{$mb_sms}',
                      mb_open = '{$mb_open}',
                      mb_open_date = '".G5_TIME_YMD."',
 
@@ -268,41 +249,9 @@ if ($w == '') {
                      pet_use = '{$pet_use}',
                      mb_memo = '{$mb_memo}',
                      mb_memo2 = '{$mb_memo2}',
-
-                     training_str_date1 = '{$training_str_date1}',
-                     training_end_date1 = '{$training_end_date1}',
-                     training_time1 = '{$training_time1}',
-
-                     training_str_date2 = '{$training_str_date2}',
-                     training_end_date2 = '{$training_end_date2}',
-                     training_time2 = '{$training_time2}',
-
-                     training_str_date3 = '{$training_str_date3}',
-                     training_end_date3 = '{$training_end_date3}',
-                     training_time3 = '{$training_time3}',
-
-                     training_str_date4 = '{$training_str_date4}',
-                     training_end_date4 = '{$training_end_date4}',
-                     training_time4 = '{$training_time4}',
-
-                     training_str_date5 = '{$training_str_date5}',
-                     training_end_date5 = '{$training_end_date5}',
-                     training_time5 = '{$training_time5}',
-
-                     training_str_date6 = '{$training_str_date6}',
-                     training_end_date6 = '{$training_end_date6}',
-                     training_time6 = '{$training_time6}',
-
-                     mb_1 = '{$mb_1}',
-                     mb_2 = '{$mb_2}',
-                     mb_3 = '{$mb_3}',
-                     mb_4 = '{$mb_4}',
-                     mb_5 = '{$mb_5}',
-                     mb_6 = '{$mb_6}',
-                     mb_7 = '{$mb_7}',
-                     mb_8 = '{$mb_8}',
-                     mb_9 = '{$mb_9}',
-                     mb_10 = '{$mb_10}'
+                     branch_id = '{$branch_id}', 
+                     education_memo = '{$education_memo}', 
+                     career_memo = '{$career_memo}' 
                      {$sql_certify} ";
 
     // 이메일 인증을 사용하지 않는다면 이메일 인증시간을 바로 넣는다
@@ -424,41 +373,9 @@ if ($w == '') {
             pet_use = '{$pet_use}',
             mb_memo = '{$mb_memo}',
             mb_memo2 = '{$mb_memo2}',
-
-            training_str_date1 = '{$training_str_date1}',
-            training_end_date1 = '{$training_end_date1}',
-            training_time1 = '{$training_time1}',
-
-            training_str_date2 = '{$training_str_date2}',
-            training_end_date2 = '{$training_end_date2}',
-            training_time2 = '{$training_time2}',
-
-            training_str_date3 = '{$training_str_date3}',
-            training_end_date3 = '{$training_end_date3}',
-            training_time3 = '{$training_time3}',
-
-            training_str_date4 = '{$training_str_date4}',
-            training_end_date4 = '{$training_end_date4}',
-            training_time4 = '{$training_time4}',
-
-            training_str_date5 = '{$training_str_date5}',
-            training_end_date5 = '{$training_end_date5}',
-            training_time5 = '{$training_time5}',
-
-            training_str_date6 = '{$training_str_date6}',
-            training_end_date6 = '{$training_end_date6}',
-            training_time6 = '{$training_time6}',
-
-            mb_1 = '{$mb_1}',
-            mb_2 = '{$mb_2}',
-            mb_3 = '{$mb_3}',
-            mb_4 = '{$mb_4}',
-            mb_5 = '{$mb_5}',
-            mb_6 = '{$mb_6}',
-            mb_7 = '{$mb_7}',
-            mb_8 = '{$mb_8}',
-            mb_9 = '{$mb_9}',
-            mb_10 = '{$mb_10}'
+            branch_id = '{$branch_id}', 
+            education_memo = '{$education_memo}', 
+            career_memo = '{$career_memo}' 
             {$sql_password} 
             {$sql_certify} 
             where mb_id = '{$mb_id}' ";

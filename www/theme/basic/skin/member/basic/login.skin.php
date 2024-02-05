@@ -2,7 +2,7 @@
 if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
-add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css?ver=1">', 0);
 
 if($_COOKIE['save_id']) {
     $login_id = $_COOKIE['save_id'];
@@ -17,35 +17,46 @@ if($_COOKIE['save_id']) {
     <div id="mb_login" class="mbskin">
         <div class="mbskin_box">
 
-            <p>LOGIN</p>
-
             <form name="flogin" action="<?php echo $login_action_url ?>" onsubmit="return flogin_submit(this);" method="post">
-            <input type="hidden" name="url" value="<?php echo $login_url ?>">
-            
-            <fieldset id="login_fs">
-                <legend>회원로그인</legend>
-                <label for="login_id" class="sound_only">회원아이디<strong class="sound_only"> 필수</strong></label>
-                <input type="text" name="mb_id" id="login_id" required class="frm_input required" size="20" maxLength="20" placeholder="아이디" value="<?php echo $login_id ?>">
-                <label for="login_pw" class="sound_only">비밀번호<strong class="sound_only"> 필수</strong></label>
-                <input type="password" name="mb_password" id="login_pw" required class="frm_input required" size="20" maxLength="20" placeholder="비밀번호">
-                <button type="submit" class="btn_submit">LOGIN</button>
+                <input type="hidden" name="url" value="<?php echo $login_url ?>">
+
+                <ul class="user_type">
+                    <li>
+                        <input type="radio" name="login_level" id="login_level_manager" value="5" checked>
+                        <label class="login_lavel" for="login_level_manager">매니저</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="login_level" id="login_level_admin" value="10">
+                        <label class="login_lavel" for="login_level_admin">관리자</label>
+                    </li>
+                </ul>
+
+                <p>LOGIN</p>
                 
-                <div id="login_info">
-                    <div class="login_if_auto chk_box">
-                        <input type="checkbox" name="save_id" id="save_id" class="selec_chk">
-                        <label for="save_id"><span></span> 아이디저장</label>
+                <fieldset id="login_fs">
+                    <legend>회원로그인</legend>
+                    <label for="login_id" class="sound_only">회원아이디<strong class="sound_only"> 필수</strong></label>
+                    <input type="text" name="mb_id" id="login_id" required class="frm_input required" size="20" maxLength="20" placeholder="아이디" value="<?php echo $login_id ?>">
+                    <label for="login_pw" class="sound_only">비밀번호<strong class="sound_only"> 필수</strong></label>
+                    <input type="password" name="mb_password" id="login_pw" required class="frm_input required" size="20" maxLength="20" placeholder="비밀번호">
+                    <button type="submit" class="btn_submit">LOGIN</button>
+                    
+                    <div id="login_info">
+                        <div class="login_if_auto chk_box">
+                            <input type="checkbox" name="save_id" id="save_id" class="selec_chk">
+                            <label for="save_id"><span></span> 아이디저장</label>
+                        </div>
+                        <div class="login_if_auto chk_box">
+                            <input type="checkbox" name="auto_login" id="login_auto_login" class="selec_chk">
+                            <label for="login_auto_login"><span></span> 자동로그인</label>
+                        </div>
+                        <?/*
+                        <div class="login_if_lpl">
+                            <a href="<?php echo G5_BBS_URL ?>/password_lost.php">ID/PW 찾기</a>  
+                        </div>
+                        */?>
                     </div>
-                    <div class="login_if_auto chk_box">
-                        <input type="checkbox" name="auto_login" id="login_auto_login" class="selec_chk">
-                        <label for="login_auto_login"><span></span> 자동로그인</label>
-                    </div>
-                    <?/*
-                    <div class="login_if_lpl">
-                        <a href="<?php echo G5_BBS_URL ?>/password_lost.php">ID/PW 찾기</a>  
-                    </div>
-                    */?>
-                </div>
-            </fieldset> 
+                </fieldset> 
             </form>
             <?php @include_once(get_social_skin_path().'/social_login.skin.php'); // 소셜로그인 사용시 소셜로그인 버튼 ?>
         </div>

@@ -20,7 +20,7 @@ if($w == 'u' && $branch_id != '') {
         <input type="hidden" name="w" id="w" value="<?php echo $w ?>">
         <input type="hidden" name="branch_id" id="branch_id" value="<?php echo $branch_id ?>">
 
-        <div class="layer_popup_form">
+        <div class="layer_popup_form layer_popup_form_h_auto">
             <div class="form_tbl_wrap">
                 <table class="form_tbl">
                     <tbody>

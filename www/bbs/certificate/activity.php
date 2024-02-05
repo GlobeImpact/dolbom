@@ -1,6 +1,11 @@
 <?php
 add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/certificate/activity.css?ver=1">', 0);
 
+$security_number_set = $_GET['security_number_set'];
+$service_category_set = $_GET['service_category_set'];
+$usage_set = $_GET['usage_set'];
+$submit_to_set = $_GET['submit_to_set'];
+
 $sql = " select * from g5_member where mb_id = '{$mb_id}' ";
 $row = sql_fetch($sql);
 
@@ -18,9 +23,13 @@ if($row['quit_date'] == '' || $row['quit_date'] == '0000-00-00') {
     $period .= ' ~ '.$quit_date_arr[0].'년 '.$quit_date_arr[1].'월 '.$quit_date_arr[2].'일';
 }
 
-// print_r($row);
-// print_r($config);
-// print_r($default);
+$security_number_txt = $row['security_number'];
+if($security_number_set == 'y') {
+    $security_number_txt = substr($row['security_number'], 0, 8).'******';
+}
+
+$addr_sql = " select * from g5_branch_addr where branch_id = '{$_SESSION['this_branch_id']}' and menu_code = '{$_SESSION['this_code']}' ";
+$addr_row = sql_fetch($addr_sql);
 ?>
 
 <div class="activity_wrap">
@@ -38,7 +47,7 @@ if($row['quit_date'] == '' || $row['quit_date'] == '0000-00-00') {
                 </tr>
                 <tr>
                     <th>주민등록번호</th>
-                    <td><?php echo $row['security_number'] ?></td>
+                    <td><?php echo $security_number_txt ?></td>
                 </tr>
                 <tr>
                     <th>활동기간</th>
@@ -50,11 +59,11 @@ if($row['quit_date'] == '' || $row['quit_date'] == '0000-00-00') {
                 </tr>
                 <tr>
                     <th>담당업무</th>
-                    <td><?php echo $row['service_category'] ?></td>
+                    <td><?php echo $service_category_set ?></td>
                 </tr>
                 <tr>
                     <th>용　　도</th>
-                    <td>제출용</td>
+                    <td><?php echo $usage_set ?></td>
                 </tr>
             </tbody>
         </table>
@@ -64,7 +73,7 @@ if($row['quit_date'] == '' || $row['quit_date'] == '0000-00-00') {
             <p class="activity_bottom_p1"><?php echo date('Y') ?>년 <?php echo date('m') ?>월 <?php echo date('d') ?>일</p>
             <p class="activity_bottom_p2">위의 사실을 증명합니다.</p>
             <p class="activity_bottom_p3"><?php echo $config['cf_title'] ?></p>
-            <p class="activity_bottom_p4"><?php echo $default['de_admin_company_addr'] ?></p>
+            <p class="activity_bottom_p4"><?php echo $addr_row['branch_addr'] ?></p>
             <p class="activity_bottom_p5">대표자: <?php echo $default['de_admin_company_owner'] ?> (인)</p>
         </div>
     </div>

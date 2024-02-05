@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/certificate/enter.css?ver=1">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/certificate/career.css?ver=1">', 0);
 
 $security_number_set = $_GET['security_number_set'];
 $service_category_set = $_GET['service_category_set'];
@@ -40,7 +40,7 @@ $addr_row = sql_fetch($addr_sql);
         <table class="enter_tbl">
             <tbody>
                 <tr>
-                    <td class="enter_tbl_tit" colspan="5"><h3>재직증명서</h3></td>
+                    <td class="enter_tbl_tit" colspan="5"><h3>경력증명서</h3></td>
                 </tr>
                 <tr>
                     <td class="x40 talign_c lineh_30" rowspan="3">인적사항</td>

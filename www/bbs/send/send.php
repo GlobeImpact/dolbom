@@ -105,7 +105,7 @@ byte_check('send_message', 'sms_bytes');
                 <ul class="menu_box">
                     <li class="menu_list" user_category="member" id="menu_list_act"><a class="menu_list_btn">제공인력</a></li>
                     <li class="menu_list" user_category="client"><a class="menu_list_btn">고객</a></li>
-                    <li class="menu_list" user_category="manager"><a class="menu_list_btn">관리자</a></li>
+                    <li class="menu_list" user_category="manager"><a class="menu_list_btn">매니저</a></li>
                 </ul>
 
                 <div class="list_wrap">
@@ -168,7 +168,7 @@ byte_check('send_message', 'sms_bytes');
                                 <tr>
                                     <th class="left_list_numb">번호</th>
                                     <th class="left_list_id">아이디</th>
-                                    <th class="left_list_name">관리자명</th>
+                                    <th class="left_list_name">매니저명</th>
                                     <th class="left_list_birth">생년월일</th>
                                     <th class="left_list_hp">연락처</th>
                                 </tr>
@@ -367,7 +367,7 @@ $(function(){
             break;
 
             case 'manager':
-                cate = '관리자';
+                cate = '매니저';
             break;
 
             default:
@@ -465,7 +465,6 @@ $(function(){
                 dataType: "json",
                 success: function(response) {
                     // 전송이 성공한 경우 받는 응답 처리
-                    console.log(response);
 
                     if(response.msg != '') {
                         alert(response.msg);
@@ -563,7 +562,6 @@ function list_act() {
         dataType: "json",
         success: function(response) {
             // 전송이 성공한 경우 받는 응답 처리
-            console.log(response);
 
             $('#user_list').empty();
             let datas = '';
@@ -571,7 +569,6 @@ function list_act() {
 
             if(response.length > 0) {
                 for(let i=0; i<response.length; i++) {
-                    console.log(response[i]);
 
                     list_selected = '';
                     if($(".to_list[to_recv_id='"+response[i].recv_id+"']").length > 0) {

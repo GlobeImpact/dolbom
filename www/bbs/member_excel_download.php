@@ -9,13 +9,16 @@ header( "Content-type: application/vnd.ms-excel; charset=utf-8");
 header( "Content-Disposition: attachment; filename = ".date('Ymd')."_excel.xls" );     //filename = 저장되는 파일명을 설정합니다.
 header( "Content-Description: PHP4 Generated Data" );
 
+$branch_sql = " select * from g5_branch where branch_id = '{$_SESSION['this_branch_id']}' ";
+$branch_row = sql_fetch($branch_sql);
+
 $mn_sql = " select * from g5_menu where me_code = '{$_SESSION['this_code']}' ";
 $mn_row = sql_fetch($mn_sql);
 
 $where_str = "";
 $orderby_str = "";
 
-$where_str .= " and mb_menu = '{$_SESSION['this_code']}'";
+$where_str .= " and mb_menu = '{$_SESSION['this_code']}' and branch_id = '{$_SESSION['this_branch_id']}'";
 
 if($activity_status != '') {
     $where_str .= " and activity_status = '{$activity_status}'";
@@ -42,10 +45,12 @@ echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
     <thead>
         <tr>
             <th colspan="23" style="height:40px;">
-                <p style="text-align:center; vertical-align:middle;">[<?php echo $mn_row['me_name'] ?>] 제공인력 리스트</p>
+                <p style="text-align:center; vertical-align:middle;">[<?php echo $branch_row['branch_name'] ?>] [<?php echo $mn_row['me_name'] ?>] 제공인력 리스트</p>
             </th>
         </tr>
         <tr>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:130px;">지점</th>
+            <th style="height:30px; border:1px solid #000; text-align:center; width:130px;">분류</th>
             <th style="height:30px; border:1px solid #000; text-align:center; width:80px;">활동현황</th>
             <th style="height:30px; border:1px solid #000; text-align:center; width:130px;">서비스구분</th>
             <th style="height:30px; border:1px solid #000; text-align:center; width:60px;">팀구분</th>
@@ -98,6 +103,8 @@ echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>";
             }
         ?>
         <tr>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $branch_row['branch_name'] ?></p></td>
+            <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $mn_row['me_name'] ?></p></td>
             <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['activity_status'] ?></p></td>
             <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['service_category'] ?></p></td>
             <td style="height:26px; border:1px solid #000; text-align:center;"><p><?php echo $row['team_category'] ?></p></td>

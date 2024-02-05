@@ -1,13 +1,11 @@
 <?php
 include_once('./_common.php');
 
-$sch_activity_status = '';
-$sch_service_category = '';
+$sch_branch = '';
 $sch_mb_name = '';
 $mb_id = $_POST['mb_id'];
 
-$sch_activity_status = $_POST['sch_activity_status'];
-$sch_service_category = $_POST['sch_service_category'];
+$sch_branch = $_POST['sch_branch'];
 $sch_mb_name = $_POST['sch_mb_name'];
 
 $list = Array();
@@ -15,16 +13,11 @@ $list = Array();
 $where_str = "";
 $orderby_str = "";
 
-$where_str .= " and mb_menu = '{$_SESSION['this_code']}' and branch_id = '{$_SESSION['this_branch_id']}' and mb_level = 2 and mb_hide = ''";
+$where_str .= " and a.mb_level = 5 and a.mb_hide = ''";
 
-// 활동현황 필터링
-if($sch_activity_status != '') {
-    $where_str .= " and activity_status = '{$sch_activity_status}'";
-}
-
-// 서비스구분 필터링
-if($sch_service_category != '') {
-    $where_str .= " and service_category = '{$sch_service_category}'";
+// 지점 필터링
+if($sch_branch != '') {
+    $where_str .= " and a.branch_id = '{$sch_branch}'";
 }
 
 // 이름 필터링
@@ -34,12 +27,12 @@ if($sch_mb_name != '') {
 
 // 아이디 값이 있을 경우 해당 아이디가 맨 위로 가도록 설정 | 아이디 값이 없을 경우 활동중 > 보류 > 휴직 > 퇴사 + 가나다 순
 if($mb_id != '') {
-    $orderby_str .= " mb_id = '{$mb_id}' desc, activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc";
+    $orderby_str .= " a.mb_id = '{$mb_id}' desc, a.activity_status = '활동중' desc, a.activity_status = '보류' desc, a.activity_status = '휴직' desc, a.activity_status = '퇴사' desc, a.mb_name asc";
 }else{
-    $orderby_str .= " activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc";
+    $orderby_str .= " a.activity_status = '활동중' desc, a.activity_status = '보류' desc, a.activity_status = '휴직' desc, a.activity_status = '퇴사' desc, a.mb_name asc";
 }
 
-$sql = " select * from g5_member where (1=1) {$where_str} order by {$orderby_str} ";
+$sql = " select distinct(a.mb_id), a.* from g5_member as a left join g5_management as b on b.mb_id = a.mb_id where (1=1) {$where_str} order by {$orderby_str} ";
 $qry = sql_query($sql);
 $num = sql_num_rows($qry);
 

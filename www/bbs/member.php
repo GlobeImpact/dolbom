@@ -1,5 +1,6 @@
 <?php
 $mn_cd = '10';
+$mn_cd_sub = $mn_cd.'10';
 
 include_once('./_common.php');
 

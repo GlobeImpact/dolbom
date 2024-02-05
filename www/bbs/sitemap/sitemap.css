@@ -9,7 +9,7 @@
 
 #layer_box > h3 {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0 auto; padding:5px; width:600px; color:#ffffff; font-family:'GmarketSansMedium'; font-weight:100; font-size:26px; background:#283144; border:0; border-radius:7px;}
 .sub_tit {margin:40px 0 15px 0; padding:0; color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px;}
-.sitemap_wrap {display:flex; flex-direction:row; align-items:stretch; justify-content:space-between; margin:0 auto; padding:0; width:100%;}
+.sitemap_wrap {display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0 auto; padding:0; width:100%; gap:0 3.125%;}
 .sitemap_box {position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0; padding:0; width:17.5%; border:0;}
 .sitemap_list {position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0; padding:30px 10px; width:100%; border:0; border-radius:10px; cursor:pointer;}
 .sitemap_box:nth-child(1) > .sitemap_list {background:#68caab;}

@@ -86,13 +86,58 @@ $(function(){
     }
     ?>
     <div id="tnb">
-        <h4><?php echo $g5['title'] ?></h4>
+        <div>
+            <h4><?php echo $g5['title'] ?></h4>
+            <?php
+            if($is_admin) {
+            ?>
+            <select class="form_select x140" id="this_branch_id">
+                <option value="">지점선택</option>
+                <?php
+                $branch_sql = " select * from g5_branch where branch_hide = '' order by branch_name asc, branch_id desc ";
+                $branch_qry = sql_query($branch_sql);
+                $branch_num = sql_num_rows($branch_qry);
+                if($branch_num > 0) {
+                    for($b=0; $branch_row = sql_fetch_array($branch_qry); $b++) {
+                ?>
+                <option value="<?php echo $branch_row['branch_id'] ?>" <?php echo ($branch_row['branch_id'] == $this_branch_id)?'selected':''; ?>><?php echo $branch_row['branch_name'] ?></option>
+                <?php
+                    }
+                }
+                ?>
+            </select>
+            <?php
+            }
+            ?>
+        </div>
+        <script>
+        $(function(){
+            $('#this_branch_id').change(function(){
+                let this_branch_id = $(this).val();
+
+                $.ajax({
+                    url: g5_bbs_url + '/ajax.branch_change_admin.php',
+                    type: "POST",
+                    data: {'this_branch_id': this_branch_id},
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+
+                        window.location.reload();
+                    },
+                    error: function(error) {
+                        // 전송이 실패한 경우 받는 응답 처리
+                    }
+                });
+            });
+        });
+        </script>
 
         <?php $yoil = array("일","월","화","수","목","금","토"); ?>
         <p id="now_time"><?php echo date('Y년 m월 d일') ?> (<?php echo $yoil[date('w', strtotime(date('Y-m-d')))] ?>) <?php echo date('H:i') ?></p>
 
         <ul>
-            <li><span><?php echo $member['mb_name'] ?>님 로그인하였습니다.</span></li>
+            <li><span>[<?php echo $_SESSION['this_branch_name'] ?>]</span> <span><?php echo $member['mb_name'] ?>님 로그인하였습니다.</span></li>
             <li>
                 <a class="tnb_btn" href="">출퇴근관리</a>
                 <a class="tnb_logout_btn" href="<?php echo G5_BBS_URL ?>/logout.php">로그아웃</a>

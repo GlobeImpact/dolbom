@@ -20,13 +20,21 @@ if(G5_COMMUNITY_USE === false) {
 
             <?php if($is_admin) { ?>
             <li><a href="<?php echo G5_BBS_URL ?>/branch_set.php" <?php echo ($mn_cd == 'branch')?'id="left_menu_sitemap_active"':''; ?>>지점 설정</a></li>
+            <li><a href="<?php echo G5_BBS_URL ?>/manager.php" <?php echo ($mn_cd == 'manager')?'id="left_menu_sitemap_active"':''; ?>>매니저 관리</a></li>
             <?php } ?>
 
             <li>
                 <?php
                 $lmn_where = "";
-                if(!$is_admin) $lmn_where .= " and me_code = '{$member['mb_menu']}'";
-                $lmn_sql = " select * from g5_menu where (1=1) and length(`me_code`) = 2 and me_use = 1 {$lmn_where} order by me_order asc, me_code asc ";
+                if($member['mb_level'] < 5) {
+                    $lmn_where .= " and me_code = '{$member['mb_menu']}'";
+                }
+                if($member['mb_level'] == 5) {
+                    $lmn_where .= " and b.mode = 'view'";
+                    $lmn_sql = " select distinct(a.me_code), a.* from g5_menu as a left join g5_management as b on b.me_code1 = a.me_code where b.mb_id = '{$member['mb_id']}' {$lmn_where} order by a.me_order asc, a.me_code asc ";
+                }else{
+                    $lmn_sql = " select * from g5_menu where (1=1) and length(`me_code`) = 2 and me_use = 1 {$lmn_where} order by me_order asc, me_code asc ";
+                }
                 $lmn_qry = sql_query($lmn_sql);
                 $lmn_num = sql_num_rows($lmn_qry);
                 if($lmn_num > 0) {
@@ -34,7 +42,11 @@ if(G5_COMMUNITY_USE === false) {
                 ?>
                     <h4><?php echo $lmn_row['me_name'] ?></h4>
                     <?php
-                    $mn_sql = " select * from g5_menu where (1=1) and length(`me_code`) = 4 and me_use = 1 and me_code like '{$lmn_row['me_code']}%' ";
+                    if($member['mb_level'] == 5) {
+                        $mn_sql = " select distinct(a.me_code), a.* from g5_menu as a left join g5_management as b on b.me_code2 = a.me_code where b.me_code1 = '{$lmn_row['me_code']}' and b.mb_id = '{$member['mb_id']}' and b.mode = 'view' order by a.me_order asc, a.me_code asc ";
+                    }else{
+                        $mn_sql = " select * from g5_menu where (1=1) and length(`me_code`) = 4 and me_use = 1 and me_code like '{$lmn_row['me_code']}%' order by me_order asc, me_code asc ";
+                    }
                     $mn_qry = sql_query($mn_sql);
                     $mn_num = sql_num_rows($mn_qry);
                     if($mn_num > 0) {
@@ -51,7 +63,11 @@ if(G5_COMMUNITY_USE === false) {
                                     </div>
                                     <div class="mn_sub_nav_box">
                                         <?php
-                                        $mn_sub_sql = " select * from g5_menu where (1=1) and length(`me_code`) = 6 and me_use = 1 and me_code like '{$mn_row['me_code']}%' ";
+                                        if($member['mb_level'] == 5) {
+                                            $mn_sub_sql = " select * from g5_menu as a left join g5_management as b on b.me_code3 = a.me_code where b.me_code2 = '{$mn_row['me_code']}' and b.mb_id = '{$member['mb_id']}' and b.mode = 'view' order by a.me_order asc, a.me_code asc ";
+                                        }else{
+                                            $mn_sub_sql = " select * from g5_menu where (1=1) and length(`me_code`) = 6 and me_use = 1 and me_code like '{$mn_row['me_code']}%' order by me_order asc, me_code asc ";
+                                        }
                                         $mn_sub_qry = sql_query($mn_sub_sql);
                                         $mn_sub_num = sql_num_rows($mn_sub_qry);
                                         if($mn_num > 0) {

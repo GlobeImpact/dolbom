@@ -9,11 +9,20 @@
     -ms-transform:skew(8deg) rotate(3deg);
      -o-transform:skew(8deg) rotate(3deg);
       transform:skew(8deg) rotate(3deg)}
-.mbskin .mbskin_box{border:1px solid #dde7e9;background:#fff}
+.mbskin .mbskin_box{border:0;background:#fff}
 .mbskin .frm_input {width:100%}
 .mbskin .btn_submit {width:100%;margin:10px 0 0;height:45px;font-weight:bold;font-size:1.25em}
 .mbskin h1 {margin:60px 0 30px;font-size:2em}
 /* ### 기본 스타일 커스터마이징 끝 ### */
+
+/* 회원 종류 매니저|관리자 STR */
+.user_type {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; padding:0; width:100%;}
+.user_type > li {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; width:50%; border-bottom:1px solid #cdcbca;}
+.user_type > li:first-child {border-right:1px dashed #cdcbca;}
+.user_type > li > input[type="radio"] {display:none;}
+.user_type > li > .login_lavel {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; width:100%; height:50px; color:#333; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px; background:#efefef; cursor:pointer;}
+.user_type > li > input[type="radio"]:checked + .login_lavel {color:#fff; background:#0c9f91;}
+/* 회원 종류 매니저|관리자 END */
 
 /* 회원가입 약관 */
 .register {margin:0 auto}
@@ -143,8 +152,8 @@
 #mb_login_wrap > h3 {margin:0 auto; margin-bottom:40px; padding:0; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:40px;}
 #mb_login {margin:0; border:0; border-radius:10px; box-shadow:1px 1px 12px 2px #1f62a1; overflow:hidden;}
 #mb_login h1 {position:absolute;font-size:0;line-height:0;overflow:hidden}
-#mb_login > .mbskin_box > p {margin:35px 0 0 35px; text-align:left; color:#575757; font-family:'Noto Sans KR',sans-serif; font-weight:600; font-size:16px;}
-#login_fs {padding:35px}
+#mb_login > .mbskin_box > form > p {margin:20px 0 0 35px; text-align:left; color:#575757; font-family:'Noto Sans KR',sans-serif; font-weight:600; font-size:16px;}
+#login_fs {padding:20px 35px 35px 35px}
 #mb_login #login_fs .frm_input {margin:0 0 10px}
 #mb_login #login_fs .btn_submit {margin:0 0 15px}
 

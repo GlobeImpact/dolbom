@@ -41,7 +41,7 @@ if($num > 0) {
             break;
 
             case 'manager':
-                $list[$i]['sms_category'] = '관리자';
+                $list[$i]['sms_category'] = '매니저';
             break;
 
             default:
@@ -51,7 +51,8 @@ if($num > 0) {
         $list[$i]['recv_hp'] = $row['recv_hp'];
         $list[$i]['booking'] = '';
         if($row['booking_datetime'] != '0000-00-00 00:00:00') $list[$i]['booking'] = 'Y';
-        $list[$i]['booking_date'] = substr($row['booking_datetime'], 0, 10);
+        $list[$i]['booking_date'] = substr($row['booking_datetime'], 0, 16);
+        if($row['booking_datetime'] == '0000-00-00 00:00:00') $list[$i]['booking_date'] = '';
         $list[$i]['send_message'] = nl2br($row['send_message']);
         $list[$i]['reg_date'] = substr($row['reg_date'], 0, 10);
     }

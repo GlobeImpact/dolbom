@@ -12,10 +12,67 @@ if($is_admin) {
     }else{
         $_SESSION['this_code'] = 10;
     }
+}else if($member['mb_level'] == 5) {
+    if($this_code) {
+        $_SESSION['this_code'] = $this_code;
+    }else{
+        $management_sql = " select distinct(me_code1) from g5_management where mb_id = '{$member['mb_id']}' and mode = 'view' order by me_code asc limit 0, 1 ";
+        $management_row = sql_fetch($management_sql);
+        $_SESSION['this_code'] = $management_row['me_code1'];
+    }
 }else{
     $_SESSION['this_code'] = $member['mb_menu'];
 }
 /* 가사서비스 || 아가마지 구분 END */
+
+/* 지점 구분 STR */
+if($is_admin) {
+    if($_SESSION['this_branch_id'] == '') {
+        $branch_sql = " select * from g5_branch where branch_hide = '' order by branch_id asc limit 0, 1 ";
+        $branch_row = sql_fetch($branch_sql);
+        $_SESSION['this_branch_id'] = $branch_row['branch_id'];
+        $_SESSION['this_branch_name'] = $branch_row['branch_name'];
+        $this_branch_id = $_SESSION['this_branch_id'];
+    }else{
+        $this_branch_id = $_SESSION['this_branch_id'];
+    }
+}else if($member['mb_level'] == 5) {
+    $branch_sql = " select * from g5_branch where branch_hide = '' and branch_id = '{$member['branch_id']}' ";
+    $branch_row = sql_fetch($branch_sql);
+    $_SESSION['this_branch_id'] = $member['branch_id'];
+    $_SESSION['this_branch_name'] = $branch_row['branch_name'];
+    $this_branch_id = $_SESSION['this_branch_id'];
+}else{
+    $branch_sql = " select * from g5_branch where branch_hide = '' and branch_id = '{$member['branch_id']}' ";
+    $branch_row = sql_fetch($branch_sql);
+    $_SESSION['this_branch_id'] = $member['branch_id'];
+    $_SESSION['this_branch_name'] = $branch_row['branch_name'];
+    $this_branch_id = $_SESSION['this_branch_id'];
+}
+/* 지점 구분 END */
+
+/* 접근 페이지 3차 카테고리 세션 등록 STR */
+if($mn_cd_sub != '') {
+    $mn_cd_full = $_SESSION['this_code'].''.$mn_cd_sub;
+}
+if($mn_cd_full != '' && !$_SESSION['this_mn_cd_full']) {
+    $_SESSION['this_mn_cd_full'] = $mn_cd_full;
+}
+/* 접근 페이지 3차 카테고리 세션 등록 END */
+
+/* 매니저 View 접근 권한 설정 STR */
+if($member['mb_level'] == 5) {
+    $permit_code = $_SESSION['this_code'].''.$mn_cd_sub;
+    if(mb_strlen($permit_code) == 6) {
+        $view_permit_sql = " select count(*) as cnt from g5_management where mb_id = '{$member['mb_id']}' and mode = 'view' and me_code = '{$permit_code}' ";
+        $view_permit_row = sql_fetch($view_permit_sql);
+        if($view_permit_row['cnt'] == 0) {
+            alert('해당 매니저는 접속시도한 페이지에 허용되지 않았습니다.', G5_URL);
+            exit;
+        }
+    }
+}
+/* 매니저 View 접근 권한 설정 END */
 
 if (!isset($g5['title'])) {
     $g5['title'] = $config['cf_title'];
@@ -69,7 +126,7 @@ if($config['cf_add_meta'])
 <?php
 $shop_css = '';
 if (defined('_SHOP_')) $shop_css = '_shop';
-echo '<link rel="stylesheet" href="'.run_replace('head_css_url', G5_THEME_CSS_URL.'/'.(G5_IS_MOBILE?'mobile':'default').$shop_css.'.css?ver=4'.G5_CSS_VER, G5_THEME_URL).'">'.PHP_EOL;
+echo '<link rel="stylesheet" href="'.run_replace('head_css_url', G5_THEME_CSS_URL.'/'.(G5_IS_MOBILE?'mobile':'default').$shop_css.'.css?ver=5'.G5_CSS_VER, G5_THEME_URL).'">'.PHP_EOL;
 ?>
 <!--[if lte IE 8]>
 <script src="<?php echo G5_JS_URL ?>/html5.js"></script>
