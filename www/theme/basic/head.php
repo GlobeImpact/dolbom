@@ -46,7 +46,7 @@ let datepicker_option = {	// UI 달력을 사용할 Class / Id 를 콤마(,) 로
     // d : 일 , m : 월 , y : 년
     // +1d , -1d , +1m , -1m , +1y , -1y
     // ex) minDate: '-100d' 이런 방식도 가능
-    minDate: new Date(2023, 2-2, 1),
+    minDate: new Date(1990, 2-2, 1),
     // 오늘을 기준으로 선택할 수 있는 최대한의 날짜 조건 제한주기
     // d : 일 , m : 월 , y : 년
     // +1d , -1d , +1m , -1m , +1y , -1y

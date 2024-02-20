@@ -9,7 +9,7 @@ $now_year = $_POST['now_year'];
 $sch_value = $_POST['sch_value'];
 
 if($set_idx != '') $set_where_str = " and set_idx = '{$set_idx}'";
-$set_sql = " select * from g5_member_health_set where set_hide = '' {$set_where_str} ";
+$set_sql = " select * from g5_member_qualification_set where set_hide = '' {$set_where_str} ";
 $set_qry = sql_query($set_sql);
 $set_num = sql_num_rows($set_qry);
 
@@ -113,23 +113,23 @@ if($num > 0) {
 
         if($set_num2 > 0) {
             for($m=0; $set_row2 = sql_fetch_array($set_qry2); $m++) {
-                $list['list'][$i]['health'][$m]['set_idx'] = $set_row2['set_idx'];
+                $list['list'][$i]['qualification'][$m]['set_idx'] = $set_row2['set_idx'];
 
-                $health_sql = " select * from g5_member_health where set_idx = '{$set_row2['set_idx']}' and input_year = '{$now_year}' and mb_id = '{$row['mb_id']}' ";
-                $health_row = sql_fetch($health_sql);
-                if($health_row['idx'] == '') {
-                    $list['list'][$i]['health'][$m]['idx'] = '';
-                    $list['list'][$i]['health'][$m]['diagnosis_date'] = '';
-                    $list['list'][$i]['health'][$m]['judgment_date'] = '';
-                    $list['list'][$i]['health'][$m]['confirm_date'] = '';
+                $qualification_sql = " select * from g5_member_qualification where set_idx = '{$set_row2['set_idx']}' and input_year = '{$now_year}' and mb_id = '{$row['mb_id']}' ";
+                $qualification_row = sql_fetch($qualification_sql);
+                if($qualification_row['idx'] == '') {
+                    $list['list'][$i]['qualification'][$m]['idx'] = '';
+                    $list['list'][$i]['qualification'][$m]['diagnosis_date'] = '';
+                    $list['list'][$i]['qualification'][$m]['judgment_date'] = '';
+                    $list['list'][$i]['qualification'][$m]['confirm_date'] = '';
                 }else{
-                    $list['list'][$i]['health'][$m]['idx'] = $health_row['idx'];
-                    $list['list'][$i]['health'][$m]['diagnosis_date'] = $health_row['diagnosis_date'];
-                    if($health_row['diagnosis_date'] == '0000-00-00') $list['list'][$i]['health'][$m]['diagnosis_date'] = '';
-                    $list['list'][$i]['health'][$m]['judgment_date'] = $health_row['judgment_date'];
-                    if($health_row['judgment_date'] == '0000-00-00') $list['list'][$i]['health'][$m]['judgment_date'] = '';
-                    $list['list'][$i]['health'][$m]['confirm_date'] = $health_row['confirm_date'];
-                    if($health_row['confirm_date'] == '0000-00-00') $list['list'][$i]['health'][$m]['confirm_date'] = '';
+                    $list['list'][$i]['qualification'][$m]['idx'] = $qualification_row['idx'];
+                    $list['list'][$i]['qualification'][$m]['diagnosis_date'] = $qualification_row['diagnosis_date'];
+                    if($qualification_row['diagnosis_date'] == '0000-00-00') $list['list'][$i]['qualification'][$m]['diagnosis_date'] = '';
+                    $list['list'][$i]['qualification'][$m]['judgment_date'] = $qualification_row['judgment_date'];
+                    if($qualification_row['judgment_date'] == '0000-00-00') $list['list'][$i]['qualification'][$m]['judgment_date'] = '';
+                    $list['list'][$i]['qualification'][$m]['confirm_date'] = $qualification_row['confirm_date'];
+                    if($qualification_row['confirm_date'] == '0000-00-00') $list['list'][$i]['qualification'][$m]['confirm_date'] = '';
                 }
             }
         }

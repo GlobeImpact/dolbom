@@ -24,17 +24,17 @@ $set_num = sql_num_rows($set_qry);
 
 if($set_num > 0) {
     for($i=0; $set_row = sql_fetch_array($set_qry); $i++) {
-        $sql = " select * from g5_member_education where set_mb_menu = '{$_SESSION['this_code']}' and set_idx = '{$set_row['set_idx']}' and edu_year = '{$now_year}' {$where_str} order by {$orderby_str} ";
+        $sql = " select * from g5_member_education where set_branch_id = '{$_SESSION['this_branch_id']}' and set_mb_menu = '{$_SESSION['this_code']}' and set_idx = '{$set_row['set_idx']}' and edu_year = '{$now_year}' {$where_str} order by {$orderby_str} ";
         $qry = sql_query($sql);
         $num = sql_num_rows($qry);
 
         if($num > 0) {
             for($j=0; $row = sql_fetch_array($qry); $j++) {
-                $mb_sql = " select count(*) as cnt from g5_member where (1=1) and mb_menu = '{$_SESSION['this_code']}' and mb_level = 2 and mb_hide = '' and (activity_status = '보류' or activity_status = '활동중') ";
+                $mb_sql = " select count(*) as cnt from g5_member where (1=1) and branch_id = '{$_SESSION['this_branch_id']}' and mb_menu = '{$_SESSION['this_code']}' and mb_level = 2 and mb_hide = '' and (activity_status = '보류' or activity_status = '활동중') ";
                 $mb_row = sql_fetch($mb_sql);
                 $max_list = (int)$mb_row['cnt'];
                 
-                $edul_sql = " select count(*) as cnt from g5_member_education_list where edu_idx = '{$row['edu_idx']}' ";
+                $edul_sql = " select count(*) as cnt from g5_member_education_list where idx = '{$row['idx']}' ";
                 $edul_row = sql_fetch($edul_sql);
                 $edu_list = (int)$edul_row['cnt'];
 
@@ -48,15 +48,16 @@ if($set_num > 0) {
                 $numb = $num - $j;
 
                 $list[$i][$j]['numb'] = $numb;
-                $list[$i][$j]['edu_idx'] = $row['edu_idx'];
+                $list[$i][$j]['idx'] = $row['idx'];
                 $list[$i][$j]['edu_date'] = $row['edu_date'];
+                $list[$i][$j]['edu_time'] = $row['edu_str_hour'].':'.$row['edu_str_min'].' ~ '.$row['edu_end_hour'].':'.$row['edu_end_min'];
                 $list[$i][$j]['edu_tit'] = $row['edu_tit'];
                 $list[$i][$j]['max_list'] = $max_list;
                 $list[$i][$j]['edu_list'] = $edu_list;
                 $list[$i][$j]['not_list'] = $not_list;
             }
         }else{
-            $list[$i][0]['set_idx'] = '';
+            $list[$i][0]['set_idx'] = $set_row['set_idx'];
             $list[$i][0]['set_tit'] = $set_row['set_tit'];
         }
     }

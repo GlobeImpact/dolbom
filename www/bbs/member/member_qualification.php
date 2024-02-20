@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member_health.css?ver=2">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member_qualification.css?ver=2">', 0);
 
 // 등록/수정 권한
 $write_permit = true;
@@ -52,7 +52,7 @@ $now_year = date('Y');
             <ul class="menu_box">
                 <li class="menu_list" set_idx="" id="menu_list_act"><a class="menu_list_btn">전체</a></li>
                 <?php
-                $set_sql = " select * from g5_member_health_set where set_hide = '' order by set_idx asc ";
+                $set_sql = " select * from g5_member_qualification_set where set_hide = '' order by set_idx asc ";
                 $set_qry = sql_query($set_sql);
                 $set_num = sql_num_rows($set_qry);
                 if($set_num > 0) {
@@ -85,7 +85,7 @@ $now_year = date('Y');
 </div>
 
 <div id="layer_popup_bg"></div>
-<div id="layer_popup" class="health"></div>
+<div id="layer_popup" class="qualification"></div>
 
 <script>
 let write_ajax;
@@ -148,7 +148,7 @@ $(function(){
         if(idx != '') w = 'u';
 
         // Layer Popup : 민원등록 불러오기
-        $("#layer_popup").load(g5_bbs_url + "/member_health_write.php?w=" + w + "&idx=" + idx + "&now_year=" + now_year + "&mb_id=" + mb_id + "&set_idx=" + set_idx);
+        $("#layer_popup").load(g5_bbs_url + "/member_qualification_write.php?w=" + w + "&idx=" + idx + "&now_year=" + now_year + "&mb_id=" + mb_id + "&set_idx=" + set_idx);
 
         // Layer Popup 보이기
         $('#layer_popup').css('display', 'block');
@@ -178,7 +178,7 @@ $(function(){
 
         // Ajax Write Update
         write_ajax = $.ajax({
-            url: g5_bbs_url + '/member_health_write_update.php',
+            url: g5_bbs_url + '/member_qualification_write_update.php',
             async: true,
             type: "POST",
             data: formData,
@@ -226,7 +226,7 @@ $(function(){
         let set_idx = '';
         if($('#menu_list_act').length > 0) set_idx = $('#menu_list_act').attr('set_idx');
 
-        window.location.href = g5_bbs_url + '/member_health_excel_download.php?now_year=' + now_year + '&sch_value=' + sch_value + '&set_idx=' + set_idx;
+        window.location.href = g5_bbs_url + '/member_qualification_excel_download.php?now_year=' + now_year + '&sch_value=' + sch_value + '&set_idx=' + set_idx;
     });
 });
 
@@ -237,7 +237,7 @@ function list_act() {
     if($('#menu_list_act').length > 0) set_idx = $('#menu_list_act').attr('set_idx');
 
     $.ajax({
-        url: g5_bbs_url + "/ajax.member_health_list.php", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+        url: g5_bbs_url + "/ajax.member_qualification_list.php", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
         data: {'set_idx': set_idx, 'now_year': now_year, 'sch_value': sch_value},  // HTTP 요청과 함께 서버로 보낼 데이터
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
@@ -281,24 +281,24 @@ function list_act() {
 
                     if(response.cell_count > 0) {
                         for(let j=0; j<response.cell_count; j++) {
-                            if(response.list[i].health[j].idx == '') {
+                            if(response.list[i].qualification[j].idx == '') {
                                 
                             }
-                            datas += '<td class="write_btn" mb_id="'+response.list[i].mb_id+'" set_idx="'+response.list[i].health[j].set_idx+'" idx="'+response.list[i].health[j].idx+'" '+cell_width_value+'>';
+                            datas += '<td class="write_btn" mb_id="'+response.list[i].mb_id+'" set_idx="'+response.list[i].qualification[j].set_idx+'" idx="'+response.list[i].qualification[j].idx+'" '+cell_width_value+'>';
 
-                            datas += '<div class="health_box">';
+                            datas += '<div class="qualification_box">';
                             datas += '<label>진단일자</label>';
-                            datas += '<p>'+response.list[i].health[j].diagnosis_date+'</p>';
+                            datas += '<p>'+response.list[i].qualification[j].diagnosis_date+'</p>';
                             datas += '</div>';
                             
-                            datas += '<div class="health_box">';
+                            datas += '<div class="qualification_box">';
                             datas += '<label>판정일자</label>';
-                            datas += '<p>'+response.list[i].health[j].judgment_date+'</p>';
+                            datas += '<p>'+response.list[i].qualification[j].judgment_date+'</p>';
                             datas += '</div>';
                             
-                            datas += '<div class="health_box">';
+                            datas += '<div class="qualification_box">';
                             datas += '<label>확인일자</label>';
-                            datas += '<p>'+response.list[i].health[j].confirm_date+'</p>';
+                            datas += '<p>'+response.list[i].qualification[j].confirm_date+'</p>';
                             datas += '</div>';
 
                             datas += '</td>';

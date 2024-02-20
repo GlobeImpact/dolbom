@@ -14,6 +14,26 @@ if(!$is_member) {
     exit;
 }
 
+// 로그인이 되어 있지 않을 경우 등록/수정 불가
+if($member['mb_level'] < 5) {
+    $list['msg'] = '매니저 또는 관리자 접속이 필요합니다.';
+    $list['code'] = '9999';
+    echo json_encode($list);
+    exit;
+}
+
+// 매니저 등록/수정 권한 확인
+if(!$is_admin) {
+    $management_sql = " select count(*) as cnt from g5_management where me_code = '{$_SESSION['this_mn_cd_full']}' and mb_id = '{$member['mb_id']}' and mode = 'write' ";
+    $management_row = sql_fetch($management_sql);
+    if($management_row['cnt'] == 0) {
+        $list['msg'] = '등록/수정 권한이 없습니다.';
+        $list['code'] = '9999';
+        echo json_encode($list);
+        exit;
+    }
+}
+
 $set_idx = isset($_POST['set_idx']) ? trim($_POST['set_idx']) : '';
 $set_tit = isset($_POST['set_tit']) ? trim($_POST['set_tit']) : '';
 

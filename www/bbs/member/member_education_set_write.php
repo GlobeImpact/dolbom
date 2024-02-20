@@ -21,16 +21,18 @@ if($w == 'u' && $set_idx != '') {
         <input type="hidden" name="set_idx" id="set_idx" value="<?php echo $set_idx ?>">
 
         <div class="layer_popup_form">
-            <table class="write_tbl">
-                <tbody>
-                    <tr>
-                        <th>교육명<span class="required_txt">*</span></th>
-                        <td>
-                            <input type="text" name="set_tit" id="set_tit" class="form_input x300" value="<?php echo $write['set_tit'] ?>">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="form_tbl_wrap">
+                <table class="form_tbl">
+                    <tbody>
+                        <tr>
+                            <th class="x100">교육명<span class="required_txt">*</span></th>
+                            <td>
+                                <input type="text" name="set_tit" id="set_tit" class="form_input xp100" value="<?php echo $write['set_tit'] ?>">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </form>
     <a class="submit_btn" id="set_submit_btn">저장하기</a>

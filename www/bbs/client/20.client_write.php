@@ -65,7 +65,7 @@ if($w == 'u' && $client_idx != '') {
                         <td>
                             <input type="text" name="cl_name" id="cl_name" class="form_input x130" value="<?php echo $write['cl_name'] ?>">
                         </td>
-                        <th>주민번호<span class="required_txt">*</span></th>
+                        <th>주민번호</th>
                         <td>
                             <input type="text" name="cl_security_number" id="cl_security_number" class="form_input x130" value="<?php echo $write['cl_security_number'] ?>" oninput="autoHyphen2(this)" maxlength="14">
                         </td>

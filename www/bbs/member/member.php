@@ -235,6 +235,8 @@ $(function(){
         $('#layer_popup').empty();
 
         // Layer Popup 숨기기
+        $('#layer_popup').removeClass();
+        $('#layer_popup').addClass('x1050');
         $('#layer_popup').css('display', 'none');
         $('#layer_popup_bg').css('display', 'none');
     });
@@ -333,7 +335,6 @@ $(function(){
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
 
                 if($('#w').val() == '' && response.msg != '') {
                     alert(response.msg);
@@ -383,7 +384,6 @@ $(function(){
                 dataType: "json",
                 success: function(response) {
                     // 전송이 성공한 경우 받는 응답 처리
-                    console.log(response);
 
                     if(response.msg != '') {
                         alert(response.msg);
@@ -577,8 +577,6 @@ function view_act() {
         data: {'mb_id': mb_id},
         dataType: "json",
         success: function(response) {
-            console.log(response);
-
             if(response.v_mb_profile != '') $('#profile_wrap > img').attr('src', response.v_mb_profile);
             $('#v_mb_name').html(response.v_mb_name);
             $('#v_mb_hp').html(response.v_mb_hp);
@@ -607,7 +605,8 @@ function view_act() {
             $('#v_career_memo').html(response.v_career_memo);
 
             $('.certificate_nav_box').empty();
-            if(response.certificate.length > 0) {
+
+            if(typeof response.certificate != 'undefined' && response.certificate.length > 0) {
                 for(let i=0; i<response.certificate.length; i++) {
                     $('.certificate_nav_box').append(response.certificate[i]);
                 }

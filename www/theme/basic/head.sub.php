@@ -54,9 +54,9 @@ if($is_admin) {
 /* 접근 페이지 3차 카테고리 세션 등록 STR */
 if($mn_cd_sub != '') {
     $mn_cd_full = $_SESSION['this_code'].''.$mn_cd_sub;
-}
-if($mn_cd_full != '' && !$_SESSION['this_mn_cd_full']) {
-    $_SESSION['this_mn_cd_full'] = $mn_cd_full;
+    if($mn_cd_full != '') {
+        $_SESSION['this_mn_cd_full'] = $mn_cd_full;
+    }
 }
 /* 접근 페이지 3차 카테고리 세션 등록 END */
 
@@ -126,7 +126,7 @@ if($config['cf_add_meta'])
 <?php
 $shop_css = '';
 if (defined('_SHOP_')) $shop_css = '_shop';
-echo '<link rel="stylesheet" href="'.run_replace('head_css_url', G5_THEME_CSS_URL.'/'.(G5_IS_MOBILE?'mobile':'default').$shop_css.'.css?ver=5'.G5_CSS_VER, G5_THEME_URL).'">'.PHP_EOL;
+echo '<link rel="stylesheet" href="'.run_replace('head_css_url', G5_THEME_CSS_URL.'/'.(G5_IS_MOBILE?'mobile':'default').$shop_css.'.css?ver=8'.G5_CSS_VER, G5_THEME_URL).'">'.PHP_EOL;
 ?>
 <!--[if lte IE 8]>
 <script src="<?php echo G5_JS_URL ?>/html5.js"></script>

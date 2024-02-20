@@ -6,7 +6,7 @@ $idx = $_GET['idx'];
 $now_year = $_GET['now_year'];
 if(!$now_year) $now_year = date('Y');
 
-$set_sql = " select * from g5_member_health_set where set_idx = '{$set_idx}' ";
+$set_sql = " select * from g5_member_qualification_set where set_idx = '{$set_idx}' ";
 $set_row = sql_fetch($set_sql);
 
 $mb_sql = " select * from g5_member where mb_id = '{$mb_id}' ";
@@ -22,7 +22,7 @@ if($w == '') {
 }
 
 if($w == 'u' && $idx != '') {
-    $sql = " select * from g5_member_health where idx = '{$idx}' ";
+    $sql = " select * from g5_member_qualification where idx = '{$idx}' ";
     $write = sql_fetch($sql);
 
     if($write['diagnosis_date'] == '0000-00-00') $write['diagnosis_date'] = '';

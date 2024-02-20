@@ -49,7 +49,7 @@ $user_sql = " select * from g5_member where mb_id = '{$mb_id}' ";
 $user_row = sql_fetch($user_sql);
 
 if ($w == '') {
-    $sql = " insert into g5_member_health 
+    $sql = " insert into g5_member_qualification 
                 set set_branch_id = '{$user_row['branch_id']}', 
                 set_mb_menu = '{$user_row['mb_menu']}', 
                 set_idx = '{$set_idx}', 
@@ -67,7 +67,7 @@ if ($w == '') {
         $list['code'] = '0000';
     }
 } else if ($w == 'u') {
-    $sql = " update g5_member_health set 
+    $sql = " update g5_member_qualification set 
             diagnosis_date = '{$diagnosis_date}', 
             judgment_date = '{$judgment_date}', 
             confirm_date = '{$confirm_date}' 

@@ -355,6 +355,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                 return false;
             }
 
+            /*
             if($('#cl_security_number').val() == '') {
                 alert('주민번호를 입력해주세요');
                 $('#cl_security_number').focus();
@@ -367,6 +368,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                 $('#cl_security_number').focus();
                 return false;
             }
+            */
 
             if($('#cl_hp').val() == '') {
                 alert('연락처를 입력해주세요');
