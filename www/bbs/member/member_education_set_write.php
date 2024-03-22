@@ -16,7 +16,7 @@ if($w == 'u' && $set_idx != '') {
     <a id="popup_close_btn"><img src="<?php echo G5_IMG_URL ?>/popup_close_btn.png"></a>
 </div>
 <div id="layer_popup_content">
-    <form id="set_fregisterform" name="set_fregisterform" action="" onsubmit="return set_fregisterform_submit(this);" method="post" enctype="multipart/form-data" autocomplete="off">
+    <form id="set_fregisterform" name="set_fregisterform" action="" onsubmit="return false" method="post" enctype="multipart/form-data" autocomplete="off">
         <input type="hidden" name="w" id="w" value="<?php echo $w ?>">
         <input type="hidden" name="set_idx" id="set_idx" value="<?php echo $set_idx ?>">
 

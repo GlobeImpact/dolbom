@@ -170,8 +170,6 @@ $(function(){
                 method: "POST",   // HTTP 요청 메소드(GET, POST 등)
                 dataType: "json", // 서버에서 보내줄 데이터의 타입
                 success: function(response){
-                    console.log(response);
-
                     if(response.msg != '') {
                         alert(response.msg);
                     }
@@ -198,8 +196,6 @@ $(function(){
                 method: "POST",   // HTTP 요청 메소드(GET, POST 등)
                 dataType: "json", // 서버에서 보내줄 데이터의 타입
                 success: function(response){
-                    console.log(response);
-
                     if(response.msg != '') {
                         alert(response.msg);
                     }
@@ -234,6 +230,12 @@ $(function(){
         $('#layer_popup_bg').css('display', 'none');
     });
 
+    $(document).on('keyup', '#set_tit', function(key){
+        if(key.keyCode == 13){
+            $('#set_submit_btn').click();
+        }
+    });
+
     // 교육 리스트저장버튼 클릭시
     $(document).on('click', '#set_submit_btn', function(){
         if (typeof write_ajax !== 'undefined') {
@@ -259,8 +261,6 @@ $(function(){
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
-
                 if(response.msg != '') {
                     alert(response.msg);
                 }
@@ -323,7 +323,6 @@ $(function(){
 
         if($('.member_select_check:checked').length > 0) {
             for(let i=0; i<$('.member_select_check:checked').length; i++) {
-                console.log(i);
                 if($("input[name='edul_mb_id[]'][value='"+$('.member_select_check:checked').eq(i).val()+"']").length == 0) {
                     datas += '<input type="hidden" name="edul_mb_id[]" value="' + $('.member_select_check:checked').eq(i).val() + '">';
                     datas += '<a class="mb_select_list"><span>' + $('.member_select_check:checked').eq(i).attr('mb_name') + '</span><span>(' + $('.member_select_check:checked').eq(i).attr('service_category') + ')</span></a>';
@@ -381,8 +380,6 @@ $(function(){
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
-
                 if(response.msg != '') {
                     alert(response.msg);
                 }
@@ -469,8 +466,6 @@ function button_act() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(rst){
-            console.log(rst);
-
             $('.bottom_wrap').empty();
 
             let datas = '';
@@ -501,8 +496,6 @@ function list_act() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
-            console.log(response);
-
             $('.member_education_list_box').empty();
 
             let datas = '';
@@ -567,8 +560,6 @@ function member_select_form() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
-            console.log(response);
-
             // 리스트 초기화
             $('#select_list').empty();
 

@@ -1,6 +1,7 @@
 <?php
 $idx = $_GET['idx'];
 $tit = $_GET['tit'];
+$mode = $_GET['mode'];
 $popup_tit = $tit.' 리스트';
 ?>
 
@@ -11,6 +12,7 @@ $popup_tit = $tit.' 리스트';
 <div id="layer_popup_content">
 
     <input type="hidden" name="member_select_idx" id="member_select_idx" value="<?php echo $idx ?>">
+    <input type="hidden" name="select_mode" id="select_mode" value="<?php echo $mode ?>">
 
     <div class="layer_popup_form">
         <div class="member_select_filter_wrap">

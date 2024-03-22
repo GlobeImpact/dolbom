@@ -481,7 +481,7 @@ box-sizing:content-box;
 #layer_popup_top > h3 > .edit_btn:hover {background:#e93e72;}
 
 #layer_popup_content {margin:0; padding:12px; width:100%;}
-.layer_popup_form {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:505px; overflow-y:scroll;}
+.layer_popup_form {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:513px; overflow-y:scroll;}
 .layer_popup_form::-webkit-scrollbar {width:0px; display:none;}
 .layer_popup_form::-webkit-scrollbar-thumb {border:0;border-radius:0;background:#6d9ac4;}
 #select_layer_popup .layer_popup_form {height:311px;}
@@ -510,6 +510,7 @@ box-sizing:content-box;
 
 .flex_row {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; gap:0 6px;}
 .flex_row_between {justify-content:space-between !important;}
+.flex_row_center {justify-content:center !important;}
 
 .form_btn1 {display:inline-block; margin:0; padding:3px 6px; border:1px solid #1469b9; border-radius:3px; color:#ffffff; font-weight:400; font-size:12px; text-align:center; background:#6d9ac4; cursor:pointer;}
 
@@ -517,6 +518,8 @@ box-sizing:content-box;
 .submit_btn:hover {background:#e93e72;}
 
 .required_txt {margin-left:2px; color:#ff0000;}
+
+.price_input {border:1px solid #ed5684 !important;}
 /* Write Form END */
 
 /* Client Select Form STR */
@@ -586,6 +589,8 @@ box-sizing:content-box;
 .filter_year_wrap > .filter_box > .filter_input_date {margin:0; padding:6px; width:120px; height:33px; border:1px solid #000; border-radius:3px; font-size:15px; outline:none !important;}
 .filter_year_wrap > .filter_box > .filter_input_date + .ui-datepicker-trigger {margin-left:-28px; margin-right:6px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
 .filter_year_wrap > .filter_box > .filter_input {margin:0; padding:6px 7px; width:170px; border:1px solid #000 !important; border-radius:3px; font-size:15px; outline:none !important; box-shadow:none !important;}
+.filter_year_wrap > .filter_box > .filter_input_tel {width:130px;}
+.filter_year_wrap > .filter_box > .filter_select {margin:0; padding:4px 6px; height:32px; border:1px solid #000 !important; border-radius:3px; font-size:15px; outline:none !important;}
 .filter_year_wrap > .filter_box > .filter_submit {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:7px 10px 4px 10px; background:#434a54; border:1px solid #434a54; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100;font-size:16px; cursor:pointer;}
 /* Year Filter Layer END */
 
@@ -666,14 +671,16 @@ box-sizing:content-box;
 .list_selected > td {background:#347976 !important;}
 
 .left_list_numb {width:45px; text-align:center;}
-.left_list_status {width:60px; text-align:center;}
+.left_list_status {width:50px; text-align:center;}
 .left_list_name {text-align:center;}
 .left_list_gender {width:45px; text-align:center;}
+.left_list_service_category {width:90px; text-align:center;}
 .left_list_birth {width:100px; text-align:center;}
-.left_list_date {width:110px; text-align:center;}
+.left_list_date {width:100px; text-align:center;}
 .left_list_service {width:100px; text-align:center;}
 .left_list_id {width:90px; text-align:center;}
-.left_list_hp {width:130px; text-align:center;}
+.left_list_hp {width:120px; text-align:center;}
+.left_list_branch {width:80px; text-align:center;}
 /* Left List Wrap END */
 
 /* List & View Wrap STR */
@@ -685,6 +692,8 @@ box-sizing:content-box;
         .list_top > .filter_box {flex:1 1 0%; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; gap:0 6px;}
         .filter_box > .filter_select {margin:0; padding:4px 6px; height:32px; border:0 !important; border-radius:3px; font-size:15px; outline:none !important;}
         .filter_box > .filter_input {margin:0; padding:4px 6px; width:120px; height:32px; border:0 !important; border-radius:3px; font-size:15px; outline:none !important;}
+        .filter_box > .filter_label {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; border:1px solid #8091a1; border-radius:4px; background:#8091a1; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px; cursor:pointer; transition:all .2s;}
+        .filter_box > #sch_premium:checked + .filter_label {background:#8b1cd1; border-color:#8b1cd1;}
         .list_top > .btn_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-end; margin:0; padding:0; gap:0 6px;}
         .btn_box > .list_top_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:6px 10px 4px 10px; background:#6d9ac4; border:1px solid #1469b9; border-radius:4px; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px; cursor:pointer; transition:all .2s;}
         .btn_box > .list_top_btn:hover {background:#1469b9;}

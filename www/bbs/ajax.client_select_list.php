@@ -10,7 +10,7 @@ $list = Array();
 $where_str = "";
 $orderby_str = "";
 
-$where_str .= " and client_menu = '{$_SESSION['this_code']}'";
+$where_str .= " and branch_id = '{$_SESSION['this_branch_id']}' and client_menu = '{$_SESSION['this_code']}'";
 
 if($sch_value2 != '') {
     $where_str .= " and cl_name like '%{$sch_value2}%'";

@@ -31,7 +31,8 @@ $reg_date = date('Y-m-d H:i:s');
 
 if ($w == '') {
     $sql = " insert into g5_client_complaints 
-                set set_mb_menu = '{$_SESSION['this_code']}', 
+                set branch_id = '{$_SESSION['this_branch_id']}', 
+                set_mb_menu = '{$_SESSION['this_code']}', 
                 comp_date = '{$comp_date}', 
                 comp_category = '{$comp_category}', 
                 comp_client_idx = '{$comp_client_idx}', 

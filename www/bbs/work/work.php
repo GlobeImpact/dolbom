@@ -1,45 +1,54 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/work/work.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/work/work.css?ver=1">', 0);
 ?>
 
 <div id="layer_wrap">
     <div id="layer_box">
+        <!-- Filter Layer STR -->
+        <div class="filter_year_wrap">
+            <div class="filter_box">
+                <label>접수기간</label>
+                <input type="text" class="filter_input_date date_api" id="sch_str_receipt_date" value="" maxlength="10" oninput="autoHyphen3(this)"> ~ 
+                <input type="text" class="filter_input_date date_api" id="sch_end_receipt_date" value="" maxlength="10" oninput="autoHyphen3(this)">
+                <input type="text" class="filter_input filter_input_tel" id="sch_cl_name" value="" placeholder="신청인">
+                <input type="text" class="filter_input filter_input_tel" id="sch_cl_hp" value="" oninput="autoHyphen(this)" maxlength="13" placeholder="연락처">
+                <select class="filter_select" id="sch_status">
+                    <option value="">접수상태선택</option>
+                    <option value="접수">접수</option>
+                    <option value="종료">종료</option>
+                    <option value="취소">취소</option>
+                </select>
+            </div>
+        </div>
+        <!-- Filter Layer END -->
+
+        <!-- Layer List Wrap STR -->
+        <div class="layer_list_wrap layer_list_wrap_flex_column">
+            <ul class="menu_box">
+                <li class="menu_list" id="menu_list_act"><a class="menu_list_btn" href="<?php echo G5_BBS_URL ?>/work.php">파견등록</a></li>
+                <li class="menu_list"><a class="menu_list_btn" href="<?php echo G5_BBS_URL ?>/work_status.php">파견현황</a></li>
+            </ul>
+            <div class="layer_list_box">
+                <table class="layer_list_hd_tbl">
+                    <thead>
+                        <tr>
+                            <th>123</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <!-- Layer List Wrap END -->
+
+
+
+
+
+
+
         <div class="sub_wrap">
             <div class="sub_box">
-                <div id="filter_wrap">
-                    <div class="filter_box">
-                        <label>접수기간</label>
-                        <input type="text" id="filter_str_receipt_date" class="form_input x80 date_api" value="" oninput="autoHyphen3(this)" maxlength="10"><span>~</span>
-                        <input type="text" id="filter_end_receipt_date" class="form_input x80 date_api" value="" oninput="autoHyphen3(this)" maxlength="10">
-                    </div>
-                    <div class="filter_box">
-                        <label>신청인</label>
-                        <input type="text" id="" class="form_input x100" value="">
-                    </div>
-                    <div class="filter_box">
-                        <label>연락처</label>
-                        <input type="text" id="" class="form_input x100" value="" oninput="autoHyphen(this)" maxlength="13">
-                    </div>
-                    <div class="filter_box">
-                        <label>접수상태</label>
-                        <select id="" class="form_select">
-                            <option value="">전체</option>
-                            <option value="">접수</option>
-                            <option value="">종료</option>
-                            <option value="">취소</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div class="work_wrap">
-                    <ul class="work_menu_box">
-                        <li class="work_menu_list" id="menu_list_act">
-                            <a class="work_menu_list_btn" href="<?php echo G5_BBS_URL ?>/work.php?this_code=<?php echo $_SESSION['this_code'] ?>">파견등록</a>
-                        </li>
-                        <li class="work_menu_list">
-                            <a class="work_menu_list_btn" href="<?php echo G5_BBS_URL ?>/work_status.php?this_code=<?php echo $_SESSION['this_code'] ?>">파견현황</a>
-                        </li>
-                    </ul>
                     <div class="client_list_box">
                         <table class="client_list_hd_tbl">
                             <thead>

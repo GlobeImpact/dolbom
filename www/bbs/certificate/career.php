@@ -28,8 +28,8 @@ if($security_number_set == 'y') {
     $security_number_txt = substr($row['security_number'], 0, 8).'******';
 }
 
-$addr_sql = " select * from g5_branch_addr where branch_id = '{$_SESSION['this_branch_id']}' and menu_code = '{$_SESSION['this_code']}' ";
-$addr_row = sql_fetch($addr_sql);
+$get_branch_sql = " select * from g5_branch where branch_id = '{$_SESSION['this_branch_id']}' ";
+$get_branch_row = sql_fetch($get_branch_sql);
 ?>
 
 <div class="enter_wrap">
@@ -76,12 +76,12 @@ $addr_row = sql_fetch($addr_sql);
                 </tr>
                 <tr>
                     <td class="talign_c">단체주소</td>
-                    <td colspan="3"><?php echo $addr_row['branch_addr'] ?></td>
+                    <td colspan="3"><?php echo $get_branch_row['branch_addr'] ?></td>
                 </tr>
                 <tr>
                     <td class="talign_c">연&nbsp;&nbsp;락&nbsp;&nbsp;처</td>
                     <td class="talign_c" colspan="3">
-                        TEL. <?php echo $default['de_admin_company_tel'] ?>&nbsp;&nbsp;/&nbsp;&nbsp;FAX. <?php echo $default['de_admin_company_fax'] ?>
+                        TEL. <?php echo $get_branch_row['branch_tel'] ?>&nbsp;&nbsp;/&nbsp;&nbsp;FAX. <?php echo $get_branch_row['branch_fax'] ?>
                     </td>
                 </tr>
                 <tr>

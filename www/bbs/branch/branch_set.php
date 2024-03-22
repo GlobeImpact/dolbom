@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/branch/branch_set.css?ver=2">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/branch/branch_set.css?ver=3">', 0);
 ?>
 
 <div id="layer_wrap">
@@ -119,15 +119,37 @@ function list_act() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
+            console.log(response);
 
             $('#branch_list').empty();
 
             let datas = '';
+            let menu10, menu20 = '';
 
             if(response.length > 0) {
                 for(let i=0; i<response.length; i++) {
+                    let menu10 = response[i].branch_menu10 == 'y' ? 'class="branch_menu_label_active"' : 'class="branch_menu_label"';
+                    let menu20 = response[i].branch_menu20 == 'y' ? 'class="branch_menu_label_active"' : 'class="branch_menu_label"';
+
                     datas += '<div class="branch_list">';
                     datas += '<h3>'+response[i].branch_name+'</h3>';
+                    datas += '<div class="flex_row mtop20">';
+                    datas += '<label '+menu10+'>가사서비스</label>';
+                    datas += '<label '+menu20+'>아가마지</label>';
+                    datas += '</div>';
+                    datas += '<div class="flex_row mtop10">';
+                    datas += '<label class="list_tit">연락처</label>';
+                    datas += '<span class="list_txt">'+response[i].branch_tel+'</span>';
+                    datas += '</div>';
+                    datas += '<div class="flex_row mtop10">';
+                    datas += '<label class="list_tit">FAX</label>';
+                    datas += '<span class="list_txt">'+response[i].branch_fax+'</span>';
+                    datas += '</div>';
+                    datas += '<div class="flex_row mtop10">';
+                    datas += '<label class="list_tit">주소</label>';
+                    datas += '<span class="list_txt">'+response[i].branch_addr+'</span>';
+                    datas += '</div>';
+                    /*
                     datas += '<div>';
                     if(response[i].me_name.length > 0) {
                         for(let j=0; j<response[i].me_name.length; j++) {
@@ -138,6 +160,7 @@ function list_act() {
                         }
                     }
                     datas += '</div>';
+                    */
                     datas += '<p class="edit_box">';
                     datas += '<a class="edit_btn" branch_id="'+response[i].branch_id+'">수정</a>';
                     datas += '</p>';

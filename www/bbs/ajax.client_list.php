@@ -1,15 +1,14 @@
 <?php
 include_once('./_common.php');
 
-$sch_premium = '';
 $sch_service_category = '';
 $sch_cl_name = '';
 $client_idx = $_POST['client_idx'];
 
 if($client_idx == '') {
-    $sch_premium = $_POST['sch_premium'];
     $sch_service_category = $_POST['sch_service_category'];
     $sch_cl_name = $_POST['sch_cl_name'];
+    $sch_cl_name = str_replace('-', '', $sch_cl_name);
 }
 
 $list = Array();
@@ -17,18 +16,14 @@ $list = Array();
 $where_str = "";
 $orderby_str = "";
 
-$where_str .= " and client_menu = '{$_SESSION['this_code']}'";
-
-if($sch_premium != '') {
-    $where_str .= " and cl_premium_use = '{$sch_premium}'";
-}
+$where_str .= " and client_menu = '{$_SESSION['this_code']}' and branch_id = '{$_SESSION['this_branch_id']}' and cl_hide = ''";
 
 if($sch_service_category != '') {
     $where_str .= " and cl_service_cate = '{$sch_service_category}'";
 }
 
 if($sch_cl_name != '') {
-    $where_str .= " and cl_name like '%{$sch_cl_name}%'";
+    $where_str .= " and (cl_name like '%{$sch_cl_name}%' or replace(cl_hp,'-','') like '%{$sch_cl_name}%')";
 }
 
 if($client_idx != '') {
@@ -60,6 +55,10 @@ if($num > 0) {
                 $list[$i]['list_selected'] = '';
             }
         }
+
+        $menu_sql = " select * from g5_service_menu where client_menu = '{$_SESSION['this_code']}' and sme_code = '{$row['cl_service_cate']}' ";
+        $menu_row = sql_fetch($menu_sql);
+        $list[$i]['service_category'] = $menu_row['sme_name'];
     }
 }
 

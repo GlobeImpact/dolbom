@@ -24,7 +24,7 @@ if($set_idx != '') {
 
 $orderby_str .= " rent_date desc, rent_name asc";
 
-$sql = " select * from g5_client_rental where set_mb_menu = '{$_SESSION['this_code']}' and rent_year = '{$now_year}' {$where_str} order by {$orderby_str} ";
+$sql = " select * from g5_client_rental where branch_id = '{$_SESSION['this_branch_id']}' and set_mb_menu = '{$_SESSION['this_code']}' and rent_year = '{$now_year}' {$where_str} order by {$orderby_str} ";
 $qry = sql_query($sql);
 $num = sql_num_rows($qry);
 

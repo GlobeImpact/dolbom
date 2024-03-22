@@ -91,7 +91,7 @@ $(function(){
             <?php
             if($is_admin) {
             ?>
-            <select class="form_select x140" id="this_branch_id">
+            <select class="form_select" id="this_branch_id">
                 <option value="">지점선택</option>
                 <?php
                 $branch_sql = " select * from g5_branch where branch_hide = '' order by branch_name asc, branch_id desc ";

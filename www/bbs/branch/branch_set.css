@@ -10,23 +10,27 @@
 /* Layer List Wrap END */
 
 /* Branch List STR */
-.branch_list_box {display:flex; flex-direction:row; flex-wrap:wrap; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; gap:12px 1%; overflow-y:scroll;}
+.branch_list_box {display:flex; flex-direction:row; flex-wrap:wrap; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; gap:12px 0.66%; overflow-y:scroll;}
 .branch_list_box::-webkit-scrollbar {display:none; width:0px;}
 .branch_list_box::-webkit-scrollbar-thumb {border:0;border-radius:0;background:#6d9ac4;}
-.branch_list {position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; margin:0; padding:30px 16px; width:24%; height:296.5px; background:#fff; border:0; border-radius:10px; box-shadow:0px 0px 3px 1px #cdcdcd; cursor:pointer; transition:all .2s;}
+.branch_list {position:relative; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; margin:0; padding:30px 16px; width:24.5%; height:296.5px; background:#fff; border:0; border-radius:10px; box-shadow:0px 0px 3px 1px #cdcdcd; cursor:pointer; transition:all .2s;}
 .branch_list > h3 {margin:0 auto; padding:0; color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:22px;}
 .branch_list:hover > h3 {color:#ed5684;}
-.branch_list > div {display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; margin:0; margin-top:30px; padding:0; width:100%; gap:12px 0;}
-.branch_list > div > p {display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; margin:0; padding:0; width:100%; gap:3px 0;}
-.branch_list > div > p > label {display:block; margin:0; padding:5px 8px 3px 8px; border:0; border-radius:4px; color:#fff; background:#4e4a54; font-family:'GmarketSansMedium'; font-weight:100; font-size:12px;}
-.branch_list > div > p > span {margin:0; padding:0; font-family:'GmarketSansMedium'; font-weight:100; font-size:12px;}
 .branch_list_empty {width:100%;}
+.branch_menu_label {display:block; margin:0; padding:5px 8px 3px 8px; border:0; border-radius:4px; color:#333; background:#ddd; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
+.branch_menu_label_active {display:block; margin:0; padding:5px 8px 3px 8px; border:0; border-radius:4px; color:#fff; background:#347976; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
 
 .edit_box {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; margin-top:15px; padding:0; width:100%;}
 .edit_box > .edit_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:4px 8px; width:100%; background:#ed5684; border:1px solid #ed5684; border-radius:4px; color:#fff; cursor:pointer;}
 .edit_box > .edit_btn:hover {background:#e93e72;}
 .branch_list > .del_btn {position:absolute; top:30px; right:16px; display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:4px 8px; background:#ff0000; border:1px solid #ff0000; border-radius:4px; color:#fff; cursor:pointer;}
 .branch_list > .del_btn:hover {background:#ff0000;}
+
+.mtop10 {margin-top:10px !important;}
+.mtop20 {margin-top:20px !important;}
+
+.list_tit {display:block; margin:0; padding:5px 8px 3px 8px; width:51px; border:0; border-radius:4px; color:#fff; background:#4e4a54; font-family:'GmarketSansMedium'; font-weight:100; font-size:12px; text-align:center;}
+.list_txt {margin:0; padding:0; font-family:'GmarketSansMedium'; font-weight:100; font-size:12px;}
 /* Branch List END */
 
 /* Bottom Wrap STR */
@@ -36,7 +40,14 @@
 
 /* Branch Write STR */
 .x130 {width:130px;}
+.x150 {width:150px;}
 .x500 {width:500px;}
 
 .xp100 {width:100%;}
+
+.flex_row {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; width:100%; gap:0 6px;}
+
+.branch_menu_checkbox {display:none;}
+.branch_menu_label {display:block; margin:0; padding:5px 8px 3px 8px; border:0; border-radius:4px; color:#333; background:#ddd; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
+.branch_menu_checkbox:checked + label {color:#fff; background:#347976; text-decoration:none !important;}
 /* Branch Write STR */

@@ -1,19 +1,42 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_complaints.css?ver=1">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_complaints.css?ver=2">', 0);
+
+// 등록/수정 권한
+$write_permit = true;
+if(!$is_admin) {
+    $management_sql = " select count(*) as cnt from g5_management where me_code = '{$_SESSION['this_mn_cd_full']}' and mb_id = '{$member['mb_id']}' and mode = 'write' ";
+    $management_row = sql_fetch($management_sql);
+    if($management_row['cnt'] == 0) {
+        $write_permit = false;
+    }
+}
+
+// 삭제 권한
+$delete_permit = true;
+if(!$is_admin) {
+    $management_sql = " select count(*) as cnt from g5_management where me_code = '{$_SESSION['this_mn_cd_full']}' and mb_id = '{$member['mb_id']}' and mode = 'delete' ";
+    $management_row = sql_fetch($management_sql);
+    if($management_row['cnt'] == 0) {
+        $delete_permit = false;
+    }
+}
+
+$now_year = date('Y');
 ?>
 
-<input type="hidden" id="now_year" value="<?php echo date('Y') ?>">
+<input type="hidden" id="now_year" value="<?php echo $now_year ?>">
 
 <div id="layer_wrap">
     <div id="layer_box">
 
+        <!-- Year Filter Layer STR -->
         <div class="filter_year_wrap">
             <div class="year_box">
-                <a class="filter_year_btn" id="prev_year_btn" year="<?php echo (int) date('Y') - 1 ?>">
+                <a class="filter_year_btn" id="prev_year_btn" year="<?php echo (int) $now_year - 1 ?>">
                     <img src="<?php echo G5_IMG_URL ?>/arrow_prev.png">
                 </a>
-                <span class="filter_year_tit"><?php echo date('Y') ?>년</span>
-                <a class="filter_year_btn" id="next_year_btn" year="<?php echo (int) date('Y') + 1 ?>">
+                <span class="filter_year_tit"><?php echo $now_year ?>년</span>
+                <a class="filter_year_btn" id="next_year_btn" year="<?php echo (int) $now_year + 1 ?>">
                     <img src="<?php echo G5_IMG_URL ?>/arrow_next.png">
                 </a>
             </div>
@@ -23,7 +46,9 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
                 <a class="filter_submit" id="filter_submit">검색</a>
             </div>
         </div>
+        <!-- Year Filter Layer END -->
 
+        <!-- Layer List Wrap STR -->
         <div class="layer_list_wrap">
             <div class="layer_list_box">
                 <table class="layer_list_hd_tbl">
@@ -47,9 +72,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client_compla
                 </table>
             </div>
         </div>
+        <!-- Layer List Wrap END -->
 
         <div class="bottom_wrap">
-            <a class="write_btn" id="write_btn">민원등록</a>
+            <?php if($write_permit === true) { ?><a class="write_btn" id="write_btn">민원등록</a><?php } ?>
         </div>
 
     </div>
@@ -99,6 +125,7 @@ $(function(){
         list_act();
     });
 
+    <?php if($write_permit === true) { ?>
     // 민원등록 버튼 클릭시 민원등록 팝업 띄우기
     $(document).on('click', '#write_btn', function(){
         // 현재 년도 Data 불러오기
@@ -110,6 +137,7 @@ $(function(){
         $('#layer_popup').css('display', 'block');
         $('#layer_popup_bg').css('display', 'block');
     });
+    <?php } ?>
 
     // 고객선택 버튼 클릭시 고객선택 Layer Popup 띄우기
     $(document).on('click', '#form_select_btn', function(){
@@ -157,6 +185,7 @@ $(function(){
         client_select_form();
     });
 
+    <?php if($write_permit === true) { ?>
     // 민원등록/수정 저장하기 Submit
     $(document).on('click', '#submit_btn', function(){
         if (typeof write_ajax !== 'undefined') {
@@ -229,6 +258,7 @@ $(function(){
 
         return false;
     });
+    <?php } ?>
 
     // 고객 리스트 클릭(선택)시
     $(document).on('click', '.client_select_list_tbl > tbody > tr', function(){
@@ -259,6 +289,7 @@ $(function(){
         return false;
     });
 
+    <?php if($write_permit === true) { ?>
     $(document).on('click', '.edit_btn', function(e){
         e.stopPropagation();
 
@@ -274,6 +305,7 @@ $(function(){
         $('#layer_popup').css('display', 'block');
         $('#layer_popup_bg').css('display', 'block');
     });
+    <?php } ?>
 
     $(document).on('click', '.view_btn', function(e){
         e.stopPropagation();
@@ -291,6 +323,7 @@ $(function(){
         $('#layer_popup_bg').css('display', 'block');
     });
 
+    <?php if($delete_permit === true) { ?>
     $(document).on('click', '.del_btn', function(e){
         e.stopPropagation();
 
@@ -318,6 +351,7 @@ $(function(){
             });
         }
     });
+    <?php } ?>
 });
 
 // 민원 리스트 불러오기
@@ -350,8 +384,12 @@ function list_act() {
                     datas += '<td class="layer_list_status">' + response[i].status + '</td>';
                     datas += '<td class="layer_list_date">' + response[i].take_date + '</td>';
                     datas += '<td class=""><div class="btn_flex">';
+                    <?php if($write_permit === true) { ?>
                     datas += '<a class="edit_btn" idx="' + response[i].idx + '">수정</a>';
+                    <?php } ?>
+                    <?php if($delete_permit === true) { ?>
                     datas += '<a class="del_btn" idx="' + response[i].idx + '">삭제</a>';
+                    <?php } ?>
                     datas += '</div></td>';
                     datas += '</tr>';
                 }

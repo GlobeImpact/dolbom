@@ -28,8 +28,8 @@ if($security_number_set == 'y') {
     $security_number_txt = substr($row['security_number'], 0, 8).'******';
 }
 
-$addr_sql = " select * from g5_branch_addr where branch_id = '{$_SESSION['this_branch_id']}' and menu_code = '{$_SESSION['this_code']}' ";
-$addr_row = sql_fetch($addr_sql);
+$get_branch_sql = " select * from g5_branch where branch_id = '{$_SESSION['this_branch_id']}' ";
+$get_branch_row = sql_fetch($get_branch_sql);
 ?>
 
 <div class="activity_wrap">
@@ -73,7 +73,7 @@ $addr_row = sql_fetch($addr_sql);
             <p class="activity_bottom_p1"><?php echo date('Y') ?>년 <?php echo date('m') ?>월 <?php echo date('d') ?>일</p>
             <p class="activity_bottom_p2">위의 사실을 증명합니다.</p>
             <p class="activity_bottom_p3"><?php echo $config['cf_title'] ?></p>
-            <p class="activity_bottom_p4"><?php echo $addr_row['branch_addr'] ?></p>
+            <p class="activity_bottom_p4"><?php echo $get_branch_row['branch_addr'] ?></p>
             <p class="activity_bottom_p5">대표자: <?php echo $default['de_admin_company_owner'] ?> (인)</p>
         </div>
     </div>

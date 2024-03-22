@@ -6,7 +6,10 @@ $popup_tit = '고객접수등록';
 if($w == 'u') $popup_tit = '고객접수수정';
 
 if($w == '') {
+    // 아가마지는 고객 서비스가 아가마지 1개 뿐이어서 아가마지로 고객 서비스 강제 설정
     $client_service = ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[0];
+
+    $write['branch_id'] = $_SESSION['this_branch_id'];
 }
 
 if($w == 'u' && $client_idx != '') {
@@ -17,12 +20,6 @@ if($w == 'u' && $client_idx != '') {
     if($write['str_date'] == '0000-00-00') $write['str_date'] = '';
     if($write['end_date'] == '0000-00-00') $write['end_date'] = '';
     if($write['cancel_date'] == '0000-00-00') $write['cancel_date'] = '';
-    if($write['cl_birth_due_date'] == '0000-00-00') $write['cl_birth_due_date'] = '';
-    if($write['cl_birth_date'] == '0000-00-00') $write['cl_birth_date'] = '';
-    if($write['cl_item1_date'] == '0000-00-00') $write['cl_item1_date'] = '';
-    if($write['cl_item1_return_date'] == '0000-00-00') $write['cl_item1_return_date'] = '';
-    if($write['cl_item2_date'] == '0000-00-00') $write['cl_item2_date'] = '';
-    if($write['cl_item2_return_date'] == '0000-00-00') $write['cl_item2_return_date'] = '';
 
     $client_service = $write['client_service'];
 }
@@ -38,320 +35,318 @@ if($w == 'u' && $client_idx != '') {
         <input type="hidden" name="client_idx" id="client_idx" value="<?php echo $client_idx ?>">
         <input type="hidden" name="client_service" id="client_service" value="<?php echo $client_service ?>">
         <div class="layer_popup_form">
-            <h4 class="layer_popup_tit">고객접수 기본정보</h4>
-            
-            <table class="write_tbl">
-                <tbody>
-                    <tr> 
-                        <th class="x90">접수일자<span class="required_txt">*</span></th>
-                        <td class="x165">
-                            <input type="text" name="receipt_date" id="receipt_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['receipt_date'] ?>">
-                        </td>
-                        <th class="x90">시작일자</th>
-                        <td class="x165">
-                            <input type="text" name="str_date" id="str_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['str_date'] ?>">
-                        </td>
-                        <th class="x90">종료일자</th>
-                        <td class="x165">
-                            <input type="text" name="end_date" id="end_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['end_date'] ?>">
-                        </td>
-                        <th class="x90">취소일자</th>
-                        <td>
-                            <input type="text" name="cancel_date" id="cancel_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cancel_date'] ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>신청인<span class="required_txt">*</span></th>
-                        <td>
-                            <input type="text" name="cl_name" id="cl_name" class="form_input x130" value="<?php echo $write['cl_name'] ?>">
-                        </td>
-                        <th>주민번호</th>
-                        <td>
-                            <input type="text" name="cl_security_number" id="cl_security_number" class="form_input x130" value="<?php echo $write['cl_security_number'] ?>" oninput="autoHyphen2(this)" maxlength="14">
-                        </td>
-                        <th>연락처<span class="required_txt">*</span></th>
-                        <td>
-                            <input type="text" name="cl_hp" id="cl_hp" class="form_input x130" value="<?php echo $write['cl_hp'] ?>" oninput="autoHyphen(this)" maxlength="13">
-                        </td>
-                        <th>긴급연락처</th>
-                        <td>
-                            <input type="text" name="cl_tel" id="cl_tel" class="form_input x130" value="<?php echo $write['cl_tel'] ?>" oninput="autoHyphen(this)" maxlength="13">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>출산유형<span class="required_txt">*</span></th>
-                        <td>
-                            <select name="cl_birth_type" id="cl_birth_type" class="form_select">
-                                <option value="자연분만" <?php echo ($write['cl_birth_type'] == '자연분만')?'selected':''; ?>>자연분만</option>
-                                <option value="수술" <?php echo ($write['cl_birth_type'] == '수술')?'selected':''; ?>>수술</option>
-                            </select>
-                        </td>
-                        <th>출산예정일</th>
-                        <td>
-                            <input type="text" name="cl_birth_due_date" id="cl_birth_due_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_birth_due_date'] ?>">
-                        </td>
-                        <th>출산일</th>
-                        <td colspan="3">
-                            <input type="text" name="cl_birth_date" id="cl_birth_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_birth_date'] ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>주소</th>
-                        <td colspan="7">
-                            <div class="div_flex">
-                                <input type="text" name="cl_zip" id="cl_zip" class="form_input" size="5" maxlength="6" placeholder="우편번호" value="<?php echo $write['cl_zip'] ?>">
-                                <button type="button" class="btn_frm_addr" onclick="win_zip('fregisterform', 'cl_zip', 'cl_addr1', 'cl_addr2', 'cl_addr3', 'cl_addr_jibeon');">주소 검색</button>
-                                <input type="text" name="cl_addr1" id="cl_addr1" class="form_input frm_address full_input" placeholder="기본주소" value="<?php echo $write['cl_addr1'] ?>">
-                                <input type="text" name="cl_addr2" id="cl_addr2" class="form_input frm_address full_input" placeholder="상세주소" value="<?php echo $write['cl_addr2'] ?>">
-                                <input type="hidden" name="cl_addr3" id="cl_addr3" value="<?php echo $write['cl_addr3'] ?>">
-                                <input type="hidden" name="cl_addr_jibeon" id="cl_addr_jibeon" value="<?php echo $write['cl_addr_jibeon'] ?>">
+            <h4 class="layer_popup_form_tit">고객접수 기본정보</h4>
+            <div class="form_tbl_wrap">
+                <table class="form_tbl">
+                    <tbody>
+                        <tr>
+                            <th>지점<span class="required_txt">*</span></th>
+                            <td colspan="7">
+                                <select name="branch_id" id="branch_id" class="form_select x105">
+                                    <option value="">지점 선택</option>
+                                    <?php
+                                    $branch_sql = " select * from g5_branch where branch_hide = '' order by branch_name asc, branch_id desc ";
+                                    $branch_qry = sql_query($branch_sql);
+                                    $branch_num = sql_num_rows($branch_qry);
+                                    if($branch_num > 0) {
+                                        for($i=0; $branch_row = sql_fetch_array($branch_qry); $i++) {
+                                    ?>
+                                        <option value="<?php echo $branch_row['branch_id'] ?>" <?php echo ($branch_row['branch_id'] == $write['branch_id'])?'selected':''; ?>><?php echo $branch_row['branch_name'] ?></option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="x90">접수일자<span class="required_txt">*</span></th>
+                            <td class="x165">
+                                <input type="text" name="receipt_date" id="receipt_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['receipt_date'] ?>">
+                            </td>
+                            <th class="x90">시작일자</th>
+                            <td class="x165">
+                                <input type="text" name="str_date" id="str_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['str_date'] ?>">
+                            </td>
+                            <th class="x90">종료일자</th>
+                            <td class="x165">
+                                <input type="text" name="end_date" id="end_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['end_date'] ?>">
+                            </td>
+                            <th class="x90">취소일자</th>
+                            <td>
+                                <input type="text" name="cancel_date" id="cancel_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cancel_date'] ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>신청인<span class="required_txt">*</span></th>
+                            <td>
+                                <input type="text" name="cl_name" id="cl_name" class="form_input x105" value="<?php echo $write['cl_name'] ?>">
+                            </td>
+                            <th>주민번호</th>
+                            <td>
+                                <input type="text" name="cl_security_number" id="cl_security_number" class="form_input x105" value="<?php echo $write['cl_security_number'] ?>" oninput="autoHyphen2(this)" maxlength="14">
+                            </td>
+                            <th>연락처<span class="required_txt">*</span></th>
+                            <td>
+                                <input type="text" name="cl_hp" id="cl_hp" class="form_input x105" value="<?php echo $write['cl_hp'] ?>" oninput="autoHyphen(this)" maxlength="13">
+                            </td>
+                            <th>긴급연락처</th>
+                            <td>
+                                <input type="text" name="cl_tel" id="cl_tel" class="form_input x105" value="<?php echo $write['cl_tel'] ?>" oninput="autoHyphen(this)" maxlength="13">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>출산유형</th>
+                            <td>
+                                <select name="cl_birth_type" id="cl_birth_type" class="form_select x105">
+                                    <option value="">출산유형선택</option>
+                                    <option value="자연분만" <?php echo ($write['cl_birth_type'] == '자연분만')?'selected':''; ?>>자연분만</option>
+                                    <option value="수술" <?php echo ($write['cl_birth_type'] == '수술')?'selected':''; ?>>수술</option>
+                                </select>
+                            </td>
+                            <th>출산예정일</th>
+                            <td>
+                                <input type="text" name="cl_birth_due_date" id="cl_birth_due_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_birth_due_date'] ?>">
+                            </td>
+                            <th>출산일</th>
+                            <td colspan="3">
+                                <input type="text" name="cl_birth_date" id="cl_birth_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_birth_date'] ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>주소</th>
+                            <td colspan="7">
+                                <div class="flex_row_addr">
+                                    <input type="text" name="cl_zip" id="cl_zip" class="form_input" size="5" maxlength="6" placeholder="우편번호" value="<?php echo $write['cl_zip'] ?>">
+                                    <button type="button" class="form_btn1" onclick="win_zip('fregisterform', 'cl_zip', 'cl_addr1', 'cl_addr2', 'cl_addr3', 'cl_addr_jibeon');">주소 검색</button>
+                                    <input type="text" name="cl_addr1" id="cl_addr1" class="form_input frm_address full_input" placeholder="기본주소" value="<?php echo $write['cl_addr1'] ?>">
+                                    <input type="text" name="cl_addr2" id="cl_addr2" class="form_input frm_address full_input" placeholder="상세주소" value="<?php echo $write['cl_addr2'] ?>">
+                                    <input type="hidden" name="cl_addr3" id="cl_addr3" value="<?php echo $write['cl_addr3'] ?>">
+                                    <input type="hidden" name="cl_addr_jibeon" id="cl_addr_jibeon" value="<?php echo $write['cl_addr_jibeon'] ?>">
 
-                                <input type="hidden" name="cl_area" id="cl_area" value="<?php echo $write['cl_area'] ?>">
-                                <input type="hidden" name="cl_area_x" id="cl_area_x" value="<?php echo $write['cl_area_x'] ?>">
-                                <input type="hidden" name="cl_area_y" id="cl_area_y" value="<?php echo $write['cl_area_y'] ?>">
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>특이사항</th>
-                        <td colspan="7">
-                            <textarea name="cl_memo1" id="cl_memo1" class="form_textarea"><?php echo $write['cl_memo1'] ?></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>취소사유</th>
-                        <td colspan="7">
-                            <textarea name="cl_memo2" id="cl_memo2" class="form_textarea"><?php echo $write['cl_memo2'] ?></textarea>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="flex_row_between">
-                <div>
-                    <h4 class="layer_tit mtop20">고객접수 서비스정보</h4>
-
-                    <table class="write_tbl">
-                        <tbody>
-                            <tr>
-                                <th class="x110">서비스구분<span class="required_txt">*</span></th>
-                                <td colspan="5">
-                                    <select name="cl_service_cate" id="cl_service_cate" class="form_select">
-                                        <option value="" <?php echo ($write['cl_service_cate'] == '')?'selected':''; ?>>서비스구분선택</option>
-                                        <option value="바우처" <?php echo ($write['cl_service_cate'] == '바우처')?'selected':''; ?>>바우처</option>
-                                        <option value="유료" <?php echo ($write['cl_service_cate'] == '유료')?'selected':''; ?>>유료</option>
-                                        <option value="프리랜서" <?php echo ($write['cl_service_cate'] == '프리랜서')?'selected':''; ?>>프리랜서</option>
-                                        <option value="기타" <?php echo ($write['cl_service_cate'] == '기타')?'selected':''; ?>>기타</option>
-                                    </select>
-                                    <select name="cl_service_cate2" id="cl_service_cate2" class="form_select" <?php echo ($write['cl_service_cate'] != '바우처')?'style="display:none;"':''; ?>>
-                                        <option value="바우처 #1" <?php echo ($write['cl_service_cate2'] == '바우처 #1')?'selected':''; ?>>바우처 #1</option>
-                                        <option value="바우처 #2" <?php echo ($write['cl_service_cate2'] == '바우처 #2')?'selected':''; ?>>바우처 #2</option>
-                                        <option value="바우처 #3" <?php echo ($write['cl_service_cate2'] == '바우처 #3')?'selected':''; ?>>바우처 #3</option>
-                                        <option value="바우처 #4" <?php echo ($write['cl_service_cate2'] == '바우처 #4')?'selected':''; ?>>바우처 #4</option>
-                                        <option value="바우처 #5" <?php echo ($write['cl_service_cate2'] == '바우처 #5')?'selected':''; ?>>바우처 #5</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>서비스기간</th>
-                                <td colspan="3">
-                                    <input type="text" name="cl_service_str_date" id="cl_service_str_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_service_str_date'] ?>"> ~ 
-                                    <input type="text" name="cl_service_end_date" id="cl_service_end_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_service_end_date'] ?>">
-                                </td>
-                                <th>서비스시간</th>
-                                <td>
-                                    <select name="cl_service_time" id="cl_service_time">
-                                        <option value="" <?php echo ($write['cl_service_time'] == '')?'selected':''; ?>>시간선택</option>
-                                        <option value="4" <?php echo ($write['cl_service_time'] == '4')?'selected':''; ?>>4시간</option>
-                                        <option value="8" <?php echo ($write['cl_service_time'] == '8')?'selected':''; ?>>8시간</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>출산아기<span class="required_txt">*</span></th>
-                                <td class="x130">
-                                    <select name="cl_baby" id="cl_baby" class="form_select">
-                                        <option value="단태아" <?php echo ($write['cl_baby'] == '단태아')?'selected':''; ?>>단태아</option>
-                                        <option value="쌍생아" <?php echo ($write['cl_baby'] == '쌍생아')?'selected':''; ?>>쌍생아</option>
-                                        <option value="삼태아 이상" <?php echo ($write['cl_baby'] == '삼태아 이상')?'selected':''; ?>>삼태아 이상</option>
-                                        <option value="장애아" <?php echo ($write['cl_baby'] == '장애아')?'selected':''; ?>>장애아</option>
-                                    </select>
-                                </td>
-                                <th class="x90">아기성별<span class="required_txt">*</span></th>
-                                <td class="x130">
-                                    <select name="cl_baby_gender" id="cl_baby_gender" class="form_select">
-                                        <option value="여자" <?php echo ($write['cl_baby_gender'] == '여자')?'selected':''; ?>>여자</option>
-                                        <option value="남자" <?php echo ($write['cl_baby_gender'] == '남자')?'selected':''; ?>>남자</option>
-                                    </select>
-                                </td>
-                                <th class="x80">출산순위<span class="required_txt">*</span></th>
-                                <td class="x130">
-                                    <select name="cl_baby_count" id="cl_baby_count" class="form_select">
-                                        <option value="첫째" <?php echo ($write['cl_baby_count'] == '첫째')?'selected':''; ?>>첫째</option>
-                                        <option value="둘째" <?php echo ($write['cl_baby_count'] == '둘째')?'selected':''; ?>>둘째</option>
-                                        <option value="셋째" <?php echo ($write['cl_baby_count'] == '셋째')?'selected':''; ?>>셋째</option>
-                                        <option value="넷째" <?php echo ($write['cl_baby_count'] == '넷째')?'selected':''; ?>>넷째</option>
-                                        <option value="다섯째" <?php echo ($write['cl_baby_count'] == '다섯째')?'selected':''; ?>>다섯째</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>큰아들 돌보기</th>
-                                <td>
-                                    <select name="cl_baby_first" id="cl_baby_first" class="form_select">
-                                        <option value="없음" <?php echo ($write['cl_baby_first'] == '없음')?'selected':''; ?>>없음</option>
-                                        <option value="있음" <?php echo ($write['cl_baby_first'] == '있음')?'selected':''; ?>>있음</option>
-                                    </select>
-                                </td>
-                                <th>취학/미취학</th>
-                                <td colspan="3">
-                                    <select name="cl_school" id="cl_school" class="form_select">
-                                        <option value="" <?php echo ($write['cl_school'] == '')?'selected':''; ?>>취학선택</option>
-                                        <option value="1" <?php echo ($write['cl_school'] == '1')?'selected':''; ?>>1명</option>
-                                        <option value="2" <?php echo ($write['cl_school'] == '2')?'selected':''; ?>>2명</option>
-                                        <option value="3" <?php echo ($write['cl_school'] == '3')?'selected':''; ?>>3명</option>
-                                        <option value="4" <?php echo ($write['cl_school'] == '4')?'selected':''; ?>>4명</option>
-                                        <option value="5" <?php echo ($write['cl_school'] == '5')?'selected':''; ?>>5명</option>
-                                    </select>
-                                    <select name="cl_preschool" id="cl_preschool" class="form_select">
-                                        <option value="" <?php echo ($write['cl_preschool'] == '')?'selected':''; ?>>미취학선택</option>
-                                        <option value="1" <?php echo ($write['cl_preschool'] == '1')?'selected':''; ?>>1명</option>
-                                        <option value="2" <?php echo ($write['cl_preschool'] == '2')?'selected':''; ?>>2명</option>
-                                        <option value="3" <?php echo ($write['cl_preschool'] == '3')?'selected':''; ?>>3명</option>
-                                        <option value="4" <?php echo ($write['cl_preschool'] == '4')?'selected':''; ?>>4명</option>
-                                        <option value="5" <?php echo ($write['cl_preschool'] == '5')?'selected':''; ?>>5명</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>CCTV</th>
-                                <td>
-                                    <select name="cl_cctv" id="cl_cctv" class="form_select">
-                                        <option value="" <?php echo ($write['cl_cctv'] == '')?'selected':''; ?>>없음</option>
-                                        <option value="y" <?php echo ($write['cl_cctv'] == 'y')?'selected':''; ?>>있음</option>
-                                    </select>
-                                </td>
-                                <th>반려동물</th>
-                                <td>
-                                    <select name="cl_pet" id="cl_pet" class="form_select">
-                                        <option value="없음" <?php echo ($write['cl_pet'] == '없음')?'selected':''; ?>>없음</option>
-                                        <option value="애완견" <?php echo ($write['cl_pet'] == '애완견')?'selected':''; ?>>애완견</option>
-                                        <option value="애완묘" <?php echo ($write['cl_pet'] == '애완묘')?'selected':''; ?>>애완묘</option>
-                                    </select>
-                                </td>
-                                <th>사전면접</th>
-                                <td>
-                                    <select name="cl_prior_interview" id="cl_prior_interview" class="form_select">
-                                        <option value="없음" <?php echo ($write['cl_prior_interview'] == '없음')?'selected':''; ?>>없음</option>
-                                        <option value="있음" <?php echo ($write['cl_prior_interview'] == '있음')?'selected':''; ?>>있음</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>추가요금부담</th>
-                                <td>
-                                    <select name="cl_surcharge" id="cl_surcharge" class="form_select">
-                                        <option value="불가능" <?php echo ($write['cl_surcharge'] == '불가능')?'selected':''; ?>>불가능</option>
-                                        <option value="가능" <?php echo ($write['cl_surcharge'] == '가능')?'selected':''; ?>>가능</option>
-                                    </select>
-                                </td>
-                                <th>프리미엄</th>
-                                <td colspan="3">
-                                    <label class="input_label" for="cl_premium_use"><input type="checkbox" name="cl_premium_use" id="cl_premium_use" value="y" <?php echo ($write['cl_premium_use'] == 'y')?'checked':''; ?>>프리미엄</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>대여물품</th>
-                                <td colspan="5">
-                                    <div class="item_write_wrap">
-                                        <div class="item_write_box">
-                                            <label class="input_label" for="cl_item1_use"><input type="checkbox" name="cl_item1_use" id="cl_item1_use" value="y" <?php echo ($write['cl_item1_use'] == 'y')?'checked':''; ?>> 유축기</label>
-                                            <input type="text" name="cl_item1_num" id="cl_item1_num" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_item1_num'] ?>" placeholder="번호">
-                                            <input type="text" name="cl_item1_date" id="cl_item1_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_item1_date'] ?>" placeholder="대여일">
-                                            <input type="text" name="cl_item1_name" id="cl_item1_name" class="form_input x80" maxlength="10" value="<?php echo $write['cl_item1_name'] ?>" placeholder="대여자">
-                                            <input type="text" name="cl_item1_return_date" id="cl_item1_return_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_item1_return_date'] ?>" placeholder="반납일">
-                                            <input type="text" name="cl_item1_return_name" id="cl_item1_return_name" class="form_input x80" maxlength="10" value="<?php echo $write['cl_item1_return_name'] ?>" placeholder="반납자">
-                                        </div>
-                                        <div class="item_write_box">
-                                            <label class="input_label" for="cl_item2_use"><input type="checkbox" name="cl_item2_use" id="cl_item2_use" value="y" <?php echo ($write['cl_item2_use'] == 'y')?'checked':''; ?>> 좌욕기</label>
-                                            <input type="text" name="cl_item2_num" id="cl_item2_num" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_item2_num'] ?>" placeholder="번호">
-                                            <input type="text" name="cl_item2_date" id="cl_item2_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_item2_date'] ?>" placeholder="대여일">
-                                            <input type="text" name="cl_item2_name" id="cl_item2_name" class="form_input x80" maxlength="10" value="<?php echo $write['cl_item1_name'] ?>" placeholder="대여자">
-                                            <input type="text" name="cl_item2_return_date" id="cl_item2_return_date" class="form_input x80 date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['cl_item2_return_date'] ?>" placeholder="반납일">
-                                            <input type="text" name="cl_item2_return_name" id="cl_item2_return_name" class="form_input x80" maxlength="10" value="<?php echo $write['cl_item2_return_name'] ?>" placeholder="반납자">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>단가구분</th>
-                                <td>
-                                    <input type="text" name="cl_unit_price" id="cl_unit_price" class="form_input x100" oninput="inputNum(this)" maxlength="13" value="<?php echo $write['cl_unit_price'] ?>">
-                                </td>
-                                <th>합계금액</th>
-                                <td colspan="3">
-                                    <input type="text" name="cl_tot_price" id="cl_tot_price" class="form_input x130" oninput="inputNum(this)" maxlength="13" value="<?php echo $write['cl_tot_price'] ?>">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>추가요청사항</th>
-                                <td colspan="5">
-                                    <textarea name="cl_memo3" id="cl_memo3" class="form_textarea"><?php echo $write['cl_memo3'] ?></textarea>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="flex1 mleft10">
-                    <h4 class="layer_tit mtop20">고객접수 관리사정보</h4>
-
-                    <table class="write_tbl">
-                        <tbody>
-                            <tr>
-                                <th class="x100">지정 관리사</th>
-                                <td>
-                                    <button type="button" id="receipt_btn">관리사 선택</button>
-                                    <ul id="form_receipt_box">
-                                        <li class="receipt_list">
-                                            <a>
-                                                <span>우태하</span><span>1팀</span><span>부산 해운대구</span>
-                                            </a>
-                                        </li>
-                                        <li class="receipt_list">
-                                            <a>
-                                                <span>우태하</span><span>1팀</span><span>부산 해운대구</span>
-                                            </a>
-                                        </li>
-                                        <li class="receipt_list">
-                                            <a>
-                                                <span>우태하</span><span>1팀</span><span>부산 해운대구</span>
-                                            </a>
-                                        </li>
-                                        <li class="receipt_list">
-                                            <a>
-                                                <span>우태하</span><span>1팀</span><span>부산 해운대구</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>파견 관리사</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>변경 관리사</th>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                    <input type="hidden" name="cl_area" id="cl_area" value="<?php echo $write['cl_area'] ?>">
+                                    <input type="hidden" name="cl_area_x" id="cl_area_x" value="<?php echo $write['cl_area_x'] ?>">
+                                    <input type="hidden" name="cl_area_y" id="cl_area_y" value="<?php echo $write['cl_area_y'] ?>">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>특이사항</th>
+                            <td colspan="7">
+                                <textarea name="cl_memo1" id="cl_memo1" class="form_textarea"><?php echo $write['cl_memo1'] ?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>취소사유</th>
+                            <td colspan="7">
+                                <textarea name="cl_memo2" id="cl_memo2" class="form_textarea"><?php echo $write['cl_memo2'] ?></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h4 class="layer_popup_form_tit mtop20">고객접수 서비스정보</h4>
+            <div class="form_tbl_wrap">
+                <table class="form_tbl">
+                    <tbody>
+                        <tr>
+                            <th>서비스구분</th>
+                            <td colspan="5">
+                                <select name="cl_service_cate" id="cl_service_cate" class="form_select price_input">
+                                    <option value="" <?php echo ($write['cl_service_cate'] == '')?'selected':''; ?>>서비스분류선택</option>
+                                    <?php
+                                    $service_menu_sql = " select * from g5_service_menu where client_service = '{$client_service}' and length(sme_code) = 2 and sme_use = 1 order by sme_order asc, sme_code asc ";
+                                    $service_menu_qry = sql_query($service_menu_sql);
+                                    $service_menu_num = sql_num_rows($service_menu_qry);
+                                    if($service_menu_num > 0) {
+                                        for($l=0; $service_menu_row = sql_fetch_array($service_menu_qry); $l++) {
+                                    ?>
+                                    <option value="<?php echo $service_menu_row['sme_code'] ?>" <?php echo ($write['cl_service_cate'] == $service_menu_row['sme_code'])?'selected':''; ?>><?php echo $service_menu_row['sme_name'] ?></option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <select name="cl_service_cate2" id="cl_service_cate2" class="form_select price_input">
+                                    <option value="" <?php echo ($write['cl_service_cate2'] == '')?'selected':''; ?>>서비스구분선택</option>
+                                    <?php
+                                    $menu_group_sql = " select * from g5_service_menu where client_service = '{$client_service}' and length(sme_code) = 4 and sme_code like '{$write['cl_service_cate']}%' and sme_use = 1 order by sme_order asc, sme_code asc ";
+                                    $menu_group_qry = sql_query($menu_group_sql);
+                                    $menu_group_num = sql_num_rows($menu_group_qry);
+                                    if($menu_group_num > 0) {
+                                        for($l=0; $menu_group_row = sql_fetch_array($menu_group_qry); $l++) {
+                                    ?>
+                                    <optgroup label="<?php echo $menu_group_row['sme_name'] ?>">
+                                        <?php
+                                        $service_menu2_sql = " select * from g5_service_menu where client_service = '{$client_service}' and length(sme_code) = 6 and sme_code like '{$menu_group_row['sme_code']}%' and sme_use = 1 order by sme_order asc, sme_code asc ";
+                                        $service_menu2_qry = sql_query($service_menu2_sql);
+                                        $service_menu2_num = sql_num_rows($service_menu2_qry);
+                                        if($service_menu2_num > 0) {
+                                            for($ll=0; $service_menu2_row = sql_fetch_array($service_menu2_qry); $ll++) {
+                                        ?>
+                                        <option value="<?php echo $service_menu2_row['sme_id'] ?>" <?php echo ($write['cl_service_cate2'] == $service_menu2_row['sme_id'])?'selected':''; ?>><?php echo $service_menu2_row['sme_name'] ?></option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </optgroup>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>서비스기간</th>
+                            <td>
+                                <?php
+                                $service_period_sql = " select distinct spe_cate, spe_name, spe_period, spe_info, spe_id from g5_service_period where sme_id = '{$write['cl_service_cate2']}' and client_service = '{$client_service}' order by spe_period asc ";
+                                $service_period_qry = sql_query($service_period_sql);
+                                $service_period_num = sql_num_rows($service_period_qry);
+                                ?>
+                                <select name="cl_service_period" id="cl_service_period" class="form_select price_input">
+                                    <option value="">서비스기간선택</option>
+                                    <?php
+                                    if($service_period_num > 0) {
+                                        for($l=0; $service_period_row = sql_fetch_array($service_period_qry); $l++) {
+                                    ?>
+                                    <option value="<?php echo $service_period_row['spe_id'] ?>" <?php echo ($write['cl_service_period'] == $service_period_row['spe_id'])?'selected':''; ?>><?php echo $service_period_row['spe_cate'] ?>(<?php echo $service_period_row['spe_info'] ?>)</option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                            <th>추가옵션</th>
+                            <td colspan="3">
+                                <?php
+                                $service_option_sql = " select * from g5_service_option where client_service = '{$client_service}' and (sop_cate = 'select' or sop_cate = 'premium') and sop_use = 1 order by sop_id asc ";
+                                $service_option_qry = sql_query($service_option_sql);
+                                $service_option_num = sql_num_rows($service_option_qry);
+                                ?>
+                                <select name="cl_service_option" id="cl_service_option" class="form_select price_input">
+                                    <option value="">추가옵션선택</option>
+                                    <?php
+                                    if($service_option_num > 0) {
+                                        for($l=0; $service_option_row = sql_fetch_array($service_option_qry); $l++) {
+                                    ?>
+                                    <option value="<?php echo $service_option_row['sop_id'] ?>" <?php echo ($write['cl_service_option'] == $service_option_row['sop_id'])?'selected':''; ?>><?php echo $service_option_row['sop_name'] ?></option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>출산아기</th>
+                            <td>
+                                <select name="cl_baby" id="cl_baby" class="form_select">
+                                    <option value="" <?php echo ($write['cl_baby'] == '')?'selected':''; ?>>출산아기선택</option>
+                                    <option value="단태아" <?php echo ($write['cl_baby'] == '단태아')?'selected':''; ?>>단태아</option>
+                                    <option value="쌍생아" <?php echo ($write['cl_baby'] == '쌍생아')?'selected':''; ?>>쌍생아</option>
+                                    <option value="삼태아 이상" <?php echo ($write['cl_baby'] == '삼태아 이상')?'selected':''; ?>>삼태아 이상</option>
+                                    <option value="장애아" <?php echo ($write['cl_baby'] == '장애아')?'selected':''; ?>>장애아</option>
+                                </select>
+                            </td>
+                            <th>아기성별</th>
+                            <td>
+                                <select name="cl_baby_gender" id="cl_baby_gender" class="form_select">
+                                    <option value="" <?php echo ($write['cl_baby_gender'] == '')?'selected':''; ?>>아기성별선택</option>
+                                    <option value="여자" <?php echo ($write['cl_baby_gender'] == '여자')?'selected':''; ?>>여자</option>
+                                    <option value="남자" <?php echo ($write['cl_baby_gender'] == '남자')?'selected':''; ?>>남자</option>
+                                </select>
+                            </td>
+                            <th>출산순위</th>
+                            <td>
+                                <select name="cl_baby_count" id="cl_baby_count" class="form_select">
+                                    <option value="" <?php echo ($write['cl_baby_count'] == '')?'selected':''; ?>>출산순위선택</option>
+                                    <option value="첫째" <?php echo ($write['cl_baby_count'] == '첫째')?'selected':''; ?>>첫째</option>
+                                    <option value="둘째" <?php echo ($write['cl_baby_count'] == '둘째')?'selected':''; ?>>둘째</option>
+                                    <option value="셋째" <?php echo ($write['cl_baby_count'] == '셋째')?'selected':''; ?>>셋째</option>
+                                    <option value="넷째" <?php echo ($write['cl_baby_count'] == '넷째')?'selected':''; ?>>넷째</option>
+                                    <option value="다섯째" <?php echo ($write['cl_baby_count'] == '다섯째')?'selected':''; ?>>다섯째</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>취학/미취학</th>
+                            <td>
+                                <select name="cl_school" id="cl_school" class="form_select price_input">
+                                    <option value="" <?php echo ($write['cl_school'] == '')?'selected':''; ?>>취학선택</option>
+                                    <?php for($l=1; $l<=5; $l++) { ?>
+                                    <option value="<?php echo $l ?>" <?php echo ($write['cl_school'] == $l)?'selected':''; ?>>취학 <?php echo $l ?>명</option>
+                                    <?php } ?>
+                                </select>
+                                <select name="cl_preschool" id="cl_preschool" class="form_select price_input">
+                                    <option value="" <?php echo ($write['cl_preschool'] == '')?'selected':''; ?>>미취학선택</option>
+                                    <?php for($l=1; $l<=5; $l++) { ?>
+                                    <option value="<?php echo $l ?>" <?php echo ($write['cl_preschool'] == $l)?'selected':''; ?>>미취학 <?php echo $l ?>명</option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                            <th>추가요금부담</th>
+                            <td colspan="3">
+                                <select name="cl_surcharge" id="cl_surcharge" class="form_select">
+                                    <option value="불가능" <?php echo ($write['cl_surcharge'] == '불가능')?'selected':''; ?>>불가능</option>
+                                    <option value="가능" <?php echo ($write['cl_surcharge'] == '가능')?'selected':''; ?>>가능</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>CCTV</th>
+                            <td>
+                                <select name="cl_cctv" id="cl_cctv" class="form_select">
+                                    <option value="" <?php echo ($write['cl_cctv'] == '')?'selected':''; ?>>없음</option>
+                                    <option value="y" <?php echo ($write['cl_cctv'] == 'y')?'selected':''; ?>>있음</option>
+                                </select>
+                            </td>
+                            <th>반려동물</th>
+                            <td>
+                                <select name="cl_pet" id="cl_pet" class="form_select">
+                                    <option value="">없음</option>
+                                    <?php for($l=0; $l<count($set_pet_use_arr); $l++) { ?>
+                                    <option value="<?php echo $set_pet_use_arr[$l] ?>" <?php echo ($write['cl_pet'] == $set_pet_use_arr[$l])?'selected':''; ?>><?php echo $set_pet_use_arr[$l] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                            <th>사전면접</th>
+                            <td>
+                                <select name="cl_prior_interview" id="cl_prior_interview" class="form_select">
+                                    <option value="" <?php echo ($write['cl_prior_interview'] == '')?'selected':''; ?>>사전면접선택</option>
+                                    <option value="없음" <?php echo ($write['cl_prior_interview'] == '없음')?'selected':''; ?>>없음</option>
+                                    <option value="있음" <?php echo ($write['cl_prior_interview'] == '있음')?'selected':''; ?>>있음</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="x90">단가구분</th>
+                            <td class="x300">
+                                <input type="text" name="cl_unit_price" id="cl_unit_price" class="form_input price_input x100" oninput="inputNum(this.id)" maxlength="13" value="<?php echo $write['cl_unit_price'] ?>">
+                            </td>
+                            <th class="x90">합계금액</th>
+                            <td>
+                                <input type="text" name="cl_tot_price" id="cl_tot_price" class="form_input price_input x130" oninput="inputNum(this.id)" maxlength="13" value="<?php echo $write['cl_tot_price'] ?>">
+                            </td>
+                            <th class="x90">현금영수증</th>
+                            <td>
+                                <input type="text" name="cl_cash_receipt" id="cl_cash_receipt" class="form_input x130" value="<?php echo $write['cl_cash_receipt'] ?>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>추가요청사항</th>
+                            <td colspan="5">
+                                <textarea name="cl_memo3" id="cl_memo3" class="form_textarea y100"><?php echo $write['cl_memo3'] ?></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </form>
 
-    <a id="client_submit_btn">저장하기</a>
+    <a class="submit_btn" id="submit_btn">저장하기</a>
 </div>
 
 <script>

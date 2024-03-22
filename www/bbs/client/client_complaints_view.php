@@ -11,7 +11,18 @@ $view = sql_fetch($sql);
 if($view['comp_date'] == '0000-00-00') $view['comp_date'] = '';
 if($view['take_date'] == '0000-00-00') $view['take_date'] = '';
 
-$edit_btn = '<a class="edit_btn" idx="'.$idx.'">수정</a>';
+// 등록/수정 권한
+$write_permit = true;
+if(!$is_admin) {
+    $management_sql = " select count(*) as cnt from g5_management where me_code = '{$_SESSION['this_mn_cd_full']}' and mb_id = '{$member['mb_id']}' and mode = 'write' ";
+    $management_row = sql_fetch($management_sql);
+    if($management_row['cnt'] == 0) {
+        $write_permit = false;
+    }
+}
+
+$edit_btn = '';
+if($write_permit === true) $edit_btn = '<a class="edit_btn" idx="'.$idx.'">수정</a>';
 ?>
 
 <div id="layer_popup_top">
@@ -30,13 +41,13 @@ $edit_btn = '<a class="edit_btn" idx="'.$idx.'">수정</a>';
                 <table class="form_tbl">
                     <tbody>
                         <tr>
-                            <th class="x120">상담구분<span class="required_txt">*</span></th>
+                            <th class="x120">상담구분</th>
                             <td class="x390"><?php echo $view['comp_category'] ?></td>
                             <th class="x120">조치구분</th>
                             <td><?php echo $view['take_category'] ?></td>
                         </tr>
                         <tr>
-                            <th>고객선택<span class="required_txt">*</span></th>
+                            <th>고객선택</th>
                             <td>
                                 <?php
                                 $client_sql = " select * from g5_client where client_idx = '{$view['comp_client_idx']}' ";

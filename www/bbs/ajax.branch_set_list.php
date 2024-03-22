@@ -18,7 +18,13 @@ if($num > 0) {
     for($i=0; $row = sql_fetch_array($qry); $i++) {
         $list[$i]['branch_id'] = $row['branch_id'];
         $list[$i]['branch_name'] = $row['branch_name'];
+        $list[$i]['branch_addr'] = $row['branch_addr'];
+        $list[$i]['branch_tel'] = $row['branch_tel'];
+        $list[$i]['branch_fax'] = $row['branch_fax'];
+        $list[$i]['branch_menu10'] = $row['branch_menu10'];
+        $list[$i]['branch_menu20'] = $row['branch_menu20'];
 
+        /*
         $addr_sql = " select a.branch_addr, b.me_name from g5_branch_addr as a left join g5_menu as b on b.me_code = a.menu_code where branch_id = '{$row['branch_id']}' ";
         $addr_qry = sql_query($addr_sql);
         $addr_num = sql_num_rows($addr_qry);
@@ -28,6 +34,7 @@ if($num > 0) {
                 $list[$i]['branch_addr'][$j] = $addr_row['branch_addr'];
             }
         }
+        */
     }
 }
 

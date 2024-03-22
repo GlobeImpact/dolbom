@@ -219,6 +219,7 @@ $(function(){
         list_act();
     });
 
+    <?php if($write_permit === true) { ?>
     // 제공인력등록 버튼 클릭시 제공인력등록 팝업 띄우기
     $(document).on('click', '#write_btn', function(){
         // Layer Popup : 제공인력등록 불러오기
@@ -229,23 +230,16 @@ $(function(){
         $('#layer_popup_bg').css('display', 'block');
     });
 
-    // Layer Popup 닫기 버튼 클릭시 Layer Popup 초기화 + 숨기기
-    $(document).on('click', '#popup_close_btn', function(){
-        // Layer Popup 초기화
-        $('#layer_popup').empty();
+    // 제공인력수정 버튼 클릭시 제공인력수정 팝업 띄우기
+    $('#edit_btn').click(function(){
+        // 제공인력 아이디 값
+        let mb_id = $('#v_mb_id').val();
+        // Layer Popup : 제공인력등록 불러오기
+        $("#layer_popup").load(g5_bbs_url + "/member_write.php?w=u&mb_id=" + mb_id);
 
-        // Layer Popup 숨기기
-        $('#layer_popup').removeClass();
-        $('#layer_popup').addClass('x1050');
-        $('#layer_popup').css('display', 'none');
-        $('#layer_popup_bg').css('display', 'none');
-    });
-
-    // 이미지 삭제버튼 클릭시
-    $(document).on('click', '#profile_delete_btn', function(){
-        $('#mb_profile_del').prop('checked', true);
-        $("#profile_write_wrap > img").attr('src', '');
-        $('#mb_profile').val('');
+        // Layer Popup 보이기
+        $('#layer_popup').css('display', 'block');
+        $('#layer_popup_bg').css('display', 'block');
     });
 
     // 저장버튼 클릭시
@@ -359,19 +353,28 @@ $(function(){
             }
         });
     });
+    <?php } ?>
 
-    // 제공인력수정 버튼 클릭시 제공인력수정 팝업 띄우기
-    $('#edit_btn').click(function(){
-        // 제공인력 아이디 값
-        let mb_id = $('#v_mb_id').val();
-        // Layer Popup : 제공인력등록 불러오기
-        $("#layer_popup").load(g5_bbs_url + "/member_write.php?w=u&mb_id=" + mb_id);
+    // Layer Popup 닫기 버튼 클릭시 Layer Popup 초기화 + 숨기기
+    $(document).on('click', '#popup_close_btn', function(){
+        // Layer Popup 초기화
+        $('#layer_popup').empty();
 
-        // Layer Popup 보이기
-        $('#layer_popup').css('display', 'block');
-        $('#layer_popup_bg').css('display', 'block');
+        // Layer Popup 숨기기
+        $('#layer_popup').removeClass();
+        $('#layer_popup').addClass('x1050');
+        $('#layer_popup').css('display', 'none');
+        $('#layer_popup_bg').css('display', 'none');
     });
 
+    // 이미지 삭제버튼 클릭시
+    $(document).on('click', '#profile_delete_btn', function(){
+        $('#mb_profile_del').prop('checked', true);
+        $("#profile_write_wrap > img").attr('src', '');
+        $('#mb_profile').val('');
+    });
+
+    <?php if($delete_permit === true) { ?>
     // 삭제버튼 클릭시
     $('#del_btn').click(function(){
         if(confirm('한번 삭제되면 복구가 불가능합니다.\n그래도 삭제하시겠습니까?')) {
@@ -403,6 +406,7 @@ $(function(){
 
         return false;
     });
+    <?php } ?>
 
     $(document).on('click', '#member_list > tr', function(){
         let mb_id = $(this).attr('mb_id');
@@ -472,6 +476,7 @@ $(function(){
     $('#excel_download_btn').click(function(){
         let sch_activity_status = $('#sch_activity_status option:selected').val();
         let sch_service_category = $('#sch_service_category option:selected').val();
+        if(typeof sch_service_category === 'undefined') sch_service_category = '';
         let sch_mb_name = $('#sch_mb_name').val();
 
         window.location.href = g5_bbs_url + '/member_excel_download.php?activity_status=' + sch_activity_status + '&service_category=' + sch_service_category + '&mb_name=' + sch_mb_name;

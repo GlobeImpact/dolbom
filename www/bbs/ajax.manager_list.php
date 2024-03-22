@@ -49,6 +49,10 @@ if($num > 0) {
         // 성별
         $list[$i]['gender'] = '';
         if($row['security_number'] != '') $list[$i]['gender'] = wz_get_gender($row['security_number']).'자';
+        // 지점
+        $get_branch_sql = " select * from g5_branch where branch_id = '{$row['branch_id']}' ";
+        $get_branch_row = sql_fetch($get_branch_sql);
+        $list[$i]['branch'] = $get_branch_row['branch_name'];
         // 생년월일
         $list[$i]['birthday'] = '';
         if($row['security_number'] != '') $list[$i]['birthday'] = wz_get_birth($row['security_number']);

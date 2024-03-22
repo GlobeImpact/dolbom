@@ -40,7 +40,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/manager/manager.css?
                                 <th class="left_list_numb">번호</th>
                                 <th class="left_list_status">현황</th>
                                 <th class="left_list_name">매니저명</th>
-                                <th class="left_list_gender">성별</th>
+                                <th class="left_list_branch">지점</th>
                                 <th class="left_list_birth">생년월일</th>
                                 <th class="left_list_date">입사일자</th>
                             </tr>
@@ -101,7 +101,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/manager/manager.css?
                 </div>
 
                 <div class="view_top mtop20">
-                    <h4 class="view_tit">매니저 담당정보</h4>
+                    <h4 class="view_tit">매니저 업무권한</h4>
                 </div>
 
                 <div id="v_management_wrap"></div>
@@ -146,6 +146,28 @@ $(function(){
         // Layer Popup 숨기기
         $('#layer_popup').css('display', 'none');
         $('#layer_popup_bg').css('display', 'none');
+    });
+
+    $(document).on('change', '.management_checkbox', function(){
+        let parent = $(this).parent('li');
+        let prev = parent.prevAll('li');
+
+        if($(this).is(':checked') == true) {
+            prev.find('input').prop('checked', true);
+        }else{
+            prev.find('input').prop('checked', false);
+        }
+    });
+
+    $(document).on('change', '.management_checkbox_all', function(){
+        let parent = $(this).parent('h4');
+        let next = parent.next('div.form_tbl_wrap');
+
+        if($(this).is(':checked') == true) {
+            next.find('input').prop('checked', true);
+        }else{
+            next.find('input').prop('checked', false);
+        }
     });
 
     // 저장버튼 클릭시
@@ -321,7 +343,7 @@ function list_act(mb_id) {
                     datas += '<td class="left_list_numb">' + (i+1) + '</td>';
                     datas += '<td class="left_list_status">' + response[i].activity_status + '</td>';
                     datas += '<td class="left_list_name">' + response[i].mb_name + '</td>';
-                    datas += '<td class="left_list_gender">' + response[i].gender + '</td>';
+                    datas += '<td class="left_list_branch">' + response[i].branch + '</td>';
                     datas += '<td class="left_list_birth">' + response[i].birthday + '</td>';
                     datas += '<td class="left_list_date">' + response[i].enter_date + '</td>';
                     datas += '</tr>';

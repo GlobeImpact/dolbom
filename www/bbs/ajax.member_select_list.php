@@ -4,6 +4,7 @@ include_once('./_common.php');
 $idx = $_POST['idx'];
 if($idx == '0') $idx = '';
 $sch_value2 = $_POST['sch_value2'];
+$user_id = $_POST['user_id'];
 
 $list = Array();
 
@@ -49,6 +50,12 @@ if($num > 0) {
         $edul_row = sql_fetch($edul_sql);
 
         if($edul_row['cnt'] > 0) {
+            $list[$i]['list_selected'] = 'y';
+        }else{
+            $list[$i]['list_selected'] = '';
+        }
+
+        if($user_id == $row['mb_id']) {
             $list[$i]['list_selected'] = 'y';
         }else{
             $list[$i]['list_selected'] = '';

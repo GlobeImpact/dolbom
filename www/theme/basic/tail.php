@@ -21,10 +21,16 @@ if(G5_COMMUNITY_USE === false) {
             <?php if($is_admin) { ?>
             <li><a href="<?php echo G5_BBS_URL ?>/branch_set.php" <?php echo ($mn_cd == 'branch')?'id="left_menu_sitemap_active"':''; ?>>지점 설정</a></li>
             <li><a href="<?php echo G5_BBS_URL ?>/manager.php" <?php echo ($mn_cd == 'manager')?'id="left_menu_sitemap_active"':''; ?>>매니저 관리</a></li>
+            <li><a href="<?php echo G5_BBS_URL ?>/service_period.php" <?php echo ($mn_cd == 'service_period')?'id="left_menu_sitemap_active"':''; ?>>고객 서비스 금액 관리</a></li>
             <?php } ?>
 
             <li>
                 <?php
+                if($_SESSION['this_branch_id'] != '') {
+                    $used_sql = " select * from g5_branch where branch_id = '{$_SESSION['this_branch_id']}' ";
+                    $used_row = sql_fetch($used_sql);
+                }
+
                 $lmn_where = "";
                 if($member['mb_level'] < 5) {
                     $lmn_where .= " and me_code = '{$member['mb_menu']}'";
@@ -39,6 +45,9 @@ if(G5_COMMUNITY_USE === false) {
                 $lmn_num = sql_num_rows($lmn_qry);
                 if($lmn_num > 0) {
                     for($i=0; $lmn_row = sql_fetch_array($lmn_qry); $i++) {
+                        if($used_row['branch_menu'.$lmn_row['me_code']] != 'y') {
+                            continue;
+                        }
                 ?>
                     <h4><?php echo $lmn_row['me_name'] ?></h4>
                     <?php

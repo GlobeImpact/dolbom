@@ -1,24 +1,9 @@
 @charset "utf-8";
 
-#layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:710px;}
+/* Page Wrap STR */
+#layer_wrap {margin:0 auto; padding:0 0 0 30px; width:100%; height:100%; min-height:730px;}
 #layer_box {margin:0 auto; padding:20px; width:100%; height:100%; background:#fff; box-shadow:0px 0px 14px 4px #cdcdcd; border:0; border-radius:10px;}
-.sub_wrap {display:flex; flex-direction:row; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:100%;}
-.sub_box {flex:1 1 0%; position:relative; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0;}
-
-/* Filter Wrap STR */
-#filter_wrap {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; margin-bottom:12px; padding:8px; width:100%; background:#e5efff; gap:0 20px;}
-.filter_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0;}
-.filter_box > label {margin:0; margin-right:6px; padding:0; height:16px; font-family:'GmarketSansMedium'; font-weight:100; font-size:14px;}
-.filter_box > span {margin:0; padding:0 5px;}
-
-.form_input {padding:1px 2px;}
-.form_select {padding:1px 2px;}
-
-.x80 {width:80px;}
-.x100 {width:100px;}
-
-.ui-datepicker-trigger {margin-left:4px; margin-top:1px; vertical-align:text-top; cursor:pointer;}
-/* Filter Wrap END */
+/* Page Wrap END */
 
 /* Work Wrap STR */
 .work_wrap {flex:1 1 0%; display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:8px; width:100%; background:#e5efff;}

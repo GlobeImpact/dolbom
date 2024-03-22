@@ -28,7 +28,8 @@ $rent_reg_date = date('Y-m-d H:i:s');
 
 if ($w == '') {
     $sql = " insert into g5_client_rental 
-                set set_mb_menu = '{$_SESSION['this_code']}', 
+                set branch_id = '{$_SESSION['this_branch_id']}', 
+                set_mb_menu = '{$_SESSION['this_code']}', 
                 set_idx = '{$set_idx}', 
                 rent_year = '{$rent_year}', 
                 rent_mb_id = '{$rent_mb_id}', 

@@ -27,43 +27,37 @@ $branch_id = $_POST['branch_id'];
 $branch_name = $_POST['branch_name'];
 $menu_code = $_POST['menu_code'];
 $branch_addr = $_POST['branch_addr'];
+$branch_tel = $_POST['branch_tel'];
+$branch_fax = $_POST['branch_fax'];
+$branch_menu10 = $_POST['branch_menu10'];
+$branch_menu20 = $_POST['branch_menu20'];
 $reg_date = date('Y-m-d H:i:s');
 
 if ($w == '') {
     $sql = " insert into g5_branch  
                 set branch_name = '{$branch_name}', 
+                branch_addr = '{$branch_addr}', 
+                branch_tel = '{$branch_tel}', 
+                branch_fax = '{$branch_fax}', 
+                branch_menu10 = '{$branch_menu10}', 
+                branch_menu20 = '{$branch_menu20}', 
                 reg_date = '{$reg_date}' ";
     if(sql_query($sql)) {
         $branch_id = sql_insert_id();
-
-        if(count($menu_code) > 0) {
-            for($mn=0; $mn<count($menu_code); $mn++) {
-                $addr_sql = " insert into g5_branch_addr set branch_id = '{$branch_id}', menu_code = '{$menu_code[$mn]}', branch_addr = '{$branch_addr[$mn]}' ";
-                sql_query($addr_sql);
-            }
-        }
 
         $list['msg'] = '등록이 완료되었습니다';
         $list['code'] = '0000';
     }
 } else if ($w == 'u') {
     $sql = " update g5_branch set 
-                branch_name = '{$branch_name}' 
+                branch_name = '{$branch_name}', 
+                branch_addr = '{$branch_addr}', 
+                branch_tel = '{$branch_tel}', 
+                branch_fax = '{$branch_fax}', 
+                branch_menu10 = '{$branch_menu10}', 
+                branch_menu20 = '{$branch_menu20}' 
             where branch_id = '{$branch_id}' ";
     if(sql_query($sql)) {
-        if(count($menu_code) > 0) {
-            for($mn=0; $mn<count($menu_code); $mn++) {
-                $addr_chk_sql = " select count(*) as cnt from g5_branch_addr where branch_id = '{$branch_id}' and menu_code = '{$menu_code[$mn]}' ";
-                $addr_chk_row = sql_fetch($addr_chk_sql);
-                if($addr_chk_row['cnt'] == 0) {
-                    $addr_sql = " insert into g5_branch_addr set branch_id = '{$branch_id}', menu_code = '{$menu_code[$mn]}', branch_addr = '{$branch_addr[$mn]}' ";
-                }else{
-                    $addr_sql = " update g5_branch_addr set branch_addr = '{$branch_addr[$mn]}' where branch_id = '{$branch_id}' and menu_code = '{$menu_code[$mn]}' ";
-                }
-                sql_query($addr_sql);
-            }
-        }
-
         $list['msg'] = '수정이 완료되었습니다';
         $list['code'] = '0000';
     }else{

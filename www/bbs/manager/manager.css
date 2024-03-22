@@ -21,12 +21,16 @@
 /* Management View STR */
 .management_tit {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:8px 8px 5px 8px; width:100%; background:#e5efff; border:0; border-radius:8px 8px 0px 0px; font-family:'GmarketSansMedium'; font-weight:100; font-size:16px; gap:0 6px;}
 .management_tit:not(:first-child) {margin-top:12px;}
+.management_tit > label {display:block; margin:0; padding:5px 8px 3px 8px; border:0; border-radius:4px; color:#fff; background:#333; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
 
 .management_box {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; width:100%; gap:0 6px;}
 .management_list {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0;}
 .management_list > label {display:block; margin:0; padding:5px 8px 3px 8px; border:0; border-radius:4px; color:#333; background:#ddd; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; text-decoration:line-through; cursor:pointer;}
 .management_list > label.permit {color:#fff; background:#347976; text-decoration:none !important;}
 .management_list > input[type="checkbox"]:checked + label {color:#fff; background:#347976; text-decoration:none !important;}
+
+.management_group {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; margin-left:20px; padding:0;}
+.management_group > label {display:block; margin:0; padding:5px 8px 3px 8px; border:0; border-radius:4px; color:#fff; background:#333; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
 
 #v_management_wrap {position:relative; flex:1 1 0%; overflow-y:scroll;}
 #v_management_wrap::-webkit-scrollbar {display:none; width:0px;}
@@ -35,7 +39,7 @@
 
 /* Manage Write|Edit STR */
 .flex_row_addr {display:flex; flex-direction:row; flex-wrap:wrap; align-items:flex-start; justify-content:flex-start; margin:0; padding:0; width:100%; gap:5.5px 6px;}
-.management_checkbox {display:none;}
+.management_checkbox, .management_checkbox_all {display:none;}
 .management_tbl > tbody > tr > td {background:none;}
 .management_tbl > tbody > tr:hover {background:#d8f8c0;}
 

@@ -14,7 +14,7 @@ $list = Array();
 $where_str = "";
 $orderby_str = "";
 
-$where_str .= " and set_mb_menu = '{$_SESSION['this_code']}'";
+$where_str .= " and branch_id = '{$_SESSION['this_branch_id']}' and set_mb_menu = '{$_SESSION['this_code']}'";
 
 if($sch_date != '') {
     $where_str .= " and comp_date = '{$sch_date}'";

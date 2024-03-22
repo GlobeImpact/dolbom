@@ -1,117 +1,183 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client.css?ver=2">', 0);
+
+
+// 등록/수정 권한
+$write_permit = true;
+if(!$is_admin) {
+    $management_sql = " select count(*) as cnt from g5_management where me_code = '{$_SESSION['this_mn_cd_full']}' and mb_id = '{$member['mb_id']}' and mode = 'write' ";
+    $management_row = sql_fetch($management_sql);
+    if($management_row['cnt'] == 0) {
+        $write_permit = false;
+    }
+}
+
+// 삭제 권한
+$delete_permit = true;
+if(!$is_admin) {
+    $management_sql = " select count(*) as cnt from g5_management where me_code = '{$_SESSION['this_mn_cd_full']}' and mb_id = '{$member['mb_id']}' and mode = 'delete' ";
+    $management_row = sql_fetch($management_sql);
+    if($management_row['cnt'] == 0) {
+        $delete_permit = false;
+    }
+}
 ?>
 
 <div id="layer_wrap">
     <div id="layer_box">
-        <div class="sub_wrap">
-            <!-- Left Menu STR -->
+
+        <!-- List & View Wrap STR -->
+        <div class="list_view_wrap">
+            <!-- List Wrap STR -->
             <div class="list_wrap">
-                <div class="list_wrap_top">
-                    <div class="list_filter_box">
-                        <input type="checkbox" id="sch_premium">
-                        <label class="filter_label" for="sch_premium">프리미엄</label>
+                <div class="list_top">
+                    <div class="filter_box">
+                        <?php
+                        $filter_sql = " select * from g5_service_menu where client_menu = '{$_SESSION['this_code']}' and length(sme_code) = 2 and sme_use = 1 order by sme_order asc, sme_code asc ";
+                        $filter_qry = sql_query($filter_sql);
+                        $filter_num = sql_num_rows($filter_qry);
+
+                        if($filter_num > 1) {
+                        ?>
                         <select class="filter_select" id="sch_service_category">
                             <option value="">서비스구분</option>
-                            <option value="바우처">바우처</option>
-                            <option value="유료">유료</option>
-                            <option value="프리랜서">프리랜서</option>
-                            <option value="기타">기타</option>
+                            <?php for($l=0; $filter_row = sql_fetch_array($filter_qry); $l++) { ?>
+                            <option value="<?php echo $filter_row['sme_code'] ?>"><?php echo $filter_row['sme_name'] ?></option>
+                            <?php } ?>
                         </select>
-                        <input type="text" id="sch_cl_name" class="filter_input" value="" placeholder="이름 조회">
+                        <?php } ?>
+                        <input type="text" class="filter_input" id="sch_cl_name" value="" placeholder="이름, 연락처 조회">
                     </div>
-                    <a id="write_btn">고객등록</a>
+                    <div class="btn_box">
+                        <?php if($write_permit === true) { ?><a class="list_top_btn" id="write_btn">고객등록</a><?php } ?>
+                    </div>
                 </div>
 
-                <div class="list_wrap_list">
+                <div class="list_box">
                     <table class="list_tbl">
                         <thead>
                             <tr>
-                                <th class="x45">번호</th>
-                                <th class="x100">신청인</th>
-                                <th class="x130">연락처</th>
-                                <th class="x110">접수일자</th>
-                                <th>현황</th>
+                                <th class="left_list_numb">번호</th>
+                                <th class="left_list_name">신청인</th>
+                                <th class="left_list_service_category">서비스</th>
+                                <th class="left_list_hp">연락처</th>
+                                <th class="left_list_date">접수일자</th>
+                                <th class="left_list_status">현황</th>
                             </tr>
                         </thead>
+                        <tbody id="client_list"></tbody>
                     </table>
-                    <div class="list_wrap_list_box">
-                        <table class="list_tbl">
-                            <tbody id="client_list"></tbody>
-                        </table>
-                    </div>
+                </div>
+
+                <div class="list_bottom">
+                    <a class="list_bottom_btn" id="excel_download_btn">엑셀 다운로드</a>
                 </div>
             </div>
-            <!-- Left Menu END -->
+            <!-- List Wrap END -->
 
+            <!-- View Wrap STR -->
+            <input type="hidden" id="v_client_idx" value="">
+            <div class="view_wrap">
+                <div class="view_top">
+                    <h4 class="view_tit">고객접수 기본정보</h4>
+                    <?php if($delete_permit === true) { ?><a class="view_del_btn" id="del_btn">삭제</a><?php } ?>
+                </div>
+
+                <div class="view_box">
+                    <table class="view_tbl">
+                        <tbody>
+                            <tr>
+                                <th class="x90">접수일자</th>
+                                <td class="x150" id="v_receipt_date"></td>
+                                <th class="x90">시작일자</th>
+                                <td class="x110" id="v_str_date"></td>
+                                <th class="x90">종료일자</th>
+                                <td class="x100" id="v_end_date"></td>
+                                <th class="x90">취소일자</th>
+                                <td id="v_cancel_date"></td>
+                            </tr>
+                            <tr>
+                                <th>신청인</th>
+                                <td>
+                                    <div class="v_cl_name_wrap">
+                                        <span id="v_cl_name"></span>
+                                        <?php if($write_permit === true) { ?><a class="view_edit_btn" id="edit_btn">수정</a><?php } ?>
+                                    </div>
+                                </td>
+                                <th>주민번호</th>
+                                <td id="v_cl_security_number"></td>
+                                <th>연락처</th>
+                                <td id="v_cl_hp"></td>
+                                <th>긴급연락처</th>
+                                <td id="v_cl_tel"></td>
+                            </tr>
+                            <tr class="v_client_service_view" client_service="<?php echo ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[0] ?>">
+                                <th>가족관계</th>
+                                <td id="v_cl_relationship"></td>
+                                <th>아기이름</th>
+                                <td id="v_cl_baby_name"></td>
+                                <th>아기생년월일</th>
+                                <td id="v_cl_baby_birth"></td>
+                                <th>아기성별</th>
+                                <td id="v_cl_baby_gender"></td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td id="v_cl_addr" colspan="7"></td>
+                            </tr>
+                            <tr>
+                                <th>특이사항</th>
+                                <td colspan="7">
+                                    <div class="v_cl_memo" id="v_cl_memo1"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>취소사유</th>
+                                <td colspan="7">
+                                    <div class="v_cl_memo" id="v_cl_memo2"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="view_top mtop20">
+                    <h4 class="view_tit">고객접수 서비스정보</h4>
+                </div>
+
+                <div class="view_box">
+                    <table class="view_tbl">
+                        <tbody>
+                            //
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="view_top mtop20">
+                    <h4 class="view_tit">고객접수 관리사정보</h4>
+                </div>
+
+                <div class="view_box">
+                    <table class="view_tbl">
+                        <tbody>
+                            //
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- View Wrap END -->
+        </div>
+        <!-- List & View Wrap END -->
+
+
+
+
+        <div class="sub_wrap">
+            
             <!-- Client View Layer STR -->
             <input type="hidden" id="v_client_idx" value="">
-            <div class="sub_box">
-                <h4 class="layer_tit">고객접수 기본정보</h4>
-
-                <table class="layer_tbl">
-                    <tbody>
-                        <tr>
-                            <th class="x90">접수일자</th>
-                            <td class="x160" id="v_receipt_date"></td>
-                            <th class="x90">시작일자</th>
-                            <td id="v_str_date"></td>
-                            <th class="x90">종료일자</th>
-                            <td class="x115" id="v_end_date"></td>
-                            <th class="x90">취소일자</th>
-                            <td class="x115" id="v_cancel_date"></td>
-                        </tr>
-                        <tr class="v_client_service_view" client_service="<?php echo ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[0] ?>">
-                            <th>가족관계</th>
-                            <td id="v_cl_relationship"></td>
-                            <th>아기이름</th>
-                            <td id="v_cl_baby_name"></td>
-                            <th>아기생년월일</th>
-                            <td id="v_cl_baby_birth"></td>
-                            <th>아기성별</th>
-                            <td id="v_cl_baby_gender"></td>
-                        </tr>
-                        <tr>
-                            <th>신청인</th>
-                            <td>
-                                <div class="v_cl_name_wrap">
-                                    <span id="v_cl_name"></span>
-                                    <a id="edit_btn">수정</a>
-                                </div>
-                            </td>
-                            <th>주민번호</th>
-                            <td id="v_cl_security_number"></td>
-                            <th>연락처</th>
-                            <td id="v_cl_hp"></td>
-                            <th>긴급연락처</th>
-                            <td id="v_cl_tel"></td>
-                        </tr>
-                        <tr>
-                            <th>출산유형</th>
-                            <td id="v_cl_birth_type"></td>
-                            <th>출산예정일</th>
-                            <td id="v_cl_birth_due_date"></td>
-                            <th>출산일</th>
-                            <td id="v_cl_birth_date" colspan="3"></td>
-                        </tr>
-                        <tr>
-                            <th>주소</th>
-                            <td id="v_cl_addr" colspan="7"></td>
-                        </tr>
-                        <tr>
-                            <th>특이사항</th>
-                            <td colspan="7">
-                                <div class="v_cl_memo" id="v_cl_memo1"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>취소사유</th>
-                            <td colspan="7">
-                                <div class="v_cl_memo" id="v_cl_memo2"></div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="view_wrap">
+                
 
                 <div class="flex_row_between">
                     <div>
@@ -272,20 +338,21 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
 </div>
 
 <div id="layer_popup_bg"></div>
-<div id="layer_popup"></div>
+<div id="layer_popup" class="x1050"></div>
 
 <script>
     let write_ajax;
 
     $(function(){
-        $('#write_btn').click(function(){
+        <?php if($write_permit === true) { ?>
+        $(document).on('click', '#write_btn', function(){
             $("#layer_popup").load(g5_bbs_url + "/client_write.php");
 
             $('#layer_popup').css('display', 'block');
             $('#layer_popup_bg').css('display', 'block');
         });
 
-        $('#edit_btn').click(function(){
+        $(document).on('click', '#edit_btn', function(){
             let client_idx = $('#v_client_idx').val();
             $("#layer_popup").load(g5_bbs_url + "/client_write.php?w=u&client_idx=" + client_idx);
 
@@ -293,52 +360,80 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
             $('#layer_popup_bg').css('display', 'block');
         });
 
-        $(document).on('click', '.client_service_list', function(){
-            let client_service = $(this).attr('client_service');
-            $('#client_service').val(client_service);
-
-            $('#client_service_wrap').remove();
-
-            $('.client_service_view').css('display', 'none');
-            $('.client_service_view').filter("[client_service='" + client_service + "']").css('display', 'table-row');
-        });
-
-        $(document).on('click', '#popup_close_btn', function(){
-            $('#layer_popup').empty();
-
-            $('#layer_popup').css('display', 'none');
-            $('#layer_popup_bg').css('display', 'none');
-        });
-
-        $(document).on('click', '#client_list > tr', function(){
-            $('#client_list > tr').removeClass('list_selected');
-            $(this).addClass('list_selected');
-
-            view_act();
-        });
-
-        $('#sch_premium').change(function(){
-            list_act('');
-        });
-
-        $('#sch_service_category').change(function(){
-            list_act('');
-        });
-
-        $('#sch_cl_name').on('input', function(){
-            list_act('');
-        });
-
         $(document).on('change', '#cl_service_cate', function(){
-            if($(this).val() == '바우처') {
-                $('#cl_service_cate2').css('display', 'inline-block');
-            }else{
-                $('#cl_service_cate2').css('display', 'none');
-            }
+            let client_service = $('#client_service').val();
+            let cl_service_cate = $(this).val();
+
+            $('#cl_service_cate2').empty();
+            
+            let datas = '';
+            datas += '<option value="">서비스구분선택</option>';
+
+            $.ajax({
+                url: g5_bbs_url + '/ajax.client_service_cate2.php',
+                type: "POST",
+                data: {'client_service': client_service, 'cl_service_cate': cl_service_cate},
+                dataType: "json",
+                success: function(response) {
+                    // 전송이 성공한 경우 받는 응답 처리
+                    console.log(response);
+
+                    if(response.length > 0) {
+                        for(let i=0; i<response.length; i++) {
+                            datas += '<optgroup label="'+response[i].group+'">';
+                            if(response[i].sme_id.length > 0) {
+                                for(let j=0; j<response[i].sme_id.length; j++) {
+                                    datas += '<option value="'+response[i].sme_id[j]+'">'+response[i].sme_name[j]+'</option>';
+                                }
+                            }
+                            datas += '</optgroup>';
+                        }
+                    }
+
+                    $('#cl_service_cate2').append(datas);
+                },
+                error: function(error) {
+                    // 전송이 실패한 경우 받는 응답 처리
+                    location.reload();
+                }
+            });
+        });
+
+        $(document).on('change', '#cl_service_cate2', function(){
+            let client_service = $('#client_service').val();
+            let cl_service_cate2 = $('#cl_service_cate2').val();
+
+            $('#cl_service_period').empty();
+
+            let datas = '';
+            if(client_service != '반찬') datas += '<option value="">서비스기간선택</option>';
+
+            $.ajax({
+                url: g5_bbs_url + '/ajax.client_service_period.php',
+                type: "POST",
+                data: {'cl_service_cate2': cl_service_cate2},
+                dataType: "json",
+                success: function(response) {
+                    // 전송이 성공한 경우 받는 응답 처리
+                    console.log(response);
+
+                    if(response.length > 0) {
+                        for(let i=0; i<response.length; i++) {
+                            datas += '<option value="'+response[i].spe_id+'">'+response[i].spe_cate+'('+response[i].spe_name+')'+'</option>';
+                        }
+                    }
+
+                    $('#cl_service_period').append(datas);
+                },
+                error: function(error) {
+                    // 전송이 실패한 경우 받는 응답 처리
+                    location.reload();
+                }
+            });
         });
 
         // 저장버튼 클릭시
-        $(document).on('click', '#client_submit_btn', function(){
+        $(document).on('click', '#submit_btn', function(){
             if (typeof write_ajax !== 'undefined') {
                 write_ajax.abort(); // 비동기 실행취소
             }
@@ -376,6 +471,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                 return false;
             }
 
+            /*
             if($('#cl_service_cate').val() == '') {
                 alert('서비스구분를 선택해주세요');
                 $('#cl_service_cate').focus();
@@ -389,6 +485,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                     return false;
                 }
             }
+            */
 
             let writeForm = document.getElementById("fregisterform");
             let formData = new FormData(writeForm);
@@ -414,10 +511,9 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
 
                         list_act(response.client_idx);
 
-                        $('#layer_popup').css('display', 'none');
-                        $('#layer_popup_bg').css('display', 'none');
+                        $("#layer_popup").load(g5_bbs_url + "/client_write.php?w=u&client_idx=" + response.client_idx);
                     }else{
-                        //location.reload();
+                        location.reload();
                     }
                 },
                 error: function(error) {
@@ -426,16 +522,85 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                 }
             });
         });
+        <?php } ?>
+
+        <?php if($delete_permit === true) { ?>
+        $(document).on('click', '#del_btn', function(){
+            if(confirm('한번 삭제되면 복구가 불가능합니다.\n그래도 삭제하시겠습니까?')) {
+                let client_idx = $('#v_client_idx').val();
+
+                $.ajax({
+                    url: g5_bbs_url + '/ajax.client_delete.php',
+                    type: "POST",
+                    data: {'client_idx': client_idx},
+                    dataType: "json",
+                    success: function(response) {
+                        // 전송이 성공한 경우 받는 응답 처리
+
+                        if(response.msg != '') {
+                            alert(response.msg);
+                        }
+                        if(response.code == '0000') {
+                            list_act('');
+                        }else{
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        // 전송이 실패한 경우 받는 응답 처리
+                        location.reload();
+                    }
+                });
+            }
+            
+            return false;
+        });
+        <?php } ?>
+
+        $(document).on('click', '.client_service_list', function(){
+            let client_service = $(this).attr('client_service');
+            $('#client_service').val(client_service);
+
+            $("#layer_popup").empty();
+            $("#layer_popup").load(g5_bbs_url + "/client_write.php?client_service=" + client_service);
+        });
+
+        $(document).on('click', '#popup_close_btn', function(){
+            $('#layer_popup').empty();
+
+            $('#layer_popup').css('display', 'none');
+            $('#layer_popup_bg').css('display', 'none');
+        });
+
+        $(document).on('click', '#client_list > tr', function(){
+            $('#client_list > tr').removeClass('list_selected');
+            $(this).addClass('list_selected');
+
+            view_act();
+        });
+
+        $('#sch_service_category').change(function(){
+            list_act('');
+        });
+
+        $('#sch_cl_name').on('input', function(){
+            list_act('');
+        });
+
+        $('#excel_download_btn').click(function(){
+            let sch_service_category = $('#sch_service_category option:selected').val();
+            let sch_cl_name = $('#sch_cl_name').val();
+
+            window.location.href = g5_bbs_url + '/client_excel_download.php?service_category=' + sch_service_category + '&cl_name=' + sch_cl_name;
+        });
     });
 
     // 리스트 추출
     function list_act(client_idx) {
-        let sch_premium = '';
         let sch_service_category = '';
         let sch_cl_name = '';
 
         if(client_idx == '') {
-            sch_premium = ($('#sch_premium').is(':checked') == true) ? 'y' : '';
             sch_service_category = $('#sch_service_category option:selected').val();
             sch_cl_name = $('#sch_cl_name').val();
         }
@@ -443,7 +608,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
         $.ajax({
             url: g5_bbs_url + '/ajax.client_list.php',
             type: "POST",
-            data: {'sch_premium': sch_premium, 'sch_service_category': sch_service_category, 'sch_cl_name': sch_cl_name, 'client_idx': client_idx},
+            data: {'sch_service_category': sch_service_category, 'sch_cl_name': sch_cl_name, 'client_idx': client_idx},
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
@@ -463,11 +628,12 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                         }
 
                         datas += '<tr class="' + list_selected + '" client_idx="' + response[i].client_idx + '">';
-                        datas += '<td class="x45 talign_c">' + (i+1) + '</td>';
-                        datas += '<td class="x100 talign_c">' + response[i].cl_name + '</td>';
-                        datas += '<td class="x130 talign_c">' + response[i].cl_hp + '</td>';
-                        datas += '<td class="x110 talign_c">' + response[i].receipt_date + '</td>';
-                        datas += '<td class="talign_c">' + response[i].use_status + '</td>';
+                        datas += '<td class="left_list_numb">' + (i+1) + '</td>';
+                        datas += '<td class="left_list_name">' + response[i].cl_name + '</td>';
+                        datas += '<td class="left_list_service_category">' + response[i].service_category + '</td>';
+                        datas += '<td class="left_list_hp">' + response[i].cl_hp + '</td>';
+                        datas += '<td class="left_list_date">' + response[i].receipt_date + '</td>';
+                        datas += '<td class="left_list_status">' + response[i].use_status + '</td>';
                         datas += '</tr>';
                     }
 
@@ -485,7 +651,9 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
     function view_act() {
         let client_idx = $('.list_selected').attr('client_idx');
 
-        $('#v_client_idx').val(client_idx); 
+        $('#v_client_idx').val(client_idx);
+
+        $('#v_client_service').html('');
         $('#v_receipt_date').html('');
         $('#v_str_date').html('');
         $('#v_end_date').html('');
@@ -498,10 +666,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
         $('#v_cl_birth_due_date').html('');
         $('#v_cl_birth_date').html('');
         $('#v_cl_addr').html('');
-        $('#v_cl_memo1').html('');
-        $('#v_cl_memo2').html('');
-
         $('#v_cl_service_cate').html('');
+        $('#v_cl_service_cate2').html('');
+        $('#v_cl_service_period').html('');
+        $('#v_cl_service_option').html('');
         $('#v_cl_baby').html('');
         $('#v_cl_baby_gender').html('');
         $('#v_cl_baby_count').html('');
@@ -509,25 +677,19 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
         $('#v_cl_school_preschool').html('');
         $('#v_cl_cctv').html('');
         $('#v_cl_pet').html('');
-        $('#v_cl_prior_interview').html('');
         $('#v_cl_surcharge').html('');
-        $('#v_cl_premium_use').html('');
         $('#v_cl_unit_price').html('');
         $('#v_cl_tot_price').html('');
+        $('#v_cl_cash_receipt').html('');
+        $('#v_cl_memo1').html('');
+        $('#v_cl_memo2').html('');
         $('#v_cl_memo3').html('');
-        $('#v_cl_item1').html('');
-        $('#v_cl_item2').html('');
-
         $('#v_cl_relationship').html('');
         $('#v_cl_baby_name').html('');
         $('#v_cl_baby_birth').html('');
-        $('#v_cl_service_all_date').html('');
-        $('#v_cl_service_time').html('');
-        $('#v_cl_add_service0').html('');
-        $('#v_cl_house_area').html('');
-        $('#v_cl_add_service1').html('');
-        $('#v_cl_product').html('');
-        $('#v_cl_add_service2').html('');
+        $('#v_cl_prior_interview').html('');
+        $('#v_cl_overtime').html('');
+        $('#v_cl_twins').html('');
 
         $.ajax({
             url: g5_bbs_url + '/ajax.client_view.php',
@@ -537,6 +699,7 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
             success: function(response) {
                 console.log(response);
 
+                $('#v_client_service').html(response.v_client_service);
                 $('#v_receipt_date').html(response.v_receipt_date);
                 $('#v_str_date').html(response.v_str_date);
                 $('#v_end_date').html(response.v_end_date);
@@ -549,10 +712,10 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                 $('#v_cl_birth_due_date').html(response.v_cl_birth_due_date);
                 $('#v_cl_birth_date').html(response.v_cl_birth_date);
                 $('#v_cl_addr').html(response.v_cl_addr);
-                $('#v_cl_memo1').html(response.v_cl_memo1);
-                $('#v_cl_memo2').html(response.v_cl_memo2);
-
                 $('#v_cl_service_cate').html(response.v_cl_service_cate);
+                $('#v_cl_service_cate2').html(response.v_cl_service_cate2);
+                $('#v_cl_service_period').html(response.v_cl_service_period);
+                $('#v_cl_service_option').html(response.v_cl_service_option);
                 $('#v_cl_baby').html(response.v_cl_baby);
                 $('#v_cl_baby_gender').html(response.v_cl_baby_gender);
                 $('#v_cl_baby_count').html(response.v_cl_baby_count);
@@ -560,28 +723,19 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/10.client.css
                 $('#v_cl_school_preschool').html(response.v_cl_school_preschool);
                 $('#v_cl_cctv').html(response.v_cl_cctv);
                 $('#v_cl_pet').html(response.v_cl_pet);
-                $('#v_cl_prior_interview').html(response.v_cl_prior_interview);
                 $('#v_cl_surcharge').html(response.v_cl_surcharge);
-                $('#v_cl_premium_use').html(response.v_cl_premium_use);
                 $('#v_cl_unit_price').html(response.v_cl_unit_price);
                 $('#v_cl_tot_price').html(response.v_cl_tot_price);
+                $('#v_cl_cash_receipt').html(response.v_cl_cash_receipt);
+                $('#v_cl_memo1').html(response.v_cl_memo1);
+                $('#v_cl_memo2').html(response.v_cl_memo2);
                 $('#v_cl_memo3').html(response.v_cl_memo3);
-                $('#v_cl_item1').html(response.v_cl_item1);
-                $('#v_cl_item2').html(response.v_cl_item2);
-
                 $('#v_cl_relationship').html(response.v_cl_relationship);
                 $('#v_cl_baby_name').html(response.v_cl_baby_name);
                 $('#v_cl_baby_birth').html(response.v_cl_baby_birth);
-                $('#v_cl_service_all_date').html(response.v_cl_service_all_date);
-                $('#v_cl_service_time').html(response.v_cl_service_time);
-                $('#v_cl_add_service0').html(response.v_cl_add_service0);
-                $('#v_cl_house_area').html(response.v_cl_house_area);
-                $('#v_cl_add_service1').html(response.v_cl_add_service1);
-                $('#v_cl_product').html(response.v_cl_product);
-                $('#v_cl_add_service2').html(response.v_cl_add_service2);
-
-                $('.v_client_service_view').css('display', 'none');
-                $('.v_client_service_view').filter("[client_service='" + response.v_client_service + "']").css('display', 'table-row');
+                $('#v_cl_prior_interview').html(response.v_cl_prior_interview);
+                $('#v_cl_overtime').html(response.v_cl_overtime);
+                $('#v_cl_twins').html(response.v_cl_twins);
             },
             error: function(error) {
                 // 전송이 실패한 경우 받는 응답 처리
