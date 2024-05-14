@@ -10,6 +10,7 @@ if($w == '') {
     $client_service = ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[0];
 
     $write['branch_id'] = $_SESSION['this_branch_id'];
+    $write['receipt_date'] = date('Y-m-d');
 }
 
 if($w == 'u' && $client_idx != '') {
@@ -20,6 +21,9 @@ if($w == 'u' && $client_idx != '') {
     if($write['str_date'] == '0000-00-00') $write['str_date'] = '';
     if($write['end_date'] == '0000-00-00') $write['end_date'] = '';
     if($write['cancel_date'] == '0000-00-00') $write['cancel_date'] = '';
+
+    if($write['cl_birth_due_date'] == '0000-00-00') $write['cl_birth_due_date'] = '';
+    if($write['cl_birth_date'] == '0000-00-00') $write['cl_birth_date'] = '';
 
     $client_service = $write['client_service'];
 }
@@ -41,7 +45,7 @@ if($w == 'u' && $client_idx != '') {
                     <tbody>
                         <tr>
                             <th>지점<span class="required_txt">*</span></th>
-                            <td colspan="7">
+                            <td>
                                 <select name="branch_id" id="branch_id" class="form_select x105">
                                     <option value="">지점 선택</option>
                                     <?php
@@ -56,6 +60,20 @@ if($w == 'u' && $client_idx != '') {
                                         }
                                     }
                                     ?>
+                                </select>
+                            </td>
+                            <th>추천경로</th>
+                            <td colspan="5">
+                                <select name="cl_recommended" id="cl_recommended" class="form_select x105">
+                                    <option value="">추천경로선택</option>
+                                    <option value="보건소" <?php echo ($write['cl_recommended'] == '보건소')?'selected':''; ?>>보건소</option>
+                                    <option value="지인" <?php echo ($write['cl_recommended'] == '지인')?'selected':''; ?>>지인</option>
+                                    <option value="홍보물" <?php echo ($write['cl_recommended'] == '홍보물')?'selected':''; ?>>홍보물</option>
+                                    <option value="홈페이지" <?php echo ($write['cl_recommended'] == '홈페이지')?'selected':''; ?>>홈페이지</option>
+                                    <option value="산모교실" <?php echo ($write['cl_recommended'] == '산모교실')?'selected':''; ?>>산모교실</option>
+                                    <option value="마미교실" <?php echo ($write['cl_recommended'] == '마미교실')?'selected':''; ?>>마미교실</option>
+                                    <option value="박람회" <?php echo ($write['cl_recommended'] == '박람회')?'selected':''; ?>>박람회</option>
+                                    <option value="기타" <?php echo ($write['cl_recommended'] == '기타')?'selected':''; ?>>기타</option>
                                 </select>
                             </td>
                         </tr>
@@ -130,23 +148,10 @@ if($w == 'u' && $client_idx != '') {
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <th>특이사항</th>
-                            <td colspan="7">
-                                <textarea name="cl_memo1" id="cl_memo1" class="form_textarea"><?php echo $write['cl_memo1'] ?></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>취소사유</th>
-                            <td colspan="7">
-                                <textarea name="cl_memo2" id="cl_memo2" class="form_textarea"><?php echo $write['cl_memo2'] ?></textarea>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
-            <h4 class="layer_popup_form_tit mtop20">고객접수 서비스정보</h4>
-            <div class="form_tbl_wrap">
+            <div class="form_tbl_wrap" style="margin-top:-2px; border-top:0;">
                 <table class="form_tbl">
                     <tbody>
                         <tr>
@@ -219,7 +224,7 @@ if($w == 'u' && $client_idx != '') {
                                 </select>
                             </td>
                             <th>추가옵션</th>
-                            <td colspan="3">
+                            <td>
                                 <?php
                                 $service_option_sql = " select * from g5_service_option where client_service = '{$client_service}' and (sop_cate = 'select' or sop_cate = 'premium') and sop_use = 1 order by sop_id asc ";
                                 $service_option_qry = sql_query($service_option_sql);
@@ -232,6 +237,24 @@ if($w == 'u' && $client_idx != '') {
                                         for($l=0; $service_option_row = sql_fetch_array($service_option_qry); $l++) {
                                     ?>
                                     <option value="<?php echo $service_option_row['sop_id'] ?>" <?php echo ($write['cl_service_option'] == $service_option_row['sop_id'])?'selected':''; ?>><?php echo $service_option_row['sop_name'] ?></option>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                            <th>지정관리사</th>
+                            <td>
+                                <select name="cl_work_select_mb_id" id="cl_work_select_mb_id" class="form_select">
+                                    <option value="">지정관리사선택</option>
+                                    <?php
+                                    $wmb_sql = " select * from g5_member where mb_menu = '{$_SESSION['this_code']}' and branch_id = '{$_SESSION['this_branch_id']}' and mb_level = 2 and mb_hide = '' and service_category = '{$client_service}' and activity_status = '활동중' order by activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc ";
+                                    $wmb_qry = sql_query($wmb_sql);
+                                    $wmb_num = sql_num_rows($wmb_qry);
+                                    if($wmb_num > 0) {
+                                        for($l=0; $wmb_row = sql_fetch_array($wmb_qry); $l++) {
+                                    ?>
+                                        <option value="<?php echo $wmb_row['mb_id'] ?>" <?php echo ($write['cl_work_select_mb_id'] == $wmb_row['mb_id'])?'selected':''; ?>><?php echo $wmb_row['mb_name'] ?> (<?php echo substr($wmb_row['security_number'], 0, 8) ?>) <?php echo $wmb_row['mb_hp'] ?></option>
                                     <?php
                                         }
                                     }
@@ -303,7 +326,7 @@ if($w == 'u' && $client_idx != '') {
                                 </select>
                             </td>
                             <th>반려동물</th>
-                            <td>
+                            <td colspan="3">
                                 <select name="cl_pet" id="cl_pet" class="form_select">
                                     <option value="">없음</option>
                                     <?php for($l=0; $l<count($set_pet_use_arr); $l++) { ?>
@@ -311,6 +334,7 @@ if($w == 'u' && $client_idx != '') {
                                     <?php } ?>
                                 </select>
                             </td>
+                            <?/*
                             <th>사전면접</th>
                             <td>
                                 <select name="cl_prior_interview" id="cl_prior_interview" class="form_select">
@@ -319,6 +343,7 @@ if($w == 'u' && $client_idx != '') {
                                     <option value="있음" <?php echo ($write['cl_prior_interview'] == '있음')?'selected':''; ?>>있음</option>
                                 </select>
                             </td>
+                            */?>
                         </tr>
                         <tr>
                             <th class="x90">단가구분</th>
@@ -338,6 +363,18 @@ if($w == 'u' && $client_idx != '') {
                             <th>추가요청사항</th>
                             <td colspan="5">
                                 <textarea name="cl_memo3" id="cl_memo3" class="form_textarea y100"><?php echo $write['cl_memo3'] ?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>특이사항</th>
+                            <td colspan="5">
+                                <textarea name="cl_memo1" id="cl_memo1" class="form_textarea"><?php echo $write['cl_memo1'] ?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>취소사유</th>
+                            <td colspan="5">
+                                <textarea name="cl_memo2" id="cl_memo2" class="form_textarea"><?php echo $write['cl_memo2'] ?></textarea>
                             </td>
                         </tr>
                     </tbody>

@@ -6,10 +6,14 @@
 /* Page Wrap END */
 
 /* Etc STR */
+.x70 {width:70px;}
 .x100 {width:100px;}
 .x120 {width:120px;}
+.x130 {width:130px;}
+.x140 {width:140px;}
 .x150 {width:150px;}
 .x160 {width:160px;}
+.x170 {width:170px;}
 .x180 {width:180px;}
 .x210 {width:210px;}
 .x220 {width:220px;}
@@ -23,14 +27,16 @@
 
 .mtop5 {margin-top:5px !important;}
 .mtop20 {margin-top:20px !important;}
+
+.premium_icon {display:inline-flex; flex-direction:row; align-items:center; justify-content:center; margin:0; margin-left:6px; padding:0; padding-top:4px; width:16px; height:16px; color:#000; font-weight:600; border:0; border-radius:4px; background:#f7b148; font-family:'GmarketSansLight'; font-size:13px; vertical-align:middle;}
 /* Etc END */
 
 /* Member View STR */
 #profile_wrap {position:relative; margin:0 auto; padding:0; width:100%;}
 #profile_wrap > img {display:block; margin:0; padding:0; width:100%; max-height:158px;}
 
-#certificate_nav {position:absolute; right:8px; top:50%; transform:translateY(-50%);}
-#certificate_nav_btn {display:block; margin:0; padding:7px 11px 4px 11px; border:0; border-radius:4px; color:#fff; background:#434a54; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
+#certificate_nav {position:relative; right:8px;}
+#certificate_nav_btn {display:block; margin:0; padding:6px 11px 3px 11px; border:0; border-radius:4px; color:#fff; background:#434a54; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
 .certificate_nav_box {display:none; position:absolute; right:0; top:33px; margin:0; padding:7px 12px; width:120px; width:max-content; background:#434a54; border:0; border-radius:4px;}
 .certificate_nav_list {position:relative; display:block; margin:0; padding:5px 0; width:100%; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
 .certificate_nav_list:hover {color:#ed5684 !important;}
@@ -42,7 +48,7 @@
 /* Member View END */
 
 /* Member Write|Edit STR */
-.x1050 {width:1050px;}
+.x1400 {width:1400px;}
 
 #profile_write_wrap {position:relative; margin:0 auto; padding:0; width:100%;}
 #mb_profile_del, #mb_profile {display:none;}

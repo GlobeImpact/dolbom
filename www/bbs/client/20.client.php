@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client.css?ver=2">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client.css?ver=5">', 0);
 
 
 // 등록/수정 권한
@@ -58,11 +58,17 @@ if(!$is_admin) {
                         <thead>
                             <tr>
                                 <th class="left_list_numb">번호</th>
+                                <th class="left_list_date">접수일자</th>
                                 <th class="left_list_name">신청인</th>
                                 <th class="left_list_service_category">서비스</th>
                                 <th class="left_list_hp">연락처</th>
-                                <th class="left_list_date">접수일자</th>
                                 <th class="left_list_status">현황</th>
+                                <th class="left_list_addr">주소</th>
+                                <th class="left_list_date">출산예정일</th>
+                                <th class="left_list_service_category">출산순위</th>
+                                <th class="left_list_service_category">출산아기</th>
+                                <th class="left_list_date">시작일자</th>
+                                <th class="left_list_date">종료일자</th>
                             </tr>
                         </thead>
                         <tbody id="client_list"></tbody>
@@ -87,121 +93,103 @@ if(!$is_admin) {
                     <table class="view_tbl">
                         <tbody>
                             <tr>
-                                <th class="x90">접수일자</th>
-                                <td class="x150" id="v_receipt_date"></td>
-                                <th class="x90">시작일자</th>
-                                <td class="x110" id="v_str_date"></td>
-                                <th class="x90">종료일자</th>
-                                <td class="x100" id="v_end_date"></td>
-                                <th class="x90">취소일자123</th>
-                                <td class="x100" id="v_cancel_date"></td>
-                            </tr>
-                            <tr>
-                                <th>신청인</th>
-                                <td>
+                                <th class="x90">분류</th>
+                                <td class="x160 talign_c" id="v_client_service"></td>
+                                <th class="x90">신청인</th>
+                                <td class="x160">
                                     <div class="v_cl_name_wrap">
                                         <span id="v_cl_name"></span>
                                         <?php if($write_permit === true) { ?><a class="view_edit_btn" id="edit_btn">수정</a><?php } ?>
                                     </div>
                                 </td>
-                                <th>주민번호</th>
-                                <td id="v_cl_security_number"></td>
-                                <th>연락처</th>
-                                <td id="v_cl_hp"></td>
-                                <th>긴급연락처</th>
-                                <td id="v_cl_tel"></td>
+                                <th class="x90">접수일자</th>
+                                <td class="x110 talign_c" id="v_receipt_date"></td>
+                                <th class="x90">시작일자</th>
+                                <td class="x110 talign_c" id="v_str_date"></td>
+                                <th class="x90">종료일자</th>
+                                <td class="x110 talign_c" id="v_end_date"></td>
+                                <th class="x90">취소일자</th>
+                                <td class="talign_c" id="v_cancel_date"></td>
                             </tr>
                             <tr>
+                                <th>주민번호</th>
+                                <td class="talign_c" id="v_cl_security_number"></td>
+                                <th>연락처</th>
+                                <td class="talign_c" id="v_cl_hp"></td>
+                                <th>긴급연락처</th>
+                                <td class="talign_c" id="v_cl_tel"></td>
                                 <th>출산유형</th>
-                                <td id="v_cl_birth_type"></td>
+                                <td class="talign_c" id="v_cl_birth_type"></td>
                                 <th>출산예정일</th>
-                                <td id="v_cl_birth_due_date"></td>
+                                <td class="talign_c" id="v_cl_birth_due_date"></td>
                                 <th>출산일</th>
-                                <td id="v_cl_birth_date" colspan="3"></td>
+                                <td class="talign_c" id="v_cl_birth_date"></td>
                             </tr>
                             <tr>
                                 <th>주소</th>
-                                <td id="v_cl_addr" colspan="7"></td>
+                                <td id="v_cl_addr" colspan="11"></td>
+                            </tr>
+                            <tr>
+                                <th>서비스구분</th>
+                                <td class="talign_c">
+                                    <span id="v_cl_service_cate"></span>
+                                    <span id="v_cl_service_cate2"></span>
+                                </td>
+                                <th>서비스기간</th>
+                                <td class="talign_c" id="v_cl_service_period"></td>
+                                <th>추가옵션</th>
+                                <td class="talign_c" id="v_cl_service_option"></td>
+                                <th>출산아기</th>
+                                <td class="talign_c" id="v_cl_baby"></td>
+                                <th>아기성별</th>
+                                <td class="talign_c" id="v_cl_baby_gender"></td>
+                                <th>출산순위</th>
+                                <td class="talign_c" id="v_cl_baby_count"></td>
+                            </tr>
+                            <tr>
+                                <th>취학/미취학</th>
+                                <td class="talign_c" id="v_cl_school_preschool"></td>
+                                <th>추가요금부담</th>
+                                <td class="talign_c" id="v_cl_surcharge"></td>
+                                <th>CCTV</th>
+                                <td class="talign_c" id="v_cl_cctv"></td>
+                                <th>반려동물</th>
+                                <td class="talign_c" id="v_cl_pet"></td>
+                                <?/*
+                                <th>사전면접</th>
+                                <td class="talign_c" id="v_cl_prior_interview"></td>
+                                */?>
+                                <th>현금영수증</th>
+                                <td class="talign_c" id="v_cl_cash_receipt"></td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th>단가구분</th>
+                                <td class="talign_c" id="v_cl_unit_price"></td>
+                                <th>합계금액</th>
+                                <td class="talign_c" id="v_cl_tot_price"></td>
+                                <th>추천경로</th>
+                                <td class="talign_c" id="v_cl_recommended"></td>
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr>
+                                <th>추가요청사항</th>
+                                <td colspan="11">
+                                    <div class="v_cl_memo" id="v_cl_memo3"></div>
+                                </td>
                             </tr>
                             <tr>
                                 <th>특이사항</th>
-                                <td colspan="7">
+                                <td colspan="11">
                                     <div class="v_cl_memo" id="v_cl_memo1"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>취소사유</th>
-                                <td colspan="7">
+                                <td colspan="11">
                                     <div class="v_cl_memo" id="v_cl_memo2"></div>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="view_top mtop20">
-                    <h4 class="view_tit">고객접수 서비스정보</h4>
-                </div>
-
-                <div class="view_box">
-                    <table class="view_tbl">
-                        <tbody>
-                            <tr>
-                                <th>서비스구분</th>
-                                <td colspan="5"></td>
-                            </tr>
-                            <tr>
-                                <th>서비스기간</th>
-                                <td></td>
-                                <th>추가옵션</th>
-                                <td colspan="3"></td>
-                            </tr>
-                            <tr>
-                                <th>출산아기</th>
-                                <td></td>
-                                <th>아기성별</th>
-                                <td></td>
-                                <th>출산순위</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>취학/미취학</th>
-                                <td></td>
-                                <th>추가요금부담</th>
-                                <td colspan="3"></td>
-                            </tr>
-                            <tr>
-                                <th>CCTV</th>
-                                <td></td>
-                                <th>반려동물</th>
-                                <td></td>
-                                <th>사전면접</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th class="x90">단가구분</th>
-                                <td class="x200"></td>
-                                <th class="x90">합계금액</th>
-                                <td class="x170"></td>
-                                <th class="x90">현금영수증</th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th>추가요청사항</th>
-                                <td colspan="5"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="view_top mtop20">
-                    <h4 class="view_tit">고객접수 관리사정보</h4>
-                </div>
-
-                <div class="view_box">
-                    <table class="view_tbl">
-                        <tbody>
-                            //
                         </tbody>
                     </table>
                 </div>
@@ -251,8 +239,6 @@ if(!$is_admin) {
                 dataType: "json",
                 success: function(response) {
                     // 전송이 성공한 경우 받는 응답 처리
-                    console.log(response);
-
                     if(response.length > 0) {
                         for(let i=0; i<response.length; i++) {
                             datas += '<optgroup label="'+response[i].group+'">';
@@ -289,8 +275,6 @@ if(!$is_admin) {
                 dataType: "json",
                 success: function(response) {
                     // 전송이 성공한 경우 받는 응답 처리
-                    console.log(response);
-
                     if(response.length > 0) {
                         for(let i=0; i<response.length; i++) {
                             datas += '<option value="'+response[i].spe_id+'">'+response[i].spe_cate+'('+response[i].spe_info+')'+'</option>';
@@ -298,6 +282,26 @@ if(!$is_admin) {
                     }
 
                     $('#cl_service_period').append(datas);
+                },
+                error: function(error) {
+                    // 전송이 실패한 경우 받는 응답 처리
+                    location.reload();
+                }
+            });
+        });
+
+        $(document).on('change', '#cl_service_period', function(){
+            let cl_service_period = $('#cl_service_period').val();
+            let receipt_date = $('#receipt_date').val();
+            let str_date = $('#str_date').val();
+
+            $.ajax({
+                url: g5_bbs_url + '/ajax.client_price_call.php',
+                type: "POST",
+                data: {'cl_service_period': cl_service_period, 'receipt_date': receipt_date, 'str_date': str_date},
+                dataType: "json",
+                success: function(response) {
+                    $('#cl_unit_price').val(response.cl_unit_price);
                 },
                 error: function(error) {
                     // 전송이 실패한 경우 받는 응답 처리
@@ -374,8 +378,6 @@ if(!$is_admin) {
                 dataType: "json",
                 success: function(response) {
                     // 전송이 성공한 경우 받는 응답 처리
-                    console.log(response);
-
                     if(response.msg != '') {
                         alert(response.msg);
                     }
@@ -385,7 +387,10 @@ if(!$is_admin) {
 
                         list_act(response.client_idx);
 
-                        $("#layer_popup").load(g5_bbs_url + "/client_write.php?w=u&client_idx=" + response.client_idx);
+                        $('#layer_popup').css('display', 'none');
+                        $('#layer_popup_bg').css('display', 'none');
+
+                        // $("#layer_popup").load(g5_bbs_url + "/client_write.php?w=u&client_idx=" + response.client_idx);
                     }else{
                         location.reload();
                     }
@@ -479,7 +484,6 @@ if(!$is_admin) {
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
                 console.log(response);
-
                 $('#client_list').empty();
                 let datas = '';
                 let list_selected = '';
@@ -495,11 +499,17 @@ if(!$is_admin) {
 
                         datas += '<tr class="' + list_selected + '" client_idx="' + response[i].client_idx + '">';
                         datas += '<td class="left_list_numb">' + (i+1) + '</td>';
+                        datas += '<td class="left_list_date">' + response[i].receipt_date + '</td>';
                         datas += '<td class="left_list_name">' + response[i].cl_name + '</td>';
                         datas += '<td class="left_list_service_category">' + response[i].service_category + '</td>';
                         datas += '<td class="left_list_hp">' + response[i].cl_hp + '</td>';
-                        datas += '<td class="left_list_date">' + response[i].receipt_date + '</td>';
                         datas += '<td class="left_list_status">' + response[i].use_status + '</td>';
+                        datas += '<td class="left_list_addr">' + response[i].cl_addr + '</td>';
+                        datas += '<td class="left_list_date">' + response[i].cl_birth_due_date + '</td>';
+                        datas += '<td class="left_list_service_category">' + response[i].cl_baby_count + '</td>';
+                        datas += '<td class="left_list_service_category">' + response[i].cl_baby + '</td>';
+                        datas += '<td class="left_list_date">' + response[i].str_date + '</td>';
+                        datas += '<td class="left_list_date">' + response[i].end_date + '</td>';
                         datas += '</tr>';
                     }
 
@@ -546,6 +556,7 @@ if(!$is_admin) {
         $('#v_cl_surcharge').html('');
         $('#v_cl_unit_price').html('');
         $('#v_cl_tot_price').html('');
+        $('#v_cl_recommended').html('');
         $('#v_cl_cash_receipt').html('');
         $('#v_cl_memo1').html('');
         $('#v_cl_memo2').html('');
@@ -563,8 +574,6 @@ if(!$is_admin) {
             data: {'client_idx': client_idx},
             dataType: "json",
             success: function(response) {
-                console.log(response);
-
                 $('#v_client_service').html(response.v_client_service);
                 $('#v_receipt_date').html(response.v_receipt_date);
                 $('#v_str_date').html(response.v_str_date);
@@ -578,7 +587,7 @@ if(!$is_admin) {
                 $('#v_cl_birth_due_date').html(response.v_cl_birth_due_date);
                 $('#v_cl_birth_date').html(response.v_cl_birth_date);
                 $('#v_cl_addr').html(response.v_cl_addr);
-                $('#v_cl_service_cate').html(response.v_cl_service_cate);
+                if(response.v_cl_service_cate != '') $('#v_cl_service_cate').html('['+response.v_cl_service_cate+']');
                 $('#v_cl_service_cate2').html(response.v_cl_service_cate2);
                 $('#v_cl_service_period').html(response.v_cl_service_period);
                 $('#v_cl_service_option').html(response.v_cl_service_option);
@@ -592,6 +601,7 @@ if(!$is_admin) {
                 $('#v_cl_surcharge').html(response.v_cl_surcharge);
                 $('#v_cl_unit_price').html(response.v_cl_unit_price);
                 $('#v_cl_tot_price').html(response.v_cl_tot_price);
+                $('#v_cl_recommended').html(response.v_cl_recommended);
                 $('#v_cl_cash_receipt').html(response.v_cl_cash_receipt);
                 $('#v_cl_memo1').html(response.v_cl_memo1);
                 $('#v_cl_memo2').html(response.v_cl_memo2);

@@ -186,9 +186,6 @@ $(function(){
             contentType: false,
             dataType: "json",
             success: function(response) {
-                // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
-
                 // Ajax Result Message
                 if(response.msg != '') {
                     alert(response.msg);
@@ -242,8 +239,6 @@ function list_act() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
-            console.log(response);
-
             $('.layer_list_hd_tbl > thead').empty();
             if(typeof response.hd != 'undefined') {
                 $('.layer_list_hd_tbl > thead').append(response.hd);
@@ -281,9 +276,6 @@ function list_act() {
 
                     if(response.cell_count > 0) {
                         for(let j=0; j<response.cell_count; j++) {
-                            if(response.list[i].qualification[j].idx == '') {
-                                
-                            }
                             datas += '<td class="write_btn" mb_id="'+response.list[i].mb_id+'" set_idx="'+response.list[i].qualification[j].set_idx+'" idx="'+response.list[i].qualification[j].idx+'" '+cell_width_value+'>';
 
                             datas += '<div class="qualification_box">';

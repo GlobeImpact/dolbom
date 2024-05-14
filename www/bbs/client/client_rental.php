@@ -316,8 +316,6 @@ $(function(){
                 method: "POST",   // HTTP 요청 메소드(GET, POST 등)
                 dataType: "json", // 서버에서 보내줄 데이터의 타입
                 success: function(response){
-                    console.log(response);
-
                     if(response.msg != '') {
                         alert(response.msg);
                     }
@@ -497,8 +495,6 @@ $(function(){
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
-
                 if(response.msg != '') {
                     alert(response.msg);
                 }
@@ -561,8 +557,6 @@ function list_act() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
-            console.log(response);
-
             $('.layer_list_tbl > tbody').empty();
 
             let datas = '';

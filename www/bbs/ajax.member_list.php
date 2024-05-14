@@ -52,13 +52,39 @@ if($num > 0) {
         // 현황
         $list[$i]['activity_status'] = $row['activity_status'];
         // 매니저명
-        $list[$i]['mb_name'] = $row['mb_name'];
+        $list[$i]['mb_name'] = ($row['mb_name'] != '')?$row['mb_name']:'';
+        // 매니저명
+        $list[$i]['v_mb_name'] = ($row['mb_name'] != '')?$row['mb_name']:'';
+        // 프리미엄
+        $list[$i]['premium_use'] = $row['premium_use'];
+        $list[$i]['v_premium_use'] = ($row['premium_use'] != '')?$row['premium_use']:'';
+        // 팀
+        $list[$i]['team_category'] = $row['team_category'];
+        // 연락처
+        $list[$i]['mb_hp'] = $row['mb_hp'];
+        // 반려동물
+        $list[$i]['pet_use'] = $row['pet_use'];
+        // 주소
+        $list[$i]['mb_addr1'] = $row['mb_addr1'];
+        // 취약계층
+        $list[$i]['vulnerable'] = '';
+        if($row['vulnerable'] != '') {
+            if($row['vulnerable'] == '기타') {
+                $list[$i]['vulnerable'] .= $row['vulnerable_etc'];
+            }else{
+                $list[$i]['vulnerable'] .= $row['vulnerable'];
+            }
+        }
         // 성별
         $list[$i]['gender'] = '';
         if($row['security_number'] != '') $list[$i]['gender'] = wz_get_gender($row['security_number']).'자';
         // 생년월일
         $list[$i]['birthday'] = '';
         if($row['security_number'] != '') $list[$i]['birthday'] = wz_get_birth($row['security_number']);
+        // 학력
+        $list[$i]['education_memo'] = $row['education_memo'];
+        // 경력
+        $list[$i]['career_memo'] = $row['career_memo'];
         // 입사일자
         $list[$i]['enter_date'] = '';
         if($row['enter_date'] != '0000-00-00') $list[$i]['enter_date'] = $row['enter_date'];

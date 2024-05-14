@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member.css?ver=2">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/member/member.css?ver=6">', 0);
 
 
 // 등록/수정 권한
@@ -67,10 +67,17 @@ if(!$is_admin) {
                             <tr>
                                 <th class="left_list_numb">번호</th>
                                 <th class="left_list_status">현황</th>
+                                <th class="left_list_team">팀</th>
                                 <th class="left_list_name">직원명</th>
                                 <th class="left_list_gender">성별</th>
                                 <th class="left_list_birth">생년월일</th>
+                                <th class="left_list_hp">연락처</th>
                                 <th class="left_list_date">입사일자</th>
+                                <th class="left_list_pet">반려동물</th>
+                                <th class="left_list_addr">주소</th>
+                                <th class="left_list_vulnerable">취약계층</th>
+                                <th class="left_list_education">학력</th>
+                                <th class="left_list_education">경력</th>
                             </tr>
                         </thead>
                         <tbody id="member_list"></tbody>
@@ -86,13 +93,19 @@ if(!$is_admin) {
             <div class="view_wrap">
                 <div class="view_top">
                     <h4 class="view_tit">제공인력 기본정보</h4>
-                    <?php if($delete_permit === true) { ?><a class="view_del_btn" id="del_btn">삭제</a><?php } ?>
+                    <div class="view_top_btn_box">
+                        <div id="certificate_nav">
+                            <a id="certificate_nav_btn">증명서</a>
+                            <div class="certificate_nav_box"></div>
+                        </div>
+                        <?php if($delete_permit === true) { ?><a class="view_del_btn" id="del_btn">삭제</a><?php } ?>
+                    </div>
                 </div>
                 <div class="view_box">
                     <table class="view_tbl">
                         <tbody>
                             <tr>
-                                <td class="x150 valign_t" rowspan="8">
+                                <td class="x150 valign_t" rowspan="9">
                                     <div id="profile_wrap">
                                         <img src="<?php echo G5_IMG_URL ?>/profile_noimg.png" onerror="this.src='<?php echo G5_IMG_URL ?>/profile_noimg.png';">
                                     </div>
@@ -102,82 +115,51 @@ if(!$is_admin) {
                                     </div>
                                 </td>
                                 <th class="x100">서비스구분</th>
-                                <td class="x130" id="v_service_category"></td>
+                                <td class="x130 talign_c" id="v_service_category"></td>
                                 <th class="x100">성명</th>
-                                <td class="x130" id="v_mb_name"></td>
+                                <td class="x150 talign_c" id="v_mb_name"></td>
                                 <th class="x100">연락처</th>
-                                <td class="talign_c" id="v_mb_hp"></td>
+                                <td class="x130 talign_c" id="v_mb_hp"></td>
+                                <th class="x100">주민번호</th>
+                                <td class="x130 talign_c" id="v_security_number"></td>
+                                <th class="x100">입사일자</th>
+                                <td class="talign_c" id="v_enter_date"></td>
                             </tr>
                             <tr>
                                 <th>활동현황</th>
                                 <td class="talign_c" id="v_activity_status"></td>
-                                <th>주민번호</th>
-                                <td class="talign_c" id="v_security_number"></td>
                                 <th>계약형태</th>
                                 <td class="talign_c" id="v_contract_type"></td>
-                            </tr>
-                            <tr>
                                 <th>팀구분</th>
                                 <td class="talign_c" id="v_team_category"></td>
-                                <th>프리미엄</th>
-                                <td class="talign_c" id="v_premium_use"></td>
-                                <th>입사일자</th>
-                                <td class="talign_c" id="v_enter_date"></td>
-                            </tr>
-                            <tr>
                                 <th>취약계층여부</th>
                                 <td class="talign_c" id="v_vulnerable"></td>
-                                <th>반려동물</th>
-                                <td colspan="3" id="v_pet_use"></td>
+                                <th>반려동물유무</th>
+                                <td class="talign_c" id="v_pet_use"></td>
+                            </tr>
+                            <tr>
+                                <th>4대보험</th>
+                                <td class="talign_c" id="v_major4_insurance"></td>
+                                <th>보험상실</th>
+                                <td class="talign_c" id="v_loss_insurance"></td>
+                                <th>퇴사일자</th>
+                                <td class="talign_c" id="v_quit_date"></td>
+                                <th>급여</th>
+                                <td class="talign_c" id="v_basic_price"></td>
+                                <th>표준월소득액</th>
+                                <td class="talign_c" id="v_monthly_income"></td>
                             </tr>
                             <tr>
                                 <th>학력</th>
-                                <td colspan="5" id="v_education_memo"></td>
+                                <td id="v_education_memo" colspan="9"></td>
                             </tr>
                             <tr>
                                 <th>경력</th>
-                                <td colspan="5" id="v_career_memo"></td>
+                                <td id="v_career_memo" colspan="9"></td>
                             </tr>
                             <tr>
                                 <th>주소</th>
-                                <td colspan="5" id="v_mb_addr"></td>
-                            </tr>
-                            <tr>
-                                <th>비고</th>
-                                <td colspan="5">
-                                <div class="view_tbl_memo" id="v_mb_memo"></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="view_top mtop20">
-                    <h4 class="view_tit">제공인력 급여정보</h4>
-                </div>
-                <ul class="menu_box">
-                    <li class="menu_list" id="menu_list_act"><a class="menu_list_btn">급여정보</a></li>
-                    <li id="certificate_nav">
-                        <a id="certificate_nav_btn">증명서</a>
-                        <div class="certificate_nav_box"></div>
-                    </li>
-                </ul>
-                <div class="view_box">
-                    <table class="view_tbl">
-                        <tbody>
-                            <tr>
-                                <th class="x100">4대보험</th>
-                                <td class="x160" id="v_major4_insurance"></td>
-                                <th class="x100">보험상실</th>
-                                <td class="x160" id="v_loss_insurance"></td>
-                                <th class="x100">퇴사일자</th>
-                                <td id="v_quit_date"></td>
-                            </tr>
-                            <tr>
-                                <th>급여</th>
-                                <td id="v_basic_price"></td>
-                                <th>표준월소득액</th>
-                                <td colspan="3" id="v_monthly_income"></td>
+                                <td id="v_mb_addr" colspan="9"></td>
                             </tr>
                             <tr>
                                 <th>은행</th>
@@ -185,12 +167,18 @@ if(!$is_admin) {
                                 <th>계좌번호</th>
                                 <td id="v_bank_account"></td>
                                 <th>예금주</th>
-                                <td id="v_account_holder"></td>
+                                <td id="v_account_holder" colspan="5"></td>
                             </tr>
                             <tr>
                                 <th>특이사항</th>
-                                <td colspan="5">
-                                    <div class="view_tbl_memo" id="v_mb_memo2"></div>
+                                <td colspan="9">
+                                    <div class="view_tbl_memo" id="v_mb_memo2">특이사항123</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비고</th>
+                                <td colspan="9">
+                                    <div class="view_tbl_memo" id="v_mb_memo">비고123</div>
                                 </td>
                             </tr>
                         </tbody>
@@ -206,7 +194,7 @@ if(!$is_admin) {
 </div>
 
 <div id="layer_popup_bg"></div>
-<div id="layer_popup" class="x1050"></div>
+<div id="layer_popup" class="x1400"></div>
 
 <script>
 let write_ajax;
@@ -240,6 +228,14 @@ $(function(){
         // Layer Popup 보이기
         $('#layer_popup').css('display', 'block');
         $('#layer_popup_bg').css('display', 'block');
+    });
+
+    $(document).on('change', '#quit_date', function(){
+        if($(this).val() != '' && $('#activity_status').val() != '퇴사') {
+            if(confirm('활동현황을 퇴사로 변경하시겠습니까?')) {
+                $('#activity_status').val('퇴사').prop('selected', true);
+            }
+        }
     });
 
     // 저장버튼 클릭시
@@ -298,6 +294,7 @@ $(function(){
             return false;
         }
 
+        /*
         if($('#basic_price').val() == '') {
             alert('급여를 입력해주세요');
             $('#basic_price').focus();
@@ -309,6 +306,7 @@ $(function(){
             $('#monthly_income').focus();
             return false;
         }
+        */
 
         if($('#activity_status').val() == '퇴사' && $('#quit_date').val() == '') {
             alert('활동현황이 퇴사일 경우 퇴사일자를 선택/입력해주셔야 합니다.');
@@ -329,7 +327,6 @@ $(function(){
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-
                 if($('#w').val() == '' && response.msg != '') {
                     alert(response.msg);
                 }
@@ -339,7 +336,16 @@ $(function(){
 
                     list_act(response.mb_id);
 
-                    $("#layer_popup").load(g5_bbs_url + "/member_write.php?w=u&mb_id=" + response.mb_id);
+                    //$("#layer_popup").load(g5_bbs_url + "/member_write.php?w=u&mb_id=" + response.mb_id);
+
+                    // Layer Popup 초기화
+                    $('#layer_popup').empty();
+
+                    // Layer Popup 숨기기
+                    $('#layer_popup').removeClass();
+                    $('#layer_popup').addClass('x1400');
+                    $('#layer_popup').css('display', 'none');
+                    $('#layer_popup_bg').css('display', 'none');
                 }else{
                     if(response.msg != '') {
                         alert(response.msg);
@@ -362,7 +368,7 @@ $(function(){
 
         // Layer Popup 숨기기
         $('#layer_popup').removeClass();
-        $('#layer_popup').addClass('x1050');
+        $('#layer_popup').addClass('x1400');
         $('#layer_popup').css('display', 'none');
         $('#layer_popup_bg').css('display', 'none');
     });
@@ -466,7 +472,7 @@ $(function(){
         // Layer Popup 초기화
         $('#layer_popup').empty();
         $('#layer_popup').removeClass();
-        $('#layer_popup').addClass('x1050');
+        $('#layer_popup').addClass('x1400');
 
         // Layer Popup 숨기기
         $('#layer_popup').css('display', 'none');
@@ -509,10 +515,10 @@ function list_act(mb_id) {
         dataType: "json",
         success: function(response) {
             // 전송이 성공한 경우 받는 응답 처리
-
             $('#member_list').empty();
             let datas = '';
             let list_selected = '';
+            let premium = '';
             if(response.length > 0) {
                 for(let i=0; i<response.length; i++) {
                     list_selected = '';
@@ -522,13 +528,25 @@ function list_act(mb_id) {
                         $('#v_mb_id').val(response[i].mb_id);
                     }
 
+                    premium = '';
+                    if(response[i].premium_use == 'y') {
+                        premium = '<span class="premium_icon">P</span>';
+                    }
+
                     datas += '<tr class="' + list_selected + '" mb_id="' + response[i].mb_id + '">';
                     datas += '<td class="left_list_numb">' + (i+1) + '</td>';
                     datas += '<td class="left_list_status">' + response[i].activity_status + '</td>';
-                    datas += '<td class="left_list_name">' + response[i].mb_name + '</td>';
+                    datas += '<td class="left_list_team">' + response[i].team_category + '</td>';
+                    datas += '<td class="left_list_name">' + response[i].mb_name + '' + premium + '</td>';
                     datas += '<td class="left_list_gender">' + response[i].gender + '</td>';
                     datas += '<td class="left_list_birth">' + response[i].birthday + '</td>';
+                    datas += '<td class="left_list_hp">' + response[i].mb_hp + '</td>';
                     datas += '<td class="left_list_date">' + response[i].enter_date + '</td>';
+                    datas += '<td class="left_list_pet">' + response[i].pet_use + '</td>';
+                    datas += '<td class="left_list_addr">' + response[i].mb_addr1 + '</td>';
+                    datas += '<td class="left_list_vulnerable">' + response[i].vulnerable + '</td>';
+                    datas += '<td class="left_list_education">' + response[i].education_memo + '</td>';
+                    datas += '<td class="left_list_education">' + response[i].career_memo + '</td>';
                     datas += '</tr>';
                 }
 
@@ -583,17 +601,16 @@ function view_act() {
         dataType: "json",
         success: function(response) {
             if(response.v_mb_profile != '') $('#profile_wrap > img').attr('src', response.v_mb_profile);
-            $('#v_mb_name').html(response.v_mb_name);
+            if(response.v_mb_name != null) $('#v_mb_name').html(response.v_mb_name + '' + response.v_premium_use);
             $('#v_mb_hp').html(response.v_mb_hp);
             $('#v_security_number').html(response.v_security_number);
             $('#v_activity_status').html(response.v_activity_status);
             $('#v_contract_type').html(response.v_contract_type);
-            $('#v_premium_use').html(response.v_premium_use);
             $('#v_service_category').html(response.v_service_category);
             $('#v_team_category').html(response.v_team_category);
             $('#v_vulnerable').html(response.v_vulnerable);
             $('#v_pet_use').html(response.v_pet_use);
-            $('#v_mb_addr').html(response.v_mb_addr);
+            $('#v_mb_addr').html(response.v_addr);
             $('#v_mb_memo').html(response.v_mb_memo);
             $('#v_major4_insurance').html(response.v_major4_insurance);
             $('#v_loss_insurance').html(response.v_loss_insurance);

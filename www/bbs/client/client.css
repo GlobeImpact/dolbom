@@ -15,7 +15,8 @@
 .x105 {width:105px;}
 .x110 {width:110px;}
 .x120 {width:120px;}
-.x150 {width:150px;}
+.x130 {width:130px;}
+.x160 {width:160px;}
 .x165 {width:165px;}
 .x170 {width:170px;}
 .x200 {width:200px;}
@@ -25,6 +26,8 @@
 .v_client_service_view {display:none;}
 
 .filter_box > .filter_input {width:150px !important;}
+
+.talign_c {text-align:center;}
 /* Etc END */
 
 /* Client Write|Edit STR */
@@ -45,12 +48,6 @@
 .client_service_view_cell {display:none;}
 .option_view_cell {display:none;}
 /* Client Write Client Service Layer END */
-
-
-
-
-
-
 
 /* Client View Layer STR */
 

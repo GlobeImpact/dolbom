@@ -595,7 +595,7 @@ $client_service = $_GET['client_service'];
                     </thead>
                     <tbody>
                         <?php
-                        $cate_sql = " select distinct spe_cate from g5_service_period where client_service = '{$client_service}' and spe_use = 1 ";
+                        $cate_sql = " select distinct spe_cate from g5_service_period where client_service = '{$client_service}' and spe_use = 1 order by spe_order asc ";
                         $cate_qry = sql_query($cate_sql);
                         $cate_num = sql_num_rows($cate_qry);
                         if($cate_num > 0) {
@@ -646,6 +646,10 @@ $client_service = $_GET['client_service'];
                                     }
                             ?>
                             <td>
+                                <?php
+                                if($i == 0 && $j > 0) continue;
+                                if($i > 0 && $j == 0) continue;
+                                ?>
                                 <input type="hidden" name="spe_id[]" class="price_input" value="<?php echo $pe_row['spe_id'] ?>">
                                 <input type="hidden" name="spp_info[]" class="price_input" value="<?php echo $pe_row['spe_name'] ?>">
                                 <input type="text" name="spp_deductible[]" id="spp_deductible_<?php echo $i ?>_<?php echo $j ?>" class="price_input" oninput="inputNum(this.id)" value="<?php echo number_format($price_row['spp_deductible']) ?>">

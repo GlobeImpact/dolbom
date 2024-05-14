@@ -43,7 +43,7 @@ if($w == 'u' && $mb_id != '') {
                 <table class="form_tbl">
                     <tbody>
                         <tr>
-                            <td rowspan="9" class="x150 valign_t">
+                            <td rowspan="10" class="x150 valign_t">
                                 <div id="profile_write_wrap">
                                     <input type="checkbox" name="mb_profile_del" id="mb_profile_del" value="y">
                                     <input type="file" name="mb_profile" id="mb_profile" class="form_hide" accept="image/*">
@@ -55,7 +55,7 @@ if($w == 'u' && $mb_id != '') {
                                 </div>
                             </td>
                             <th>지점<span class="required_txt">*</span></th>
-                            <td colspan="5">
+                            <td>
                                 <select name="branch_id" id="branch_id" class="form_select x120">
                                     <option value="">지점 선택</option>
                                     <?php
@@ -72,10 +72,14 @@ if($w == 'u' && $mb_id != '') {
                                     ?>
                             </select>
                             </td>
+                            <th>프리미엄</th>
+                            <td colspan="7">
+                                <label class="input_label" for="premium_use"><input type="checkbox" name="premium_use" id="premium_use" value="y" <?php echo ($write['premium_use'] == 'y')?'checked':''; ?>>프리미엄</label>
+                            </td>
                         </tr>
                         <tr>
                             <th class="x100">서비스구분<span class="required_txt">*</span></th>
-                            <td class="x210">
+                            <td class="x120">
                                 <select name="service_category" id="service_category" class="form_select x120">
                                     <?php for($l=0; $l<count(${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}); $l++) { ?>
                                     <option value="<?php echo ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[$l] ?>" <?php echo ($write['service_category'] == ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[$l])?'selected':''; ?>><?php echo ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[$l] ?></option>
@@ -84,19 +88,23 @@ if($w == 'u' && $mb_id != '') {
                             </td>
 
                             <th class="x100">성명<span class="required_txt">*</span></th>
-                            <td class="x180">
+                            <td class="x160">
                                 <input type="text" name="mb_name" id="mb_name" class="form_input x100" value="<?php echo $write['mb_name'] ?>">
                             </td>
                             <th class="x100">연락처<span class="required_txt">*</span></th>
-                            <td>
+                            <td class="x120">
                                 <input type="text" name="mb_hp" id="mb_hp" class="form_input x100" value="<?php echo $write['mb_hp'] ?>" oninput="autoHyphen(this)" maxlength="13">
+                            </td>
+                            <th class="x100">주민번호<span class="required_txt">*</span></th>
+                            <td class="x170">
+                                <input type="text" name="security_number" id="security_number" class="form_input x120" value="<?php echo $write['security_number'] ?>" oninput="autoHyphen2(this)" maxlength="14">
+                            </td>
+                            <th class="x100">입사일자<span class="required_txt">*</span></th>
+                            <td>
+                                <input type="text" name="enter_date" id="enter_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['enter_date'] ?>">
                             </td>
                         </tr>
                         <tr>
-                            <th>주민번호<span class="required_txt">*</span></th>
-                            <td>
-                                <input type="text" name="security_number" id="security_number" class="form_input x120" value="<?php echo $write['security_number'] ?>" oninput="autoHyphen2(this)" maxlength="14">
-                            </td>
                             <th>활동현황<span class="required_txt">*</span></th>
                             <td>
                                 <select name="activity_status" id="activity_status" class="form_select x100">
@@ -113,8 +121,6 @@ if($w == 'u' && $mb_id != '') {
                                     <?php } ?>
                                 </div>
                             </td>
-                        </tr>
-                        <tr>
                             <th>팀구분<span class="required_txt">*</span></th>
                             <td>
                                 <select name="team_category" id="team_category" class="form_select x100">
@@ -123,16 +129,6 @@ if($w == 'u' && $mb_id != '') {
                                     <?php } ?>
                                 </select>
                             </td>
-                            <th>프리미엄</th>
-                            <td>
-                                <label class="input_label" for="premium_use"><input type="checkbox" name="premium_use" id="premium_use" value="y" <?php echo ($write['premium_use'] == 'y')?'checked':''; ?>>프리미엄</label>
-                            </td>
-                            <th>입사일자<span class="required_txt">*</span></th>
-                            <td>
-                                <input type="text" name="enter_date" id="enter_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['enter_date'] ?>">
-                            </td>
-                        </tr>
-                        <tr>
                             <th>취약계층여부</th>
                             <td>
                                 <select name="vulnerable" id="vulnerable" class="form_select">
@@ -141,7 +137,7 @@ if($w == 'u' && $mb_id != '') {
                                     <option value="<?php echo $set_vulnerable_arr[$l] ?>" <?php echo ($write['vulnerable'] == $set_vulnerable_arr[$l])?'selected':''; ?>><?php echo $set_vulnerable_arr[$l] ?></option>
                                     <?php } ?>
                                 </select>
-                                <input type="text" name="vulnerable_etc" id="vulnerable_etc" class="form_input x100" value="<?php echo $write['vulnerable_etc'] ?>">
+                                <input type="text" name="vulnerable_etc" id="vulnerable_etc" class="form_input x70" value="<?php echo $write['vulnerable_etc'] ?>">
                             </td>
                             <th>반려동물유무</th>
                             <td colspan="3">
@@ -154,20 +150,42 @@ if($w == 'u' && $mb_id != '') {
                             </td>
                         </tr>
                         <tr>
+                            <th>4대보험가입</th>
+                            <td>
+                                <input type="text" name="major4_insurance" id="major4_insurance" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['major4_insurance'] ?>">
+                            </td>
+                            <th>보험상실</th>
+                            <td>
+                                <input type="text" name="loss_insurance" id="loss_insurance" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['loss_insurance'] ?>">
+                            </td>
+                            <th>퇴사일자</th>
+                            <td>
+                                <input type="text" name="quit_date" id="quit_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['quit_date'] ?>">
+                            </td>
+                            <th>급여</th>
+                            <td>
+                                <input type="text" name="basic_price" id="basic_price" class="form_input x120" oninput="inputNum(this.id)" value="<?php echo $write['basic_price'] ?>">
+                            </td>
+                            <th>표준월소득액</th>
+                            <td colspan="3">
+                                <input type="text" name="monthly_income" id="monthly_income" class="form_input x120" oninput="inputNum(this.id)" value="<?php echo $write['monthly_income'] ?>">
+                            </td>
+                        </tr>
+                        <tr>
                             <th>학력</th>
-                            <td colspan="5">
+                            <td colspan="9">
                                 <input type="text" name="education_memo" id="education_memo" class="form_input xp100" value="<?php echo $write['education_memo'] ?>">
                             </td>
                         </tr>
                         <tr>
                             <th>경력</th>
-                            <td colspan="5">
+                            <td colspan="9">
                                 <input type="text" name="career_memo" id="career_memo" class="form_input xp100" value="<?php echo $write['career_memo'] ?>">
                             </td>
                         </tr>
                         <tr>
                             <th>주소</th>
-                            <td colspan="5">
+                            <td colspan="9">
                                 <div class="flex_row_addr">
                                     <input type="text" name="mb_zip" value="<?php echo $write['mb_zip1'].''.$write['mb_zip2'] ?>" id="reg_mb_zip" class="form_input" size="5" maxlength="6" placeholder="우편번호">
                                     <button type="button" class="form_btn1" onclick="win_zip('fregisterform', 'mb_zip', 'mb_addr1', 'mb_addr2', 'mb_addr3', 'mb_addr_jibeon');">주소 검색</button>
@@ -181,44 +199,6 @@ if($w == 'u' && $mb_id != '') {
                                     <input type="hidden" name="mb_area_x" id="mb_area_x" value="<?php echo $write['mb_area_x'] ?>">
                                     <input type="hidden" name="mb_area_y" id="mb_area_y" value="<?php echo $write['mb_area_y'] ?>">
                                 </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>비고</th>
-                            <td colspan="5">
-                                <textarea name="mb_memo" id="mb_memo" class="form_textarea y100"><?php echo $write['mb_memo'] ?></textarea>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h4 class="layer_popup_form_tit mtop20">제공인력 급여정보</h4>
-            <div class="form_tbl_wrap">
-                <table class="form_tbl">
-                    <tbody>
-                        <tr>
-                            <th class="x120">4대보험가입</th>
-                            <td class="x220">
-                                <input type="text" name="major4_insurance" id="major4_insurance" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['major4_insurance'] ?>">
-                            </td>
-                            <th class="x120">보험상실</th>
-                            <td class="x220">
-                                <input type="text" name="loss_insurance" id="loss_insurance" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['loss_insurance'] ?>">
-                            </td>
-                            <th class="x120">퇴사일자</th>
-                            <td>
-                                <input type="text" name="quit_date" id="quit_date" class="form_input_date date_api" oninput="autoHyphen3(this)" maxlength="10" value="<?php echo $write['quit_date'] ?>">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>급여<span class="required_txt">*</span></th>
-                            <td>
-                                <input type="text" name="basic_price" id="basic_price" class="form_input x120" oninput="inputNum(this.id)" value="<?php echo $write['basic_price'] ?>">
-                            </td>
-                            <th>표준월소득액<span class="required_txt">*</span></th>
-                            <td colspan="3">
-                                <input type="text" name="monthly_income" id="monthly_income" class="form_input x120" oninput="inputNum(this.id)" value="<?php echo $write['monthly_income'] ?>">
                             </td>
                         </tr>
                         <tr>
@@ -236,14 +216,20 @@ if($w == 'u' && $mb_id != '') {
                                 <input type="text" name="bank_account" id="bank_account" class="form_input x150" value="<?php echo $write['bank_account'] ?>">
                             </td>
                             <th>예금주</th>
-                            <td>
+                            <td colspan="5">
                                 <input type="text" name="account_holder" id="account_holder" class="form_input x150" value="<?php echo $write['account_holder'] ?>">
                             </td>
                         </tr>
                         <tr>
                             <th>특이사항</th>
-                            <td colspan="5">
+                            <td colspan="9">
                                 <textarea name="mb_memo2" id="mb_memo2" class="form_textarea y100"><?php echo $write['mb_memo2'] ?></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>비고</th>
+                            <td colspan="9">
+                                <textarea name="mb_memo" id="mb_memo" class="form_textarea y100"><?php echo $write['mb_memo'] ?></textarea>
                             </td>
                         </tr>
                     </tbody>

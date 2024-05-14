@@ -28,7 +28,7 @@ $list['v_security_number'] = $row['security_number'];
 $list['v_contract_type'] = $row['contract_type'];
 $list['v_team_category'] = $row['team_category'];
 $list['v_premium_use'] = '';
-if($row['premium_use'] == 'y') $list['v_premium_use'] = '<a class="premium_btn">프리미엄</a>';
+if($row['premium_use'] == 'y') $list['v_premium_use'] = '<a class="premium_icon">P</a>';
 $list['v_enter_date'] = '';
 if($row['enter_date'] != '0000-00-00') $list['v_enter_date'] = $row['enter_date'];
 $list['v_vulnerable'] = '';

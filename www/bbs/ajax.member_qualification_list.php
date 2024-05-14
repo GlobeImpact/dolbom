@@ -111,6 +111,9 @@ if($num > 0) {
         // 팀
         $list['list'][$i]['team_category'] = $row['team_category'];
 
+        $set_sql2 = " select * from g5_member_qualification_set where set_hide = '' {$set_where_str} ";
+        $set_qry2 = sql_query($set_sql2);
+        $set_num2 = sql_num_rows($set_qry2);
         if($set_num2 > 0) {
             for($m=0; $set_row2 = sql_fetch_array($set_qry2); $m++) {
                 $list['list'][$i]['qualification'][$m]['set_idx'] = $set_row2['set_idx'];

@@ -41,10 +41,31 @@ if($num > 0) {
         $list[$i]['client_idx'] = $row['client_idx'];
         $list[$i]['cl_name'] = $row['cl_name'];
         $list[$i]['cl_hp'] = $row['cl_hp'];
-        $list[$i]['receipt_date'] = str_replace('-', '/', $row['receipt_date']);
+        // 접수일
+        $list[$i]['receipt_date'] = ($row['receipt_date'] == '0000-00-00')?'':$row['receipt_date'];
+        // 주소
+        $list[$i]['cl_addr'] = $row['cl_addr1'];
+        // 시작일자
+        $list[$i]['str_date'] = ($row['str_date'] == '0000-00-00')?'':$row['str_date'];
+        // 종료일자
+        $list[$i]['end_date'] = ($row['end_date'] == '0000-00-00')?'':$row['end_date'];
         $list[$i]['use_status'] = '사용';
         if($row['end_date'] == '' || $row['end_date'] != '0000-00-00') $list[$i]['use_status'] = '종료';
         if($row['cancel_date'] == '' || $row['cancel_date'] != '0000-00-00') $list[$i]['use_status'] = '취소';
+
+        /* 아가마지 */
+        // 출산예정일
+        $list[$i]['cl_birth_due_date'] = ($row['cl_birth_due_date'] == '0000-00-00')?'':$row['cl_birth_due_date'];
+        // 출산순위
+        $list[$i]['cl_baby_count'] = $row['cl_baby_count'];
+        // 출산아기
+        $list[$i]['cl_baby'] = $row['cl_baby'];
+
+        /* 가사서비스 */
+        // 연장근무
+        $list[$i]['cl_overtime'] = ($row['cl_overtime'] == 'y')?'있음':'';
+        // 출산순위
+        $list[$i]['cl_baby_count'] = $row['cl_baby_count'];
 
         if($client_idx != '' && $client_idx == $row['client_idx']) {
             $list[$i]['list_selected'] = 'y';

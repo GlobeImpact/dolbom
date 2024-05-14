@@ -73,18 +73,6 @@ $cl_cctv                    = isset($_POST['cl_cctv']) ? trim($_POST['cl_cctv'])
 $cl_pet                     = isset($_POST['cl_pet']) ? trim($_POST['cl_pet']) : '';
 $cl_surcharge               = isset($_POST['cl_surcharge']) ? trim($_POST['cl_surcharge']) : '';
 $cl_premium_use             = isset($_POST['cl_premium_use']) ? trim($_POST['cl_premium_use']) : '';
-$cl_item1_use               = isset($_POST['cl_item1_use']) ? trim($_POST['cl_item1_use']) : '';
-$cl_item1_num               = isset($_POST['cl_item1_num']) ? trim($_POST['cl_item1_num']) : '';
-$cl_item1_date              = isset($_POST['cl_item1_date']) ? trim($_POST['cl_item1_date']) : '';
-$cl_item1_name              = isset($_POST['cl_item1_name']) ? trim($_POST['cl_item1_name']) : '';
-$cl_item1_return_date       = isset($_POST['cl_item1_return_date']) ? trim($_POST['cl_item1_return_date']) : '';
-$cl_item1_return_name       = isset($_POST['cl_item1_return_name']) ? trim($_POST['cl_item1_return_name']) : '';
-$cl_item2_use               = isset($_POST['cl_item2_use']) ? trim($_POST['cl_item2_use']) : '';
-$cl_item2_num               = isset($_POST['cl_item2_num']) ? trim($_POST['cl_item2_num']) : '';
-$cl_item2_date              = isset($_POST['cl_item2_date']) ? trim($_POST['cl_item2_date']) : '';
-$cl_item2_name              = isset($_POST['cl_item2_name']) ? trim($_POST['cl_item2_name']) : '';
-$cl_item2_return_date       = isset($_POST['cl_item2_return_date']) ? trim($_POST['cl_item2_return_date']) : '';
-$cl_item2_return_name       = isset($_POST['cl_item2_return_name']) ? trim($_POST['cl_item2_return_name']) : '';
 $cl_unit_price              = isset($_POST['cl_unit_price']) ? trim($_POST['cl_unit_price']) : '';
 $cl_tot_price               = isset($_POST['cl_tot_price']) ? trim($_POST['cl_tot_price']) : '';
 $cl_memo3                   = isset($_POST['cl_memo3']) ? trim($_POST['cl_memo3']) : '';
@@ -105,6 +93,8 @@ $cl_add_service1            = isset($_POST['cl_add_service1']) ? trim($_POST['cl
 $cl_add_service2            = isset($_POST['cl_add_service2']) ? trim($_POST['cl_add_service2']) : '';
 $cl_house_area              = isset($_POST['cl_house_area']) ? trim($_POST['cl_house_area']) : '';
 $cl_product                 = isset($_POST['cl_product']) ? trim($_POST['cl_product']) : '';
+$cl_recommended             = isset($_POST['cl_recommended']) ? trim($_POST['cl_recommended']) : '';
+$cl_work_select_mb_id       = isset($_POST['cl_work_select_mb_id']) ? trim($_POST['cl_work_select_mb_id']) : '';
 
 if ($w == '') {
     $sql = " insert into g5_client set 
@@ -156,18 +146,24 @@ if ($w == '') {
         cl_relationship = '{$cl_relationship}', 
         cl_baby_name = '{$cl_baby_name}', 
         cl_baby_birth = '{$cl_baby_birth}', 
-        cl_add_service0 = '{$cl_add_service0}', 
-        cl_add_service1 = '{$cl_add_service1}', 
-        cl_add_service2 = '{$cl_add_service2}', 
-        cl_house_area = '{$cl_house_area}', 
-        cl_product = '{$cl_product}', 
         cl_cash_receipt = '{$cl_cash_receipt}', 
         cl_overtime = '{$cl_overtime}', 
         cl_twins = '{$cl_twins}', 
+        cl_recommended = '{$cl_recommended}', 
+        cl_work_select_mb_id = '{$cl_work_select_mb_id}', 
         cl_regdate = '{$cl_regdate}' 
     ";
     if(sql_query($sql)) {
         $client_idx = sql_insert_id();
+
+        if($client_service == '아가마지' && $cl_work_select_mb_id != '') {
+            $work_sql = " insert into g5_work set client_idx = '{$client_idx}', mb_id = '{$cl_work_select_mb_id}', status = '대기', work_hide = '', reg_date = '{$cl_regdate}' ";
+            if(sql_query($work_sql)) {
+                $w_idx = sql_insert_id();
+                $work_history_sql = " insert into g5_work_member_history set w_idx = '{$w_idx}', prev_mb_id = '', change_mb_id = '{$cl_work_select_mb_id}', reg_date = '{$cl_regdate}' ";
+                sql_query($work_history_sql);
+            }
+        }
 
         $list['msg'] = '고객접수등록이 완료되었습니다';
         $list['code'] = '0000';
@@ -224,18 +220,25 @@ if ($w == '') {
         cl_relationship = '{$cl_relationship}', 
         cl_baby_name = '{$cl_baby_name}', 
         cl_baby_birth = '{$cl_baby_birth}', 
-        cl_add_service0 = '{$cl_add_service0}', 
-        cl_add_service1 = '{$cl_add_service1}', 
-        cl_add_service2 = '{$cl_add_service2}', 
-        cl_house_area = '{$cl_house_area}', 
-        cl_product = '{$cl_product}', 
         cl_cash_receipt = '{$cl_cash_receipt}', 
         cl_overtime = '{$cl_overtime}', 
         cl_twins = '{$cl_twins}', 
+        cl_recommended = '{$cl_recommended}', 
+        cl_work_select_mb_id = '{$cl_work_select_mb_id}', 
         cl_regdate = '{$cl_regdate}' 
         where client_idx = '{$client_idx}' 
     ";
     if(sql_query($sql)) {
+        $work_chk_sql = " select * from g5_work where client_idx = '{$client_idx}' ";
+        $work_chk_row = sql_fetch($work_chk_sql);
+        if($work_chk_row['mb_id'] != $cl_work_select_mb_id && $cl_work_select_mb_id != '') {
+            $work_sql = " update g5_work set mb_id = '{$cl_work_select_mb_id}' where idx = '{$work_chk_row['idx']}' ";
+            if(sql_query($work_sql)) {
+                $work_history_sql = " insert into g5_work_member_history set w_idx = '{$work_chk_row['idx']}', prev_mb_id = '{$work_chk_row['mb_id']}', change_mb_id = '{$cl_work_select_mb_id}', reg_date = '{$cl_regdate}' ";
+                sql_query($work_history_sql);
+            }
+        }
+
         $list['msg'] = '고객접수수정이 완료되었습니다';
         $list['code'] = '0000';
         $list['client_idx'] = $client_idx;

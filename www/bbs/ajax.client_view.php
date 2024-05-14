@@ -70,9 +70,11 @@ $list['v_cl_memo2'] = nl2br($row['cl_memo2']);
 $list['v_cl_memo3'] = nl2br($row['cl_memo3']);
 $list['v_cl_relationship'] = $row['cl_relationship'];
 $list['v_cl_baby_name'] = $row['cl_baby_name'];
+if($row['cl_baby_gender'] != '') $list['v_cl_baby_name'] .= ' ('.$row['cl_baby_gender'].')';
 $list['v_cl_baby_birth'] = $row['cl_baby_birth'];
 $list['v_cl_prior_interview'] = $row['cl_prior_interview'];
 $list['v_cl_overtime'] = ($row['cl_overtime'] == 'y')?'있음':'없음';
 $list['v_cl_twins'] = ($row['cl_twins'] == 'y')?'있음':'없음';
+$list['v_cl_recommended'] = $row['cl_recommended'];
 
 echo json_encode($list);

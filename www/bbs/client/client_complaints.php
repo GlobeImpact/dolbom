@@ -227,9 +227,6 @@ $(function(){
             contentType: false,
             dataType: "json",
             success: function(response) {
-                // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
-
                 // Ajax Result Message
                 if(response.msg != '') {
                     alert(response.msg);
@@ -335,8 +332,6 @@ $(function(){
                 method: "POST",   // HTTP 요청 메소드(GET, POST 등)
                 dataType: "json", // 서버에서 보내줄 데이터의 타입
                 success: function(response){
-                    console.log(response);
-
                     // code : 0000 성공 / code : 9999 실패
                     if(response.code == '0000') {
                         // 리스트 불러오기
@@ -366,8 +361,6 @@ function list_act() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
-            console.log(response);
-
             $('#client_complaints_list').empty();
 
             let datas = '';
@@ -420,8 +413,6 @@ function client_select_form() {
         method: "POST",   // HTTP 요청 메소드(GET, POST 등)
         dataType: "json", // 서버에서 보내줄 데이터의 타입
         success: function(response){
-            console.log(response);
-
             // 리스트 초기화
             $('#select_list').empty();
 
