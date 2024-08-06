@@ -15,9 +15,10 @@
 /* Sub Page Wrap END */
 
 /* Form Wrap STR */
-.form_wrap {display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; margin:0; padding:12px; width:100%; flex:1 1 0%; background:#e5efff; gap:10px 0;}
+.form_wrap {display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; margin:0; margin-bottom:12px; padding:12px; width:100%; flex:1 1 0%; background:#e5efff; gap:10px 0;}
 .form_row {display:flex; flex-direction:row; align-items:stretch; justify-content:space-between; margin:0; padding:0; width:100%;}
 .form_box {position:relative; margin:0; padding:0; width:19.1%; background:#eff5fd;}
+.wrap_top {display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin:0; padding:0; width:100%;}
 .xp79_9 {width:79.9%;}
 .sub_tit {display:block; margin:0; margin-bottom:5px; padding:8px 8px 0px 8px; width:100%; color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
 .form_tbl {margin:0; padding:6px; width:100%; background:#eff5fd;}
@@ -40,7 +41,9 @@
 /* Form Wrap End */
 
 /* List Wrap STR */
-.list_wrap {position:relative; margin:0; margin-top:12px; padding:0; width:100%; height:114px; overflow-y:scroll; border-top:2px solid #283144; border-bottom:2px solid #283144; border-right:2px solid #283144;}
+.list_wrap {position:relative; margin:0; margin-top:12px; padding:0; width:100%; height:130px; overflow-y:scroll; border-top:2px solid #283144; border-bottom:1px solid #283144; border-right:1px solid #283144; border-radius:0;}
+.list_wrap::-webkit-scrollbar {width:3px; height:10px;}
+.list_wrap::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
 .list_tbl {position:relative; margin:0 auto; padding:0; width:100%; border:2px solid #283144; border-top:0; border-bottom:0; border-right:0; border-collapse:collapse;}
 .list_tbl > thead {position:sticky; top:0; background:#283144; z-index:100;}
 .list_tbl > thead > tr > th {margin:0; padding:5px; border:1px solid #374769; border-top:0; background:#e5efff;}
@@ -51,4 +54,8 @@
 .x200 {width:200px;}
 .talign_c {text-align:center;}
 .talign_r {text-align:right;}
+
+.form_input {height:22px;}
+
+.set_btn {display:inline-block; margin:0; padding:5px 11px 5px 11px; height:27px; line-height:21px; border:0; border-radius:4px; color:#fff; background:#434a54; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px; cursor:pointer;}
 /* List Wrap END */

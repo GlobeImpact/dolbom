@@ -3,7 +3,15 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/pay/pay_set.css">', 
 
 /* 현재 날짜의 DB 데이터가 없을 경우 이전 달의 데이터 불러와서 생성 STR */
 $check_year = date('Y');
+$payment_year = $check_year;
 $check_month = date('m');
+$payment_month = $check_month + 1;
+if($payment_month > 12) {
+    $payment_year++;
+    $payment_month = '01';
+}else if($payment_month < 10) {
+    $payment_month = '0'.$payment_month;
+}
 $pay_set_check_sql = " select * from g5_pay_set where mb_menu = '{$_SESSION['this_code']}' and set_year = '{$check_year}' and set_month = '{$check_month}' ";
 $pay_set_check_row = sql_fetch($pay_set_check_sql);
 if(!$pay_set_check_row) {
@@ -20,15 +28,15 @@ if(!$pay_set_check_row) {
         $pay_set_prev_check_sql = " select * from g5_pay_set where mb_menu = '{$_SESSION['this_code']}' and set_year = '{$prev_check_year}' and set_month = '{$prev_check_month}' ";
         $pay_set_prev_check_row = sql_fetch($pay_set_prev_check_sql);
         $check_payment_day = $pay_set_prev_check_row['payment_day'];
-        if($check_payment_day == '') $check_payment_day = '08';
+        if($check_payment_day == '') $check_payment_day = '09';
         for($p=0; $p<count(${'set_mn'.$_SESSION['this_code'].'_contract_type_arr'}); $p++) {
             $ins_pay_set_sql = "insert into g5_pay_set set 
                 mb_menu = '{$_SESSION['this_code']}', 
                 contract_type = '".${'set_mn'.$_SESSION['this_code'].'_contract_type_arr'}[$p]."', 
                 set_year = '{$check_year}', 
                 set_month = '{$check_month}', 
-                payment_year = '{$check_year}', 
-                payment_month = '{$check_month}', 
+                payment_year = '{$payment_year}', 
+                payment_month = '{$payment_month}', 
                 payment_day = '{$check_payment_day}', 
                 info_cell1 = '{$pay_set_prev_check_row['info_cell1']}', 
                 info_cell2 = '{$pay_set_prev_check_row['info_cell2']}', 

@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/manager/manager.css?ver=1">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/manager/manager.css?ver=2">', 0);
 ?>
 
 <div id="layer_wrap">
@@ -37,12 +37,13 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/manager/manager.css?
                     <table class="list_tbl">
                         <thead>
                             <tr>
-                                <th class="left_list_numb">번호</th>
-                                <th class="left_list_status">현황</th>
+                                <th class="left_list_numb_mng">번호</th>
+                                <th class="left_list_status_mng">현황</th>
                                 <th class="left_list_name">매니저명</th>
-                                <th class="left_list_branch">지점</th>
-                                <th class="left_list_birth">생년월일</th>
-                                <th class="left_list_date">입사일자</th>
+                                <th class="left_list_branch_mng">지점</th>
+                                <th class="left_list_birth_mng">생년월일</th>
+                                <th class="left_list_date_mng">입사일자</th>
+                                <th class="left_list_date_mng">퇴사일자</th>
                             </tr>
                         </thead>
                         <tbody id="manager_list"></tbody>
@@ -340,12 +341,13 @@ function list_act(mb_id) {
                     }
 
                     datas += '<tr class="' + list_selected + '" mb_id="' + response[i].mb_id + '">';
-                    datas += '<td class="left_list_numb">' + (i+1) + '</td>';
-                    datas += '<td class="left_list_status">' + response[i].activity_status + '</td>';
+                    datas += '<td class="left_list_numb_mng">' + (i+1) + '</td>';
+                    datas += '<td class="left_list_status_mng">' + response[i].activity_status + '</td>';
                     datas += '<td class="left_list_name">' + response[i].mb_name + '</td>';
-                    datas += '<td class="left_list_branch">' + response[i].branch + '</td>';
-                    datas += '<td class="left_list_birth">' + response[i].birthday + '</td>';
-                    datas += '<td class="left_list_date">' + response[i].enter_date + '</td>';
+                    datas += '<td class="left_list_branch_mng">' + response[i].branch + '</td>';
+                    datas += '<td class="left_list_birth_mng">' + response[i].birthday + '</td>';
+                    datas += '<td class="left_list_date_mng">' + response[i].enter_date + '</td>';
+                    datas += '<td class="left_list_date_mng">' + response[i].quit_date + '</td>';
                     datas += '</tr>';
                 }
 

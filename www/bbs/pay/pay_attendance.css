@@ -34,6 +34,7 @@
 .list_wrap_list_box::-webkit-scrollbar {width:3px;}
 .list_wrap_list_box::-webkit-scrollbar-thumb {border:0;border-radius:0;background:#6d9ac4;}
 .list_selected > td {background:#347976 !important;}
+.at_list_selected > td {background:#d8f8c0 !important;}
 
 .x40 {width:40px;}
 .x50 {width:50px;}
@@ -43,6 +44,8 @@
 .x100 {width:100px;}
 
 .talign_c {text-align:center;}
+
+.premium_icon {display:inline-flex; flex-direction:row; align-items:center; justify-content:center; margin:0; margin-left:6px; padding:0; padding-top:4px; width:16px; height:16px; color:#000; font-weight:600; border:0; border-radius:4px; background:#f7b148; font-family:'GmarketSansLight'; font-size:13px; vertical-align:middle;}
 /* List Wrap END */
 
 /* Form Wrap STR */
@@ -52,11 +55,11 @@
 .sub_tit {display:block; margin:0; margin-bottom:5px; padding:8px 8px 0px 8px; width:100%; color:#283144; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
 
 .write_box {position:relative; margin:0; padding:0; width:100%; height:340px; overflow:hidden;}
-.write_box > form {margin:0; padding:0; width:100%; height:303px; overflow-y:scroll;}
+.write_box > form {margin:0; padding:0; width:100%; height:303px; overflow-y:scroll; border:1px solid #283144;}
 .write_box > form::-webkit-scrollbar {width:3px;}
 .write_box > form::-webkit-scrollbar-thumb {border-right:0;border-radius:0;background:#6d9ac4;}
 
-.form_tbl {margin:0; padding:0px; width:100%; background:#eff5fd;}
+.form_tbl {margin:0; padding:0px; width:100%; background:#eff5fd; border:0;}
 .form_tbl > tbody > tr > th {margin:0; padding:2px 5px 2px 0px; text-align:right; border:0; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
 .form_tbl > tbody > tr > td {margin:0; padding:2px 0px; border:0;}
 .form_input {padding:1px 2px;}
@@ -90,7 +93,21 @@
 .calendar_wrap {position:relative; margin:0; padding:8px; padding-top:0; width:100%; height:310px;}
 .calendar_tbl {margin:0; padding:0; width:100%; border-collapse:collapse; border-spacing:0;}
 .calendar_tbl > thead > tr > th {margin:0; padding:4px 5px 1px 5px; width:14.28%; border:1px solid #374769; background:#212939; color:#fff; font-family:'GmarketSansMedium'; font-weight:100; font-size:13px;}
-.calendar_tbl > tbody > tr > td {margin:0; padding:5px; height:61.5px; border:1px solid #374769; background:#fff;}
+.calendar_tbl > tbody > tr > td {margin:0; padding:5px; height:50.5px; border:1px solid #374769; background:#fff;}
+
+.calendar_top_box {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; width:100%;}
+#pay_attendance_ym_txt {margin:0; padding:0; height:20px; line-height:25px; font-family:'GmarketSansMedium'; font-weight:100; font-size:19px;}
+.calendar_move_btn {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:0; padding:0; cursor:pointer;}
+
+.calendar_td {cursor:pointer;}
+#calendar_td_active {background:#fcfdb2;}
+.calendar_td_box {display:flex; flex-direction:column; align-items:stretch; justify-content:stretch; margin:0; padding:0; width:100%; height:100%;}
+.day_tit {text-align:center; font-family:'GmarketSansMedium';}
+.day_attendance {flex:1 1 0%; display:flex; flex-direction:row; align-items:flex-end; justify-content:space-between; margin:0; padding:0; width:100%;}
+.day_span_l {color:#000000; font-family:'GmarketSansMedium'; font-weight:100; font-size:12px;}
+.day_span_r {color:#ff0000; font-family:'GmarketSansMedium'; font-weight:100; font-size:12px;}
+.sunday, .holiday {color:#ff0000 !important;}
+.saturday {color:#0000ff;}
 /* Calendar Wrap END */
 
 /* Attendance List Wrap STR */
@@ -107,7 +124,7 @@
 .attendance_list_ft_tbl > thead > tr > th:first-child {border-left:0;}
 
 .attendance_list_tbl {position:relative; margin:0; padding:0; width:max-content; background:#e5efff; border:0; border-collapse:collapse; border-spacing:0; z-index:0;}
-.attendance_list_tbl > tbody > tr > td {margin:0; padding:5px 5px; background:#fff; border:1px solid #374769; border-top:0; text-align:center;}
+.attendance_list_tbl > tbody > tr > td {margin:0; padding:5px 5px; background:#fff; border:1px solid #374769; border-top:0; text-align:center; cursor:pointer;}
 .attendance_list_tbl > tbody > tr > td:first-child {border-left:0;}
 .attendance_list_tbl > tbody > tr:last-child > td {border-bottom:0;}
 .attendance_list_tbl > tbody > tr:hover > td {background:#d8f8c0;}

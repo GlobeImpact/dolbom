@@ -265,6 +265,7 @@ function list_act() {
                         datas += '<td class="layer_list_name">'+response.list[i].mb_name+'</td>';
                         datas += '<td class="layer_list_date">'+response.list[i].birthday+'</td>';
                         datas += '<td class="layer_list_date">'+response.list[i].enter_date+'</td>';
+                        datas += '<td class="layer_list_date">'+response.list[i].quit_date+'</td>';
 
                         cell_width_value = 'style="width:'+response.cell_width+'px;"';
                     }else{
@@ -273,6 +274,7 @@ function list_act() {
                         datas += '<td class="layer_list_name">'+response.list[i].mb_name+'</td>';
                         datas += '<td class="layer_list_date">'+response.list[i].birthday+'</td>';
                         datas += '<td class="layer_list_date">'+response.list[i].enter_date+'</td>';
+                        datas += '<td class="layer_list_date">'+response.list[i].quit_date+'</td>';
                         datas += '<td class="layer_list_tel">'+response.list[i].mb_hp+'</td>';
                         datas += '<td class="layer_list_service_category">'+response.list[i].service_category+'</td>';
                         datas += '<td class="layer_list_status">'+response.list[i].contract_type+'</td>';

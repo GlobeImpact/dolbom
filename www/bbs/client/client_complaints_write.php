@@ -38,7 +38,7 @@ if($w == 'u' && $idx != '') {
                 <table class="form_tbl">
                     <tbody>
                         <tr>
-                            <th class="x120">상담구분<span class="required_txt">*</span></th>
+                            <th class="x110">상담구분<span class="required_txt">*</span></th>
                             <td class="x390">
                                 <select name="comp_category" id="comp_category" class="form_select x140">
                                     <option value="">상담구분 선택</option>
@@ -47,8 +47,8 @@ if($w == 'u' && $idx != '') {
                                     <?php } ?>
                                 </select>
                             </td>
-                            <th class="x120">조치구분</th>
-                            <td>
+                            <th class="x110">조치구분</th>
+                            <td colspan="3">
                                 <select name="take_category" id="take_category" class="form_select x140">
                                     <option value="">조치구분 선택</option>
                                     <?php for($l=0; $l<count($set_take_category_arr); $l++) { ?>
@@ -68,6 +68,12 @@ if($w == 'u' && $idx != '') {
                             <td>
                                 <input type="text" name="take_date" id="take_date" class="form_input_date date_api" value="<?php echo $write['take_date'] ?>" oninput="autoHyphen3(this);" maxlength="10">
                             </td>
+                            <th>관리사선택</th>
+                            <td>
+                                <input type="hidden" name="take_mb_id" id="take_mb_id" value="<?php echo $write['take_mb_id'] ?>">
+                                <input type="text" name="take_mb_name" id="take_mb_name" class="form_input x100" value="<?php echo $write['take_mb_name'] ?>" readonly>
+                                <a class="form_btn1" id="form_select_btn2">관리사선택</a>
+                            </td>
                         </tr>
                         <tr>
                             <th>상담내용</th>
@@ -75,13 +81,13 @@ if($w == 'u' && $idx != '') {
                                 <textarea name="comp_content" id="comp_content" class="form_textarea y180"><?php echo $write['comp_content'] ?></textarea>
                             </td>
                             <th>조치내용</th>
-                            <td>
+                            <td colspan="3">
                                 <textarea name="take_content" id="take_content" class="form_textarea y180"><?php echo $write['take_content'] ?></textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>비고</th>
-                            <td colspan="3">
+                            <td colspan="5">
                                     <textarea name="take_etc" id="take_etc" class="form_textarea y100"><?php echo $write['take_etc'] ?></textarea>
                             </td>
                         </tr>

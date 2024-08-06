@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client.css?ver=5">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client.css?ver=7">', 0);
 
 
 // 등록/수정 권한
@@ -59,7 +59,7 @@ if(!$is_admin) {
                             <tr>
                                 <th class="left_list_numb">번호</th>
                                 <th class="left_list_date">접수일자</th>
-                                <th class="left_list_name">신청인</th>
+                                <th class="left_list_name sort_btn" order_fd="cl_name" orderby="asc">신청인<img src="<?php echo G5_IMG_URL ?>/sort_arrow_icon.png"></th>
                                 <th class="left_list_service_category">서비스</th>
                                 <th class="left_list_hp">연락처</th>
                                 <th class="left_list_status">현황</th>
@@ -170,7 +170,8 @@ if(!$is_admin) {
                                 <td class="talign_c" id="v_cl_tot_price"></td>
                                 <th>추천경로</th>
                                 <td class="talign_c" id="v_cl_recommended"></td>
-                                <td colspan="6"></td>
+                                <th>지정관리사</th>
+                                <td id="v_cl_work_select_mb_id" colspan="5"></td>
                             </tr>
                             <tr>
                                 <th>추가요청사항</th>
@@ -207,6 +208,33 @@ if(!$is_admin) {
     let write_ajax;
 
     $(function(){
+        $(document).on('click', '.sort_btn', function(){
+            if($(this).hasClass('sort_asc') == true) {
+                $(this).addClass('sort_desc').removeClass('sort_asc');
+                $(this).attr('orderby', 'desc');
+                list_act();
+                return false;
+            }
+
+            if($(this).hasClass('sort_desc') == true) {
+                $(this).removeClass('sort_desc');
+                if($(this).attr('order_fd') == 'cl_name') {
+                    $(this).attr('orderby', 'asc');
+                }else{
+                    $(this).attr('orderby', '');
+                }
+                list_act();
+                return false;
+            }
+
+            if(hasAllClasses($(this), ['sort_asc', 'sort_desc']) == false) {
+                $(this).addClass('sort_asc');
+                $(this).attr('orderby', 'asc');
+                list_act();
+                return false;
+            }
+        });
+
         <?php if($write_permit === true) { ?>
         $(document).on('click', '#write_btn', function(){
             $("#layer_popup").load(g5_bbs_url + "/client_write.php");
@@ -221,6 +249,14 @@ if(!$is_admin) {
 
             $('#layer_popup').css('display', 'block');
             $('#layer_popup_bg').css('display', 'block');
+        });
+
+        $(document).on('change', '#cl_recommended', function(){
+            if($(this).val() == '기타') {
+                $('#cl_recommended_etc').css('display', 'inline-block');
+            }else{
+                $('#cl_recommended_etc').css('display', 'none');
+            }
         });
 
         $(document).on('change', '#cl_service_cate', function(){
@@ -349,6 +385,14 @@ if(!$is_admin) {
                 return false;
             }
 
+            if($('#cl_baby_count').length > 0) {
+                if($('#cl_baby_count').val() == '') {
+                    alert('출산순위를 선택해주세요');
+                    $('#cl_baby_count').focus();
+                    return false;
+                }
+            }
+
             /*
             if($('#cl_service_cate').val() == '') {
                 alert('서비스구분를 선택해주세요');
@@ -468,6 +512,10 @@ if(!$is_admin) {
 
     // 리스트 추출
     function list_act(client_idx) {
+        if (typeof list_ajax !== 'undefined') {
+            list_ajax.abort(); // 비동기 실행취소
+        }
+
         let sch_service_category = '';
         let sch_cl_name = '';
 
@@ -476,14 +524,21 @@ if(!$is_admin) {
             sch_cl_name = $('#sch_cl_name').val();
         }
 
-        $.ajax({
+        let sort_btn = $('.sort_btn');
+        let sort_orderby = '';
+        $.each(sort_btn, function(index, className) {
+            if($('.sort_btn').eq(index).attr('order_fd') != '' && $('.sort_btn').eq(index).attr('orderby') != '') {
+                sort_orderby += ', ' + $('.sort_btn').eq(index).attr('order_fd') + ' ' + $('.sort_btn').eq(index).attr('orderby');
+            }
+        });
+
+        list_ajax = $.ajax({
             url: g5_bbs_url + '/ajax.client_list.php',
             type: "POST",
-            data: {'sch_service_category': sch_service_category, 'sch_cl_name': sch_cl_name, 'client_idx': client_idx},
+            data: {'sch_service_category': sch_service_category, 'sch_cl_name': sch_cl_name, 'client_idx': client_idx, 'sort_orderby': sort_orderby},
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
                 $('#client_list').empty();
                 let datas = '';
                 let list_selected = '';
@@ -567,6 +622,7 @@ if(!$is_admin) {
         $('#v_cl_prior_interview').html('');
         $('#v_cl_overtime').html('');
         $('#v_cl_twins').html('');
+        $('.v_cl_work_select_mb_id').html('');
 
         $.ajax({
             url: g5_bbs_url + '/ajax.client_view.php',
@@ -574,6 +630,7 @@ if(!$is_admin) {
             data: {'client_idx': client_idx},
             dataType: "json",
             success: function(response) {
+                console.log(response);
                 $('#v_client_service').html(response.v_client_service);
                 $('#v_receipt_date').html(response.v_receipt_date);
                 $('#v_str_date').html(response.v_str_date);
@@ -612,6 +669,7 @@ if(!$is_admin) {
                 $('#v_cl_prior_interview').html(response.v_cl_prior_interview);
                 $('#v_cl_overtime').html(response.v_cl_overtime);
                 $('#v_cl_twins').html(response.v_cl_twins);
+                $('#v_cl_work_select_mb_id').html(response.v_cl_work_select_mb_id);
             },
             error: function(error) {
                 // 전송이 실패한 경우 받는 응답 처리

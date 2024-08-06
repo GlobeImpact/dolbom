@@ -92,6 +92,7 @@ $branch_id          = isset($_POST['branch_id'])                  ? trim($_POST[
 
 $education_memo     = isset($_POST['education_memo'])             ? trim($_POST['education_memo'])           : "";
 $career_memo        = isset($_POST['career_memo'])                ? trim($_POST['career_memo'])              : "";
+$criminal_history   = isset($_POST['criminal_history'])           ? trim($_POST['criminal_history'])         : "";
 
 $mb_name        = clean_xss_tags($mb_name);
 $mb_tel         = clean_xss_tags($mb_tel);
@@ -251,7 +252,8 @@ if ($w == '') {
                      mb_memo2 = '{$mb_memo2}',
                      branch_id = '{$branch_id}', 
                      education_memo = '{$education_memo}', 
-                     career_memo = '{$career_memo}' 
+                     career_memo = '{$career_memo}', 
+                     criminal_history = '{$criminal_history}' 
                      {$sql_certify} ";
 
     // 이메일 인증을 사용하지 않는다면 이메일 인증시간을 바로 넣는다
@@ -375,7 +377,8 @@ if ($w == '') {
             mb_memo2 = '{$mb_memo2}',
             branch_id = '{$branch_id}', 
             education_memo = '{$education_memo}', 
-            career_memo = '{$career_memo}' 
+            career_memo = '{$career_memo}', 
+            criminal_history = '{$criminal_history}' 
             {$sql_password} 
             {$sql_certify} 
             where mb_id = '{$mb_id}' ";

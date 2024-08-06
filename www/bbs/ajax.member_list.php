@@ -5,10 +5,16 @@ $sch_activity_status = '';
 $sch_service_category = '';
 $sch_mb_name = '';
 $mb_id = $_POST['mb_id'];
+$now_year = '';
+$now_month = '';
+$sort_orderby = '';
 
 $sch_activity_status = $_POST['sch_activity_status'];
 $sch_service_category = $_POST['sch_service_category'];
 $sch_mb_name = $_POST['sch_mb_name'];
+$now_year = ($_POST['now_year'] != '') ? $_POST['now_year'] : '';
+$now_month = ($_POST['now_month'] != '') ? $_POST['now_month'] : '';
+$sort_orderby = $_POST['sort_orderby'];
 
 $list = Array();
 
@@ -34,9 +40,9 @@ if($sch_mb_name != '') {
 
 // 아이디 값이 있을 경우 해당 아이디가 맨 위로 가도록 설정 | 아이디 값이 없을 경우 활동중 > 보류 > 휴직 > 퇴사 + 가나다 순
 if($mb_id != '') {
-    $orderby_str .= " mb_id = '{$mb_id}' desc, activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc";
+    $orderby_str .= " mb_id = '{$mb_id}' desc, activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc {$sort_orderby}";
 }else{
-    $orderby_str .= " activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc";
+    $orderby_str .= " activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc {$sort_orderby}";
 }
 
 $sql = " select * from g5_member where (1=1) {$where_str} order by {$orderby_str} ";
@@ -97,6 +103,17 @@ if($num > 0) {
             }else{
                 $list[$i]['list_selected'] = '';
             }
+        }
+
+        // 파견수
+        $list[$i]['work_cnt'] = 0;
+        if($now_year != '' && $now_month != '') {
+            $first_date = $now_year.'-'.$now_month.'-01';
+            $last_date = $now_year.'-'.$now_month.'-31';
+            // $work_sql = " select count(*) as cnt from g5_work_selected as a left join g5_member as b on b.mb_id = a.mb_id where a.mb_id = '{$row['mb_id']}' and selected_date >= '{$first_date}' and selected_date <= '{$last_date}' ";
+            $work_sql = " select count(*) as cnt from g5_work_selected as a left join g5_member as b on b.mb_id = a.mb_id where a.mb_id = '{$row['mb_id']}' ";
+            $work_row = sql_fetch($work_sql);
+            $list[$i]['work_cnt'] = $work_row['cnt'];
         }
     }
 }

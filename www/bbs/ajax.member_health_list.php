@@ -41,6 +41,7 @@ switch ($set_idx) {
             <th class="layer_list_name" rowspan="2">직원명</th>
             <th class="layer_list_date" rowspan="2">생년월일</th>
             <th class="layer_list_date" rowspan="2">입사일자</th>
+            <th class="layer_list_date" rowspan="2">퇴사일자</th>
             <th colspan="'.$set_num.'">자격관리</th>
         </tr>
         <tr>'.$menu_cell.'</tr>
@@ -63,6 +64,7 @@ switch ($set_idx) {
             <th class="layer_list_name" rowspan="2">직원명</th>
             <th class="layer_list_date" rowspan="2">생년월일</th>
             <th class="layer_list_date" rowspan="2">입사일자</th>
+            <th class="layer_list_date" rowspan="2">퇴사일자</th>
             <th class="layer_list_tel" rowspan="2">연락처</th>
             <th class="layer_list_service_category" rowspan="2">서비스</th>
             <th class="layer_list_status" rowspan="2">계약형태</th>
@@ -102,6 +104,9 @@ if($num > 0) {
         // 입사일자
         $list['list'][$i]['enter_date'] = '';
         if($row['enter_date'] != '0000-00-00') $list['list'][$i]['enter_date'] = $row['enter_date'];
+        // 퇴사일자
+        $list['list'][$i]['quit_date'] = '';
+        if($row['quit_date'] != '0000-00-00') $list['list'][$i]['quit_date'] = $row['quit_date'];
         // 연락처
         $list['list'][$i]['mb_hp'] = $row['mb_hp'];
         // 서비스

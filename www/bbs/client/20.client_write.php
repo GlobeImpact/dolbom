@@ -64,17 +64,18 @@ if($w == 'u' && $client_idx != '') {
                             </td>
                             <th>추천경로</th>
                             <td colspan="5">
-                                <select name="cl_recommended" id="cl_recommended" class="form_select x105">
+                                <select name="cl_recommended" id="cl_recommended" class="form_select">
                                     <option value="">추천경로선택</option>
                                     <option value="보건소" <?php echo ($write['cl_recommended'] == '보건소')?'selected':''; ?>>보건소</option>
-                                    <option value="지인" <?php echo ($write['cl_recommended'] == '지인')?'selected':''; ?>>지인</option>
+                                    <option value="지인추천" <?php echo ($write['cl_recommended'] == '지인추천')?'selected':''; ?>>지인추천</option>
                                     <option value="홍보물" <?php echo ($write['cl_recommended'] == '홍보물')?'selected':''; ?>>홍보물</option>
-                                    <option value="홈페이지" <?php echo ($write['cl_recommended'] == '홈페이지')?'selected':''; ?>>홈페이지</option>
-                                    <option value="산모교실" <?php echo ($write['cl_recommended'] == '산모교실')?'selected':''; ?>>산모교실</option>
-                                    <option value="마미교실" <?php echo ($write['cl_recommended'] == '마미교실')?'selected':''; ?>>마미교실</option>
-                                    <option value="박람회" <?php echo ($write['cl_recommended'] == '박람회')?'selected':''; ?>>박람회</option>
+                                    <option value="인터넷" <?php echo ($write['cl_recommended'] == '인터넷')?'selected':''; ?>>인터넷</option>
+                                    <option value="일등맘 산모교실" <?php echo ($write['cl_recommended'] == '일등맘 산모교실')?'selected':''; ?>>일등맘 산모교실</option>
+                                    <option value="첫째 때 이용" <?php echo ($write['cl_recommended'] == '첫째 때 이용')?'selected':''; ?>>첫째 때 이용</option>
+                                    <option value="여성병원 홍보" <?php echo ($write['cl_recommended'] == '여성병원 홍보')?'selected':''; ?>>여성병원 홍보</option>
                                     <option value="기타" <?php echo ($write['cl_recommended'] == '기타')?'selected':''; ?>>기타</option>
                                 </select>
+                                <input type="text" name="cl_recommended_etc" id="cl_recommended_etc" class="form_input x165" value="<?php echo $write['cl_recommended_etc'] ?>" placeholder="추천경로 직접입력" <?php echo ($write['cl_recommended'] == '기타')?'style="display:inline-block;"':''; ?>>
                             </td>
                         </tr>
                         <tr>
@@ -206,7 +207,7 @@ if($w == 'u' && $client_idx != '') {
                             <th>서비스기간</th>
                             <td>
                                 <?php
-                                $service_period_sql = " select distinct spe_cate, spe_name, spe_period, spe_info, spe_id from g5_service_period where sme_id = '{$write['cl_service_cate2']}' and client_service = '{$client_service}' order by spe_period asc ";
+                                $service_period_sql = " select distinct spe_cate, spe_name, spe_period, spe_info, spe_id from g5_service_period where sme_id = '{$write['cl_service_cate2']}' and client_service = '{$client_service}' and spe_week = 'weekdays' and spe_use = '1' order by spe_period asc ";
                                 $service_period_qry = sql_query($service_period_sql);
                                 $service_period_num = sql_num_rows($service_period_qry);
                                 ?>
@@ -281,7 +282,7 @@ if($w == 'u' && $client_idx != '') {
                                     <option value="남자" <?php echo ($write['cl_baby_gender'] == '남자')?'selected':''; ?>>남자</option>
                                 </select>
                             </td>
-                            <th>출산순위</th>
+                            <th>출산순위<span class="required_txt">*</span></th>
                             <td>
                                 <select name="cl_baby_count" id="cl_baby_count" class="form_select">
                                     <option value="" <?php echo ($write['cl_baby_count'] == '')?'selected':''; ?>>출산순위선택</option>
@@ -327,12 +328,31 @@ if($w == 'u' && $client_idx != '') {
                             </td>
                             <th>반려동물</th>
                             <td colspan="3">
-                                <select name="cl_pet" id="cl_pet" class="form_select">
-                                    <option value="">없음</option>
-                                    <?php for($l=0; $l<count($set_pet_use_arr); $l++) { ?>
-                                    <option value="<?php echo $set_pet_use_arr[$l] ?>" <?php echo ($write['cl_pet'] == $set_pet_use_arr[$l])?'selected':''; ?>><?php echo $set_pet_use_arr[$l] ?></option>
-                                    <?php } ?>
-                                </select>
+                                <div class="flex_row">
+                                    <label class="input_label" for="cl_pet_dog">
+                                        <input type="checkbox" name="cl_pet_dog" class="cl_pet_dog" id="cl_pet_dog" value="y" <?php echo ($write['cl_pet_dog'] == 'y')?'checked':''; ?>> 애완견
+                                    </label>
+                                    <select name="cl_pet_dog_cnt" id="cl_pet_dog_cnt" class="form_select mr_10">
+                                        <option value="" <?php echo ($write['cl_pet_dog_cnt'] == '')?'selected':''; ?>>선택</option>
+                                        <option value="1" <?php echo ($write['cl_pet_dog_cnt'] == '1')?'selected':''; ?>>1마리</option>
+                                        <option value="2" <?php echo ($write['cl_pet_dog_cnt'] == '2')?'selected':''; ?>>2마리</option>
+                                        <option value="3" <?php echo ($write['cl_pet_dog_cnt'] == '3')?'selected':''; ?>>3마리</option>
+                                        <option value="4" <?php echo ($write['cl_pet_dog_cnt'] == '4')?'selected':''; ?>>4마리</option>
+                                        <option value="5" <?php echo ($write['cl_pet_dog_cnt'] == '5')?'selected':''; ?>>5마리</option>
+                                    </select>
+
+                                    <label class="input_label" for="cl_pet_cat">
+                                        <input type="checkbox" name="cl_pet_cat" class="cl_pet_cat" id="cl_pet_cat" value="y" <?php echo ($write['cl_pet_cat'] == 'y')?'checked':''; ?>> 애완묘
+                                    </label>
+                                    <select name="cl_pet_cat_cnt" id="cl_pet_cat_cnt" class="form_select">
+                                        <option value="" <?php echo ($write['cl_pet_cat_cnt'] == '')?'selected':''; ?>>선택</option>
+                                        <option value="1" <?php echo ($write['cl_pet_cat_cnt'] == '1')?'selected':''; ?>>1마리</option>
+                                        <option value="2" <?php echo ($write['cl_pet_cat_cnt'] == '2')?'selected':''; ?>>2마리</option>
+                                        <option value="3" <?php echo ($write['cl_pet_cat_cnt'] == '3')?'selected':''; ?>>3마리</option>
+                                        <option value="4" <?php echo ($write['cl_pet_cat_cnt'] == '4')?'selected':''; ?>>4마리</option>
+                                        <option value="5" <?php echo ($write['cl_pet_cat_cnt'] == '5')?'selected':''; ?>>5마리</option>
+                                    </select>
+                                </div>
                             </td>
                             <?/*
                             <th>사전면접</th>

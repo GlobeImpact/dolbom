@@ -21,6 +21,9 @@ function client_service_baby() {
     $spp_row = sql_fetch($spp_sql);
     // 서비스 금액
     $period_price = $spp_row['spp_deductible'];
+    if($period_price == '' || $period_price == 0) {
+        return false;
+    }
 
     $opp_sql = " select * from g5_service_option_price as a left join g5_service_option as b on b.sop_id = a.sop_id where a.sop_id = '{$client_row['cl_service_option']}' and a.spp_year = '{$spp_year}' and a.branch_id = '{$client_row['branch_id']}' and b.sop_use = '1' ";
     $opp_row = sql_fetch($opp_sql);
@@ -60,6 +63,9 @@ function client_service_babysitter() {
     $spp_row = sql_fetch($spp_sql);
     // 서비스 금액
     $period_price = 0;
+    if($period_price == '' || $period_price == 0) {
+        return false;
+    }
 
     $period_sql = " select * from g5_service_period where client_service = '{$client_service}' and spe_id = '{$client_row['cl_service_period']}' and spe_use = '1' ";
     $period_row = sql_fetch($period_sql);
@@ -98,6 +104,9 @@ function client_service_babysitter() {
 
             // 서비스 금액
             $period_price += (int)$spp_row['spp_deductible'] * $percent;
+            if($spp_row['spp_deductible'] == '' || $spp_row['spp_deductible'] == 0) {
+                return false;
+            }
 
             // 연장근무 금액
             if($period_row['spe_period_hour'] < $selected_period_hour) {
@@ -133,6 +142,9 @@ function client_service_cleaning() {
     $spp_row = sql_fetch($spp_sql);
     // 서비스 금액
     $period_price = 0;
+    if($period_price == '' || $period_price == 0) {
+        return false;
+    }
 
     $period_sql = " select * from g5_service_period where client_service = '{$client_service}' and spe_id = '{$client_row['cl_service_period']}' and spe_use = '1' ";
     $period_row = sql_fetch($period_sql);
@@ -168,6 +180,9 @@ function client_service_cleaning() {
 
             // 서비스 금액
             $period_price += (int)$spp_row['spp_deductible'] * $percent;
+            if($spp_row['spp_deductible'] == '' || $spp_row['spp_deductible'] == 0) {
+                return false;
+            }
 
             // 연장근무 금액
             if($period_row['spe_period_hour'] < $selected_period_hour) {
@@ -196,6 +211,9 @@ function client_service_dish() {
     $spp_row = sql_fetch($spp_sql);
     // 서비스 금액
     $period_price = 0;
+    if($period_price == '' || $period_price == 0) {
+        return false;
+    }
 
     $period_sql = " select * from g5_service_period where client_service = '{$client_service}' and spe_id = '{$client_row['cl_service_period']}' and spe_use = '1' ";
     $period_row = sql_fetch($period_sql);
@@ -219,6 +237,9 @@ function client_service_dish() {
 
             // 서비스 금액
             $period_price += (int)$spp_row['spp_deductible'] * $percent;
+            if($spp_row['spp_deductible'] == '' || $spp_row['spp_deductible'] == 0) {
+                return false;
+            }
         }
     }
 
@@ -234,17 +255,11 @@ $list['tot_price'] = 0;
 
 if($client_service == '아가마지') {
     $list['tot_price'] = client_service_baby();
-}
-
-if($client_service == '베이비시터') {
+}else if($client_service == '베이비시터') {
     $list['tot_price'] = client_service_babysitter();
-}
-
-if($client_service == '청소') {
+}else if($client_service == '청소') {
     $list['tot_price'] = client_service_cleaning();
-}
-
-if($client_service == '반찬') {
+}else if($client_service == '반찬') {
     $list['tot_price'] = client_service_dish();
 }
 

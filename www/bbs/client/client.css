@@ -10,6 +10,7 @@
 
 .mtop20 {margin-top:20px !important;}
 
+.x70 {width:70px;}
 .x90 {width:92px;}
 .x100 {width:100px;}
 .x105 {width:105px;}
@@ -20,6 +21,7 @@
 .x165 {width:165px;}
 .x170 {width:170px;}
 .x200 {width:200px;}
+.x220 {width:220px;}
 .x300 {width:300px;}
 .x1050 {width:1050px;}
 
@@ -28,12 +30,19 @@
 .filter_box > .filter_input {width:150px !important;}
 
 .talign_c {text-align:center;}
+.talign_r {text-align:right;}
+
+#cl_recommended_etc {display:none;}
 /* Etc END */
 
 /* Client Write|Edit STR */
 .flex_row_addr {display:flex;flex-direction:row;flex-wrap:wrap;align-items:flex-start;justify-content:flex-start;margin:0;padding:0;width:100%;gap:5.5px 6px;}
 
 .y100 {height:100px;}
+
+.input_label {position:relative; display:flex; flex-direction:row; align-items:center; justify-content:flex-start; margin:0; padding:0; width:fit-content;}
+.input_label > input[type=checkbox] {margin-right:3px;}
+.input_label > input[type=radio] {margin-right:3px; margin-top:2px;}
 /* Client Write|Edit END */
 
 /* Client Write Client Service Layer STR */
@@ -47,6 +56,8 @@
 .client_service_view {display:none;}
 .client_service_view_cell {display:none;}
 .option_view_cell {display:none;}
+
+.mr_10 {margin-right:10px;}
 /* Client Write Client Service Layer END */
 
 /* Client View Layer STR */

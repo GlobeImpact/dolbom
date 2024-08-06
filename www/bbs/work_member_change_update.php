@@ -60,7 +60,14 @@ if(sql_query($sql)) {
     if($chk_row['mb_id'] != '' && $chk_row['mb_id'] != $select_mb_id) {
         $history_sql = " insert into g5_work_member_history set w_idx = '{$idx}', prev_mb_id = '{$chk_row['mb_id']}', change_mb_id = '{$select_mb_id}', reg_date = '{$reg_date}' ";
         sql_query($history_sql);
+
+        $client_sql = " update g5_client set cl_work_select_mb_id = '{$select_mb_id}' where client_idx = '{$client_idx}' ";
+        sql_query($client_sql);
     }
+
+    $now_date = date('Y-m-d');
+    $change_selected_sql = " update g5_work_selected set mb_id = '{$select_mb_id}' where work_idx = '{$idx}' and client_idx = '{$client_idx}' and selected_date >= '{$now_date}' ";
+    sql_query($change_selected_sql);
 
     $list['code'] = '0000';
     $list['msg'] = '';

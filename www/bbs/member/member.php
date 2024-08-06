@@ -67,8 +67,8 @@ if(!$is_admin) {
                             <tr>
                                 <th class="left_list_numb">번호</th>
                                 <th class="left_list_status">현황</th>
-                                <th class="left_list_team">팀</th>
-                                <th class="left_list_name">직원명</th>
+                                <th class="left_list_team sort_btn" order_fd="team_category" orderby="">팀<img src="<?php echo G5_IMG_URL ?>/sort_arrow_icon.png"></th>
+                                <th class="left_list_name sort_btn" order_fd="mb_name" orderby="asc">직원명<img src="<?php echo G5_IMG_URL ?>/sort_arrow_icon.png"></th>
                                 <th class="left_list_gender">성별</th>
                                 <th class="left_list_birth">생년월일</th>
                                 <th class="left_list_hp">연락처</th>
@@ -105,7 +105,7 @@ if(!$is_admin) {
                     <table class="view_tbl">
                         <tbody>
                             <tr>
-                                <td class="x150 valign_t" rowspan="9">
+                                <td class="x150 valign_t" rowspan="10">
                                     <div id="profile_wrap">
                                         <img src="<?php echo G5_IMG_URL ?>/profile_noimg.png" onerror="this.src='<?php echo G5_IMG_URL ?>/profile_noimg.png';">
                                     </div>
@@ -158,6 +158,10 @@ if(!$is_admin) {
                                 <td id="v_career_memo" colspan="9"></td>
                             </tr>
                             <tr>
+                                <th>범죄경력</th>
+                                <td id="v_criminal_history" colspan="9"></td>
+                            </tr>
+                            <tr>
                                 <th>주소</th>
                                 <td id="v_mb_addr" colspan="9"></td>
                             </tr>
@@ -198,6 +202,7 @@ if(!$is_admin) {
 
 <script>
 let write_ajax;
+let list_ajax;
 $(function(){
     $(document).on('change', '.filter_select', function(){
         list_act();
@@ -205,6 +210,33 @@ $(function(){
 
     $(document).on('keyup', '.filter_input', function(){
         list_act();
+    });
+
+    $(document).on('click', '.sort_btn', function(){
+        if($(this).hasClass('sort_asc') == true) {
+            $(this).addClass('sort_desc').removeClass('sort_asc');
+            $(this).attr('orderby', 'desc');
+            list_act();
+            return false;
+        }
+
+        if($(this).hasClass('sort_desc') == true) {
+            $(this).removeClass('sort_desc');
+            if($(this).attr('order_fd') == 'mb_name') {
+                $(this).attr('orderby', 'asc');
+            }else{
+                $(this).attr('orderby', '');
+            }
+            list_act();
+            return false;
+        }
+
+        if(hasAllClasses($(this), ['sort_asc', 'sort_desc']) == false) {
+            $(this).addClass('sort_asc');
+            $(this).attr('orderby', 'asc');
+            list_act();
+            return false;
+        }
     });
 
     <?php if($write_permit === true) { ?>
@@ -497,6 +529,10 @@ $(function(){
 
 // 리스트 추출
 function list_act(mb_id) {
+    if (typeof list_ajax !== 'undefined') {
+        list_ajax.abort(); // 비동기 실행취소
+    }
+
     // 리스트 스크롤 초기화(맨 위로 이동)
     $(".list_wrap > .list_box").animate({ scrollTop: 0 }, 0);
 
@@ -508,10 +544,18 @@ function list_act(mb_id) {
     sch_service_category = $('#sch_service_category option:selected').val();
     sch_mb_name = $('#sch_mb_name').val();
 
-    $.ajax({
+    let sort_btn = $('.sort_btn');
+    let sort_orderby = '';
+    $.each(sort_btn, function(index, className) {
+        if($('.sort_btn').eq(index).attr('order_fd') != '' && $('.sort_btn').eq(index).attr('orderby') != '') {
+            sort_orderby += ', ' + $('.sort_btn').eq(index).attr('order_fd') + ' ' + $('.sort_btn').eq(index).attr('orderby');
+        }
+    });
+
+    list_ajax = $.ajax({
         url: g5_bbs_url + '/ajax.member_list.php',
         type: "POST",
-        data: {'sch_activity_status': sch_activity_status, 'sch_service_category': sch_service_category, 'sch_mb_name': sch_mb_name, 'mb_id': mb_id},
+        data: {'sch_activity_status': sch_activity_status, 'sch_service_category': sch_service_category, 'sch_mb_name': sch_mb_name, 'mb_id': mb_id, 'sort_orderby': sort_orderby},
         dataType: "json",
         success: function(response) {
             // 전송이 성공한 경우 받는 응답 처리
@@ -593,6 +637,7 @@ function view_act() {
 
     $('#v_education_memo').html('');
     $('#v_career_memo').html('');
+    $('#v_criminal_history').html('');
 
     $.ajax({
         url: g5_bbs_url + '/ajax.member_view.php',
@@ -625,6 +670,7 @@ function view_act() {
 
             $('#v_education_memo').html(response.v_education_memo);
             $('#v_career_memo').html(response.v_career_memo);
+            $('#v_criminal_history').html(response.v_criminal_history);
 
             $('.certificate_nav_box').empty();
 

@@ -52,6 +52,14 @@ if($num > 0) {
 
         $list[$i]['take_date'] = $row['take_date'];
         if($row['take_date'] == '0000-00-00') $list[$i]['take_date'] = '';
+
+        $list[$i]['take_name'] = '';
+        if($row['take_mb_id'] != '') {
+            $member_sql = " select * from g5_member where mb_id = '{$row['take_mb_id']}' ";
+            $member_row = sql_fetch($member_sql);
+
+            $list[$i]['take_name'] .= $row['take_mb_name'].' ['.substr($member_row['security_number'], 0, 6).']';
+        }
     }
 }
 

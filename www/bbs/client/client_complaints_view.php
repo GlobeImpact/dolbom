@@ -41,10 +41,10 @@ if($write_permit === true) $edit_btn = '<a class="edit_btn" idx="'.$idx.'">수�
                 <table class="form_tbl">
                     <tbody>
                         <tr>
-                            <th class="x120">상담구분</th>
+                            <th class="x110">상담구분</th>
                             <td class="x390"><?php echo $view['comp_category'] ?></td>
-                            <th class="x120">조치구분</th>
-                            <td><?php echo $view['take_category'] ?></td>
+                            <th class="x110">조치구분</th>
+                            <td colspan="3"><?php echo $view['take_category'] ?></td>
                         </tr>
                         <tr>
                             <th>고객선택</th>
@@ -61,17 +61,30 @@ if($write_permit === true) $edit_btn = '<a class="edit_btn" idx="'.$idx.'">수�
                                 <?php echo $view['comp_client_name'] ?><?php echo $client_service ?><?php echo $client_hp ?>
                             </td>
                             <th>조치일자</th>
-                            <td><?php echo $view['take_date'] ?></td>
+                            <td class="x120"><?php echo $view['take_date'] ?></td>
+                            <th class="x110">관리사선택</th>
+                            <td>
+                                <?php
+                                $member_sql = " select * from g5_member where mb_id = '{$view['take_mb_id']}' ";
+                                $member_row = sql_fetch($member_sql);
+
+                                $member_service = '';
+                                if($view['take_mb_id'] != '') {
+                                    $member_service .= ' ['.substr($member_row['security_number'], 0, 6).']';
+                                }
+                                ?>
+                                <?php echo $view['take_mb_name'] ?><?php echo $member_service ?>
+                            </td>
                         </tr>
                         <tr>
                             <th>상담내용</th>
                             <td><div class="view_content"><?php echo nl2br($view['comp_content']) ?></div></td>
                             <th>조치내용</th>
-                            <td><div class="view_content"><?php echo nl2br($view['take_content']) ?></div></td>
+                            <td colspan="3"><div class="view_content"><?php echo nl2br($view['take_content']) ?></div></td>
                         </tr>
                         <tr>
                             <th>비고</th>
-                            <td colspan="3"><div class="view_content"><?php echo nl2br($view['take_etc']) ?></div></td>
+                            <td colspan="5"><div class="view_content"><?php echo nl2br($view['take_etc']) ?></div></td>
                         </tr>
                     </tbody>
                 </table>

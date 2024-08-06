@@ -43,6 +43,12 @@
 .management_tbl > tbody > tr > td {background:none;}
 .management_tbl > tbody > tr:hover {background:#d8f8c0;}
 
+.left_list_numb_mng {width:100px; max-width:100px; text-align:center;}
+.left_list_status_mng {width:170px; max-width:170px; text-align:center;}
+.left_list_branch_mng {width:170px; max-width:170px; text-align:center;}
+.left_list_birth_mng {width:150px; max-width:150px; text-align:center;}
+.left_list_date_mng {width:150px; max-width:150px; text-align:center;}
+
 .x160 {width:160px;}
 .x1050 {width:1050px;}
 

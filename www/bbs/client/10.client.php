@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client.css?ver=5">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/client/client.css?ver=7">', 0);
 
 
 // 등록/수정 권한
@@ -59,7 +59,7 @@ if(!$is_admin) {
                             <tr>
                                 <th class="left_list_numb">번호</th>
                                 <th class="left_list_date">접수일자</th>
-                                <th class="left_list_name">신청인</th>
+                                <th class="left_list_name sort_btn" order_fd="cl_name" orderby="asc">신청인<img src="<?php echo G5_IMG_URL ?>/sort_arrow_icon.png"></th>
                                 <th class="left_list_service_category">서비스</th>
                                 <th class="left_list_hp">연락처</th>
                                 <th class="left_list_status">현황</th>
@@ -180,7 +180,8 @@ if(!$is_admin) {
                                 <td class="talign_c v_cl_service_period"></td>
                                 <th>추가옵션</th>
                                 <td class="talign_c v_cl_service_option"></td>
-                                <td colspan="6"></td>
+                                <th>평수</th>
+                                <td class="v_cl_pyeong" colspan="5"></td>
                             </tr>
                             <!-- 반찬 -->
                             <tr class="v_client_service_view" client_service="<?php echo ${'set_mn'.$_SESSION['this_code'].'_service_category_arr'}[2] ?>">
@@ -246,7 +247,10 @@ if(!$is_admin) {
                                 <td class="talign_c v_cl_tot_price"></td>
                                 <th>추천경로</th>
                                 <td class="talign_c v_cl_recommended"></td>
-                                <td colspan="6"></td>
+                                <th>프뢰벨</th>
+                                <td class="talign_c v_cl_froebel_agree"></td>
+                                <th>지정관리사</th>
+                                <td class="v_cl_work_select_mb_id" colspan="3"></td>
                             </tr>
                             <tr>
                                 <th>추가요청사항</th>
@@ -281,8 +285,36 @@ if(!$is_admin) {
 
 <script>
     let write_ajax;
+    let list_ajax;
 
     $(function(){
+        $(document).on('click', '.sort_btn', function(){
+            if($(this).hasClass('sort_asc') == true) {
+                $(this).addClass('sort_desc').removeClass('sort_asc');
+                $(this).attr('orderby', 'desc');
+                list_act();
+                return false;
+            }
+
+            if($(this).hasClass('sort_desc') == true) {
+                $(this).removeClass('sort_desc');
+                if($(this).attr('order_fd') == 'cl_name') {
+                    $(this).attr('orderby', 'asc');
+                }else{
+                    $(this).attr('orderby', '');
+                }
+                list_act();
+                return false;
+            }
+
+            if(hasAllClasses($(this), ['sort_asc', 'sort_desc']) == false) {
+                $(this).addClass('sort_asc');
+                $(this).attr('orderby', 'asc');
+                list_act();
+                return false;
+            }
+        });
+
         <?php if($write_permit === true) { ?>
         $(document).on('click', '#write_btn', function(){
             $("#layer_popup").load(g5_bbs_url + "/client_write.php");
@@ -297,6 +329,14 @@ if(!$is_admin) {
 
             $('#layer_popup').css('display', 'block');
             $('#layer_popup_bg').css('display', 'block');
+        });
+
+        $(document).on('change', '#cl_recommended', function(){
+            if($(this).val() == '기타') {
+                $('#cl_recommended_etc').css('display', 'inline-block');
+            }else{
+                $('#cl_recommended_etc').css('display', 'none');
+            }
         });
 
         $(document).on('change', '#cl_service_cate', function(){
@@ -406,10 +446,20 @@ if(!$is_admin) {
             }
             */
 
-            if($('#cl_hp').val() == '') {
-                alert('연락처를 입력해주세요');
-                $('#cl_hp').focus();
-                return false;
+            if($('#cl_baby_count').length > 0) {
+                if($('#cl_hp').val() == '') {
+                    alert('연락처를 입력해주세요');
+                    $('#cl_hp').focus();
+                    return false;
+                }
+            }
+
+            if($('#cl_baby_count').length > 0) {
+                if($('#cl_baby_count').val() == '') {
+                    alert('출산순위를 선택해주세요');
+                    $('#cl_baby_count').focus();
+                    return false;
+                }
             }
 
             /*
@@ -441,6 +491,7 @@ if(!$is_admin) {
                 dataType: "json",
                 success: function(response) {
                     // 전송이 성공한 경우 받는 응답 처리
+                    console.log(response);
                     if(response.msg != '') {
                         alert(response.msg);
                     }
@@ -535,10 +586,34 @@ if(!$is_admin) {
 
             window.location.href = g5_bbs_url + '/client_excel_download.php?service_category=' + sch_service_category + '&cl_name=' + sch_cl_name;
         });
+
+        // ㎡ 구하기
+        $(document).on('input', '#cl_pyeong', function(){
+            if($(this).val() == '') {
+                return false;
+            }
+
+            let squaremeters = parseInt($(this).val() || 0) * 3.3;
+            $('#cl_squaremeters').val(squaremeters.toFixed(0));
+        });
+
+        // 평수 구하기
+        $(document).on('input', '#cl_squaremeters', function(){
+            if($(this).val() == '') {
+                return false;
+            }
+
+            let pyeong = parseInt($(this).val() || 0) / 3.3;
+            $('#cl_pyeong').val(pyeong.toFixed(0));
+        });
     });
 
     // 리스트 추출
     function list_act(client_idx) {
+        if (typeof list_ajax !== 'undefined') {
+            list_ajax.abort(); // 비동기 실행취소
+        }
+
         let sch_service_category = '';
         let sch_cl_name = '';
 
@@ -547,14 +622,21 @@ if(!$is_admin) {
             sch_cl_name = $('#sch_cl_name').val();
         }
 
-        $.ajax({
+        let sort_btn = $('.sort_btn');
+        let sort_orderby = '';
+        $.each(sort_btn, function(index, className) {
+            if($('.sort_btn').eq(index).attr('order_fd') != '' && $('.sort_btn').eq(index).attr('orderby') != '') {
+                sort_orderby += ', ' + $('.sort_btn').eq(index).attr('order_fd') + ' ' + $('.sort_btn').eq(index).attr('orderby');
+            }
+        });
+
+        list_ajax = $.ajax({
             url: g5_bbs_url + '/ajax.client_list.php',
             type: "POST",
-            data: {'sch_service_category': sch_service_category, 'sch_cl_name': sch_cl_name, 'client_idx': client_idx},
+            data: {'sch_service_category': sch_service_category, 'sch_cl_name': sch_cl_name, 'client_idx': client_idx, 'sort_orderby': sort_orderby},
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
-                console.log(response);
                 $('#client_list').empty();
                 let datas = '';
                 let list_selected = '';
@@ -617,6 +699,7 @@ if(!$is_admin) {
         $('.v_cl_service_cate2').html('');
         $('.v_cl_service_period').html('');
         $('.v_cl_service_option').html('');
+        $('.v_cl_pyeong').html('');
         $('.v_cl_baby').html('');
         $('.v_cl_baby_gender').html('');
         $('.v_cl_baby_count').html('');
@@ -628,6 +711,7 @@ if(!$is_admin) {
         $('.v_cl_unit_price').html('');
         $('.v_cl_tot_price').html('');
         $('.v_cl_recommended').html('');
+        $('.v_cl_froebel_agree').html('');
         $('.v_cl_cash_receipt').html('');
         $('#v_cl_memo1').html('');
         $('#v_cl_memo2').html('');
@@ -638,6 +722,7 @@ if(!$is_admin) {
         $('.v_cl_prior_interview').html('');
         $('.v_cl_overtime').html('');
         $('.v_cl_twins').html('');
+        $('.v_cl_work_select_mb_id').html('');
 
         $.ajax({
             url: g5_bbs_url + '/ajax.client_view.php',
@@ -662,6 +747,7 @@ if(!$is_admin) {
                 $('.v_cl_service_cate2').html(response.v_cl_service_cate2);
                 $('.v_cl_service_period').html(response.v_cl_service_period);
                 $('.v_cl_service_option').html(response.v_cl_service_option);
+                $('.v_cl_pyeong').html(response.v_cl_pyeong);
                 $('.v_cl_baby').html(response.v_cl_baby);
                 $('.v_cl_baby_gender').html(response.v_cl_baby_gender);
                 $('.v_cl_baby_count').html(response.v_cl_baby_count);
@@ -674,6 +760,7 @@ if(!$is_admin) {
                 $('.v_cl_unit_price').html(response.v_cl_unit_price);
                 $('.v_cl_tot_price').html(response.v_cl_tot_price);
                 $('.v_cl_recommended').html(response.v_cl_recommended);
+                $('.v_cl_froebel_agree').html(response.v_cl_froebel_agree);
                 $('.v_cl_cash_receipt').html(response.v_cl_cash_receipt);
                 $('#v_cl_memo1').html(response.v_cl_memo1);
                 $('#v_cl_memo2').html(response.v_cl_memo2);
@@ -683,6 +770,7 @@ if(!$is_admin) {
                 $('.v_cl_baby_birth').html(response.v_cl_baby_birth);
                 $('.v_cl_prior_interview').html(response.v_cl_prior_interview);
                 $('.v_cl_twins').html(response.v_cl_twins);
+                $('.v_cl_work_select_mb_id').html(response.v_cl_work_select_mb_id);
 
                 $('.v_client_service_view').css('display', 'none');
                 $('.v_client_service_view').filter("[client_service='" + response.v_client_service + "']").css('display', 'table-row');

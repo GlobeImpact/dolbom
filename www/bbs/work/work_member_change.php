@@ -1,5 +1,6 @@
 <?php
 $client_idx = $_GET['client_idx'];
+$client_service = $_GET['client_service'];
 $mb_id = $_GET['mb_id'];
 
 $now_year = $_GET['now_month'];
@@ -16,7 +17,7 @@ $area_y = $client_row['cl_area_y'];
 $where_str = "";
 $orderby_str = "";
 
-$where_str .= " and mb_menu = '{$_SESSION['this_code']}' and branch_id = '{$_SESSION['this_branch_id']}' and mb_level = 2 and mb_hide = '' and activity_status = '활동중'";
+$where_str .= " and mb_menu = '{$_SESSION['this_code']}' and branch_id = '{$_SESSION['this_branch_id']}' and mb_level = 2 and mb_hide = '' and activity_status = '활동중' and service_category = '{$client_service}'";
 
 if($area_x != '' && $area_y != '') {
     $orderby_str .= ", activity_status = '활동중' desc, activity_status = '보류' desc, activity_status = '휴직' desc, activity_status = '퇴사' desc, mb_name asc";
@@ -105,60 +106,9 @@ $num = sql_num_rows($qry);
 </div>
 
 <script>
-let mb_profile;
-
 $(function(){
     $(".date_api").datepicker(datepicker_option);
 });
 
 calendar_call();
-
-function mini_calendar_call() {
-    /*
-    let this_year = $('#this_year').val();
-    let this_month = $('#this_month').val();
-    let month_val = this_month;
-    if(this_month < 10) month_val = '0' + month_val;
-
-    $.ajax({
-        url: g5_bbs_url + "/ajax.mini_calendar_call.php", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
-        data: {'this_year': this_year, 'this_month': this_month}, // HTTP 요청과 함께 서버로 보낼 데이터
-        method: "POST", // HTTP 요청 메소드(GET, POST 등)
-        dataType: "json", // 서버에서 보내줄 데이터의 타입 })
-        success: function(rst){
-            console.log(rst);
-
-            let datas = '';
-
-            let n = 1;
-            for(let i=0; i<rst.tweek; i++) {
-                datas += '<tr>';
-
-                for(let k=0; k<7; k++) {
-                    datas += '<td class="calendar_td">';
-                    if((i == 0 && k < rst.sweek) || (i == rst.tweek-1 && k > rst.lweek)) {
-                        datas += '</td>';
-                        continue;
-                    }
-
-                    let nn = n;
-                    if(nn < 10) nn = '0' + nn;
-
-                    let this_date = this_year + '-' + month_val + '-' + nn;
-
-                    datas += '<a class="mini_calendar_btn" mini_this_date="' + this_date + '">' + nn + '</a>';
-
-                    n++;
-                    datas += '</td>';
-                }
-
-                datas += '</tr>';
-            }
-
-            $('#mini_calendar_list').empty();
-            $('#mini_calendar_list').append(datas);
-        }
-    });
-    */
-}
 </script>

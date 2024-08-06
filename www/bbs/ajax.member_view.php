@@ -61,6 +61,7 @@ $list['v_mb_memo2'] = nl2br($row['mb_memo2']);
 
 $list['v_education_memo'] = $row['education_memo'];
 $list['v_career_memo'] = $row['career_memo'];
+$list['v_criminal_history'] = $row['criminal_history'];
 
 if($row['mb_id'] != '') {
     if($row['activity_status'] == '활동중' || $row['activity_status'] == '휴직') {

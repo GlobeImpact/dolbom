@@ -5,13 +5,35 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/pay/pay.css">', 0);
 <div id="layer_wrap">
     <div id="layer_box">
 
+        <?php
+        $menu_sql = " select * from g5_menu where me_code like '{$_SESSION['this_code']}{$mn_cd}%' and length(me_code) = 6 and me_use = 1 order by me_order asc, me_code asc ";
+        $menu_qry = sql_query($menu_sql);
+        $menu_num = sql_num_rows($menu_qry);
+        if($menu_num > 0) {
+        ?>
         <ul class="menu_box">
-            <li class="menu_list"><a class="menu_list_btn" href="<?php echo G5_BBS_URL ?>/pay_set.php">공제항목설정</a></li>
-            <li class="menu_list" id="menu_list_act"><a class="menu_list_btn" href="<?php echo G5_BBS_URL ?>/pay.php">급여계산</a></li>
+            <?php
+            for($m=0; $menu_row = sql_fetch_array($menu_qry); $m++) {
+            ?>
+            <li class="menu_list" <?php echo ("{$_SESSION['this_code']}{$mn_cd2}" == $menu_row['me_code'])?'id="menu_list_act"':''; ?>><a class="menu_list_btn" href="<?php echo $menu_row['me_link'] ?>?this_code=<?php echo $_SESSION['this_code'] ?>" target="_<?php echo $menu_row['me_target'] ?>"><?php echo $menu_row['me_name'] ?></a></li>
+            <?php
+            }
+            ?>
         </ul>
+        <?php
+        }
+        ?>
 
         <div class="sub_wrap">
             <div class="form_wrap">
+                <div class="wrap_top">
+                    <div></div>
+                    <div>
+                        <a class="set_btn">급여계산[일괄]</a>
+                        <a class="set_btn">급여마감</a>
+                        <a class="set_btn">마감취소</a>
+                    </div>
+                </div>
                 <div class="form_row">
                     <div class="form_box">
                         <h4 class="sub_tit">기본정보</h4>
@@ -460,6 +482,14 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/pay/pay.css">', 0);
                     </div>
                 </div>
             </div>
+            <div class="wrap_top">
+                <div></div>
+                <div>
+                    <a class="set_btn">급여계산[일괄]</a>
+                    <a class="set_btn">급여마감</a>
+                    <a class="set_btn">마감취소</a>
+                </div>
+            </div>
             <div class="list_wrap">
                 <table class="list_tbl">
                     <thead>
@@ -474,6 +504,15 @@ add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/pay/pay.css">', 0);
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td class="talign_c">홍길동</td>
+                            <td class="talign_c">900101-1234567</td>
+                            <td class="talign_c">2팀</td>
+                            <td class="talign_r">1,200,000</td>
+                            <td class="talign_r">10,000</td>
+                            <td class="talign_r">3,000,000</td>
+                            <td class="talign_r">2,800,000</td>
+                        </tr>
                         <tr>
                             <td class="talign_c">홍길동</td>
                             <td class="talign_c">900101-1234567</td>

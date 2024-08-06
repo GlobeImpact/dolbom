@@ -59,6 +59,9 @@ if($num > 0) {
         // 입사일자
         $list[$i]['enter_date'] = '';
         if($row['enter_date'] != '0000-00-00') $list[$i]['enter_date'] = $row['enter_date'];
+        // 퇴사일자
+        $list[$i]['quit_date'] = '';
+        if($row['quit_date'] != '0000-00-00') $list[$i]['quit_date'] = $row['quit_date'];
 
         if($mb_id != '' && $mb_id == $row['mb_id']) {
             $list[$i]['list_selected'] = 'y';

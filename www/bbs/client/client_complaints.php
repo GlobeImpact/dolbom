@@ -62,6 +62,7 @@ $now_year = date('Y');
                             <th class="layer_list_tel">신청인 연락처</th>
                             <th class="layer_list_status">상태</th>
                             <th class="layer_list_date">조치일자</th>
+                            <th class="layer_list_name">관리사</th>
                             <th>설정</th>
                         </tr>
                     </thead>
@@ -87,6 +88,7 @@ $now_year = date('Y');
 <script>
 let write_ajax;
 let client_select_form_timer;
+let member_select_form_timer;
 
 $(function(){
     // 이전 년도(◀) , 다음 년도(▶) 클릭시
@@ -153,6 +155,20 @@ $(function(){
         }, 600);
     });
 
+    // 관리사선택 버튼 클릭시 관리사선택 Layer Popup 띄우기
+    $(document).on('click', '#form_select_btn2', function(){
+        let idx = $('#idx').val();
+        let tit = '관리사';
+        $("#select_layer_popup").load(g5_bbs_url + "/member_select_form.php?idx=" + idx + "&tit=" + tit);
+
+        $('#select_layer_popup').css('display', 'block');
+        $('#select_layer_popup_bg').css('display', 'block');
+
+        member_select_form_timer = setInterval(function(){
+            member_select_form();
+        }, 600);
+    });
+
     // Layer Popup 닫기 버튼 클릭시 Layer Popup 초기화 + 숨기기
     $(document).on('click', '#popup_close_btn', function(){
         // Layer Popup 초기화
@@ -182,7 +198,11 @@ $(function(){
 
     // 고객 선택 리스트 검색 버튼 클릭시 리스트 불러오기
     $(document).on('click', '#filter_submit2', function(){
-        client_select_form();
+        if($(this).hasClass('client_select_filter_submit') == true) {
+            client_select_form();
+        }else{
+            member_select_form();
+        }
     });
 
     <?php if($write_permit === true) { ?>
@@ -268,15 +288,38 @@ $(function(){
         $(this).addClass('client_select_list_selected');
     });
 
-    // 고객 리스트 선택 선택완료 Submit
+    // 관리사 리스트 클릭(선택)시
+    $(document).on('click', '.member_select_list_tbl > tbody > tr', function(){
+        // 관리사 리스트 선택 활성화 초기화
+        $('.member_select_check').prop('checked', false);
+        $('.member_select_list_tbl > tbody > tr').removeClass('member_select_list_selected');
+
+        // 클릭한 관리사 리스트 선택 활성화
+        $(this).find('.member_select_check').prop('checked', true);
+        $(this).addClass('member_select_list_selected');
+    });
+
+    // 고객&관리사 리스트 선택 선택완료 Submit
     $(document).on('click', '#select_submit_btn', function(){
         // 고객 Idx, 고객명 Data 불러오기
         let select_client_idx = $('.client_select_check:checked').val();
         let cl_name = $('.client_select_check:checked').attr('cl_name');
 
+        // 관리사 mb_id, 관리사명 Data 불러오기
+        let select_mb_id = $('.member_select_check:checked').val();
+        let mb_name = $('.member_select_check:checked').attr('mb_name');
+
         // 고객 Idx, 고객명 Data 추가
-        $('#comp_client_idx').val(select_client_idx);
-        $('#comp_client_name').val(cl_name);
+        if(typeof select_client_idx != 'undefined') {
+            $('#comp_client_idx').val(select_client_idx);
+            $('#comp_client_name').val(cl_name);
+        }
+
+        // 관리사 mb_id, 관리사명 Data 추가
+        if(typeof select_mb_id != 'undefined') {
+            $('#take_mb_id').val(select_mb_id);
+            $('#take_mb_name').val(mb_name);
+        }
 
         $('#select_layer_popup').empty();
 
@@ -376,6 +419,7 @@ function list_act() {
                     datas += '<td class="layer_list_tel">' + response[i].tel + '</td>';
                     datas += '<td class="layer_list_status">' + response[i].status + '</td>';
                     datas += '<td class="layer_list_date">' + response[i].take_date + '</td>';
+                    datas += '<td class="layer_list_name">' + response[i].take_name + '</td>';
                     datas += '<td class=""><div class="btn_flex">';
                     <?php if($write_permit === true) { ?>
                     datas += '<a class="edit_btn" idx="' + response[i].idx + '">수정</a>';
@@ -444,6 +488,60 @@ function client_select_form() {
             $('#select_tot').text(response.length);
 
             clearInterval(client_select_form_timer);
+
+            return false;
+        }
+    });
+}
+
+// 관리사 선택 리스트 불러오기
+function member_select_form() {
+    // 선택된 관리사 아이디 Data
+    let idx = $('#take_mb_id').val();
+    // 검색 : sch_value2 Data
+    let sch_value2 = $('#sch_value2').val();
+
+    // 전체선택 해제
+    $('.select_all_check').prop('checked', false);
+
+    $.ajax({
+        url: g5_bbs_url + "/ajax.member_select_list.php", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+        data: {'idx': idx, 'sch_value2': sch_value2},  // HTTP 요청과 함께 서버로 보낼 데이터
+        method: "POST",   // HTTP 요청 메소드(GET, POST 등)
+        dataType: "json", // 서버에서 보내줄 데이터의 타입
+        success: function(response){
+            // 리스트 초기화
+            $('#select_list').empty();
+
+            let datas = '';
+            let list_selected = '';
+            let list_checked = '';
+            if(response.length > 0) {
+                for(let i=0; i<response.length; i++) {
+                    list_selected = '';
+                    list_checked = '';
+                    if(response[i].list_selected == 'y') {
+                        list_selected = 'client_select_list_selected';
+                        list_checked = 'checked';
+                    }
+
+                    datas += '<tr class="' + list_selected + '">';
+                    datas += '<td class="member_select_list_check">';
+                    datas += '<input type="checkbox" class="member_select_check" name="select_mb_id[]" id="select_mb_id' + i + '" value="' + response[i].mb_id + '" service_category="' + response[i].service_category + '" mb_name="' + response[i].mb_name + '" ' + list_checked + '>';
+                    datas += '</td>';
+                    datas += '<td class="member_select_list_gender">' + response[i].activity_status + '</td>';
+                    datas += '<td class="member_select_list_name">' + response[i].mb_name + '</td>';
+                    datas += '<td class="member_select_list_gender">' + response[i].gender + '</td>';
+                    datas += '<td class="member_select_list_birthday">' + response[i].birthday + '</td>';
+                    datas += '<td>' + response[i].enter_date + '</td>';
+                    datas += '</tr>';
+                }
+            }
+
+            $('#select_list').append(datas);
+            $('#select_tot').text(response.length);
+
+            clearInterval(member_select_form_timer);
 
             return false;
         }

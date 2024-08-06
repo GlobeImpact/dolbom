@@ -50,7 +50,7 @@ let datepicker_option = {	// UI 달력을 사용할 Class / Id 를 콤마(,) 로
     // 오늘을 기준으로 선택할 수 있는 최대한의 날짜 조건 제한주기
     // d : 일 , m : 월 , y : 년
     // +1d , -1d , +1m , -1m , +1y , -1y
-    maxDate: '+5y',
+    maxDate: '+2y',
     duration: 'fast', // 달력 나타나는 속도 ( Slow , normal , Fast )
     // [행(tr),열(td)]
     // [1,2] 이면 한줄에 2개의 월이 나타남
@@ -59,10 +59,10 @@ let datepicker_option = {	// UI 달력을 사용할 Class / Id 를 콤마(,) 로
     // 종류 : show , slideDown , fadeIn , blind , bounce , clip , drop , fold , slide ( '' 할경우 애니매이션 효과 없이 작동 )
     showAnim: 'slideDown',
     // 달력에서 좌우 선택시 이동할 개월 수
-    stepMonths: 2,
+    stepMonths: 1,
     // 년도 범위 설정
     // minDate , maxDate 사용시 작동 안됨
-    //yearRange: '2012:2020',
+    yearRange: '2000:2050',
 };
 $(function(){
     $(".date_api").datepicker(datepicker_option);
@@ -87,7 +87,7 @@ $(function(){
     ?>
     <div id="tnb">
         <div>
-            <h4><?php echo $g5['title'] ?></h4>
+            <p class="top_logo_txt">돌봄in</p>
             <?php
             if($is_admin) {
             ?>
@@ -109,6 +109,7 @@ $(function(){
             <?php
             }
             ?>
+            <h4><?php echo $g5['title'] ?></h4>
         </div>
         <script>
         $(function(){

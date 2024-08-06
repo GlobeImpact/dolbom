@@ -184,6 +184,12 @@ if($w == 'u' && $mb_id != '') {
                             </td>
                         </tr>
                         <tr>
+                            <th>범죄경력</th>
+                            <td colspan="9">
+                                <input type="text" name="criminal_history" id="criminal_history" class="form_input xp100" value="<?php echo $write['criminal_history'] ?>">
+                            </td>
+                        </tr>
+                        <tr>
                             <th>주소</th>
                             <td colspan="9">
                                 <div class="flex_row_addr">

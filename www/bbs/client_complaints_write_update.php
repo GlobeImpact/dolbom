@@ -22,6 +22,8 @@ $comp_category = $_POST['comp_category'];
 $take_category = $_POST['take_category'];
 $comp_client_idx = $_POST['comp_client_idx'];
 $comp_client_name = $_POST['comp_client_name'];
+$take_mb_id = $_POST['take_mb_id'];
+$take_mb_name = $_POST['take_mb_name'];
 $take_date = $_POST['take_date'];
 if($take_category != '' && $take_date == '') $take_date = date('Y-m-d');
 $comp_content = $_POST['comp_content'];
@@ -40,6 +42,8 @@ if ($w == '') {
                 comp_content = '{$comp_content}', 
                 take_date = '{$take_date}', 
                 take_category = '{$take_category}', 
+                take_mb_id = '{$take_mb_id}', 
+                take_mb_name = '{$take_mb_name}', 
                 take_content = '{$take_content}', 
                 take_etc = '{$take_etc}', 
                 reg_date = '{$reg_date}' ";
@@ -57,6 +61,8 @@ if ($w == '') {
                 comp_content = '{$comp_content}', 
                 take_date = '{$take_date}', 
                 take_category = '{$take_category}', 
+                take_mb_id = '{$take_mb_id}', 
+                take_mb_name = '{$take_mb_name}', 
                 take_content = '{$take_content}', 
                 take_etc = '{$take_etc}' 
             where idx = '{$idx}' ";

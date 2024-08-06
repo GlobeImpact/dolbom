@@ -841,3 +841,11 @@ function addComma(value) {
 function removeComma(value) {
     return value.toString().replace(/,/g, "");
 }
+
+function hasAllClasses(element, classes) {
+    return classes.every(cls => element.hasClass(cls));
+}
+
+function hasAnyClass(element, classes) {
+    return classes.some(cls => element.hasClass(cls));
+}

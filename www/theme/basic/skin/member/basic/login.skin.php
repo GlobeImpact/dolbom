@@ -11,7 +11,7 @@ if($_COOKIE['save_id']) {
 
 <div id="mb_login_wrap">
 
-    <h3>부산돌봄의료복지사회적협동조합</h3>
+    <h3 style="font-family:ONE-Mobile-POP;">돌봄in</h3>
 
     <!-- 로그인 시작 { -->
     <div id="mb_login" class="mbskin">

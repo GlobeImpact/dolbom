@@ -226,7 +226,54 @@ if($work_row['mb_id'] == '') {
                         <a id="all_check_btn">일괄적용</a>
                     </div>
                     <?php } ?>
-                    <ul id="date_selected_box"></ul>
+                    <ul id="date_selected_box">
+                        <?php
+                        $selected_sql = " select * from g5_work_selected where work_idx = '{$work_row['idx']}' ";
+                        $selected_qry = sql_query($selected_sql);
+                        $selected_num = sql_num_rows($selected_qry);
+                        if($selected_num > 0) {
+                            for($s=0; $selected_row = sql_fetch_array($selected_qry); $s++) {
+                        ?>
+                        <li class="date_selected" selected_date="<?php echo $selected_row['selected_date'] ?>" style="order:<?php echo str_replace('-', '', $selected_row['selected_date']) ?>;">
+                            <input type="hidden" name="date_selected[]" value="<?php echo $selected_row['selected_date'] ?>">
+                            <a><?php echo $selected_row['selected_date'] ?></a>
+                            <?php
+                            if($client_row['client_service'] != '아가마지') {
+                                $disabled = '';
+                                if($client_row['client_service'] == '반찬') $disabled = 'disabled';
+                            ?>
+                            <select name="str_hour[]" class="str_hour">
+                                <?php
+                                for($h=8; $h<=22; $h++) {
+                                    $h_val = $h;
+                                    if($h < 10) $h_val = '0'.$h;
+                                ?>
+                                <option value="<?php echo $h ?>" <?php echo ($selected_row['str_hour'] == $h)?'selected':''; ?>><?php echo $h_val ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>&nbsp;~&nbsp;
+                            <select name="end_hour[]" class="end_hour" <?php echo $disabled ?>>
+                                <?php
+                                for($h=8; $h<=22; $h++) {
+                                    $h_val = $h;
+                                    if($h < 10) $h_val = '0'.$h;
+                                ?>
+                                <option value="<?php echo $h ?>" <?php echo ($selected_row['end_hour'] == $h)?'selected':''; ?>><?php echo $h_val ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                            <?php
+                            }
+                            ?>
+                            <button type="button" class="selected_delete_btn" selected_date="<?php echo $selected_row['selected_date'] ?>"><img src="<?php echo G5_IMG_URL ?>/selected_delete_btn.png"></button>
+                        </li>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </ul>
                 </div>
                 <div>
                     <div class="filter_year_wrap">
@@ -236,7 +283,7 @@ if($work_row['mb_id'] == '') {
                         </div>
                     </div>
 
-                    <?php if($client_row['client_service'] == '베이비시터' || $client_row['client_service']) { ?>
+                    <?php if($client_row['client_service'] == '베이비시터' || $client_row['client_service'] == '청소') { ?>
                     <div class="calendar_filter">
                         <select id="week_count" class="form_select">
                             <?php for($wc=1; $wc<=5; $wc++) { ?>

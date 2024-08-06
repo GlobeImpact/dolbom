@@ -1,5 +1,5 @@
 <?php
-add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/work/work.css?ver=5">', 0);
+add_stylesheet('<link rel="stylesheet" href="'.G5_BBS_URL.'/work/work.css?ver=8">', 0);
 
 // 등록/수정 권한
 $write_permit = true;
@@ -27,6 +27,8 @@ $sch_end_receipt_date = $_GET['sch_end_receipt_date'];
 $sch_cl_name = $_GET['sch_cl_name'];
 $sch_cl_hp = $_GET['sch_cl_hp'];
 $sch_status = $_GET['sch_status'];
+
+$now_date = date('Y-m-d');
 ?>
 
 <div id="layer_wrap">
@@ -37,7 +39,7 @@ $sch_status = $_GET['sch_status'];
                 <select class="filter_select" id="sch_service_cate">
                     <option value="" <?php echo ($sch_service_cate == '')?'selected':''; ?>>서비스분류선택</option>
                     <?php
-                    $service_menu_sql = " select * from g5_service_menu where length(sme_code) = 2 and sme_use = 1 order by sme_code asc, sme_order asc ";
+                    $service_menu_sql = " select * from g5_service_menu where client_menu = '{$_SESSION['this_code']}' and length(sme_code) = 2 and sme_use = 1 order by sme_code asc, sme_order asc ";
                     $service_menu_qry = sql_query($service_menu_sql);
                     $service_menu_num = sql_num_rows($service_menu_qry);
                     if($service_menu_num > 0) {
@@ -48,6 +50,7 @@ $sch_status = $_GET['sch_status'];
                         }
                     }
                     ?>
+                    <?php if($_SESSION['this_code'] == '20') { ?><option value="10|20">바우처+유료</option><?php } ?>
                 </select>
                 <label>접수기간</label>
                 <input type="text" class="filter_input_date date_api" id="sch_str_receipt_date" value="<?php echo $sch_str_receipt_date ?>" maxlength="10" oninput="autoHyphen3(this)" placeholder="접수기간"> ~ 
@@ -75,13 +78,13 @@ $sch_status = $_GET['sch_status'];
                     <thead>
                         <tr>
                             <th>접수</th>
-                            <th>접수일</th>
+                            <th class="sort_btn" order_fd="receipt_date" orderby="">접수일<img src="<?php echo G5_IMG_URL ?>/sort_arrow_icon.png"></th>
                             <th>서비스분류</th>
                             <th>서비스구분</th>
-                            <th>서비스기간</th>
-                            <th>신청인</th>
+                            <th class="sort_btn" order_fd="cl_name" orderby="">신청인<img src="<?php echo G5_IMG_URL ?>/sort_arrow_icon.png"></th>
                             <th>연락처</th>
                             <th>주민번호</th>
+                            <th>서비스기간</th>
                             <th>시작일</th>
                             <th>종료일</th>
                             <th>취소일</th>
@@ -135,8 +138,7 @@ $sch_status = $_GET['sch_status'];
                             <a class="set_btn" id="extend_period_btn">기간연장</a>
                         </div>
                         <div>
-                            <a class="set_btn" id="work_member_btn">파견관리사</a>
-                            <a class="set_btn" id="change_member_btn">관리사교체</a>
+                            <a class="set_btn" id="change_member_btn">관리사 교체</a>
                         </div>
                     </div>
                     <div class="layer_list_box">
@@ -145,7 +147,7 @@ $sch_status = $_GET['sch_status'];
                                 <tr>
                                     <th>근태적용</th>
                                     <th>요일</th>
-                                    <th>토요일/평일</th>
+                                    <th>주말/공휴일</th>
                                     <th>파견일</th>
                                     <th>도우미</th>
                                     <th>파견인원</th>
@@ -154,6 +156,9 @@ $sch_status = $_GET['sch_status'];
                                     <th>근무시간</th>
                                 </tr>
                             </thead>
+                        </table>
+                        <table class="layer_list_tbl width_max">
+                            <tbody id="work_selected_list"></tbody>
                         </table>
                     </div>
                 </div>
@@ -167,6 +172,7 @@ $sch_status = $_GET['sch_status'];
 
 <script>
     let write_ajax;
+    let list_ajax;
 
     $(function(){
         $('#sch_service_cate, #sch_str_receipt_date, #sch_end_receipt_date, #sch_status').change(function(){
@@ -177,10 +183,35 @@ $sch_status = $_GET['sch_status'];
             list_act();
         });
 
+        $(document).on('click', '.sort_btn', function(){
+            if($(this).hasClass('sort_asc') == true) {
+                $(this).addClass('sort_desc').removeClass('sort_asc');
+                $(this).attr('orderby', 'desc');
+                list_act();
+                return false;
+            }
+
+            if($(this).hasClass('sort_desc') == true) {
+                $(this).removeClass('sort_desc');
+                $(this).attr('orderby', '');
+                list_act();
+                return false;
+            }
+
+            if(hasAllClasses($(this), ['sort_asc', 'sort_desc']) == false) {
+                $(this).addClass('sort_asc');
+                $(this).attr('orderby', 'asc');
+                list_act();
+                return false;
+            }
+        });
+
+        // 고객 리스트 클릭시
         $(document).on('click', '#work_list tr', function(){
             $('#work_list tr').removeClass('list_selected');
             $(this).addClass('list_selected');
             list_member_act();
+            list_work_selected_act();
         });
 
         $(document).on('click', '#work_member_list tr', function(){
@@ -188,14 +219,28 @@ $sch_status = $_GET['sch_status'];
             $(this).addClass('list_selected');
         });
 
+        $(document).on('click', '#work_selected_list tr', function(){
+            $('#work_selected_list tr').removeClass('list_selected');
+            $(this).addClass('list_selected');
+        });
+
         <?php if($write_permit === true) { ?>
         // 관리사 일정보기 버튼 클릭시
         $(document).on('click', '#member_schedule_btn', function(){
             let mb_id = $('#work_member_list > .list_selected').attr('mb_id');
+            if(typeof mb_id == 'undefined') mb_id = '';
+
+            let client_idx = $('#work_list > .list_selected').attr('client_idx');
+            if(typeof client_idx == 'undefined') client_idx = '';
+
+            if(mb_id == '' || client_idx == '') {
+                alert('고객 및 직원을 선택해주세요');
+                return false;
+            }
 
             $('#layer_popup').empty();
 
-            $("#layer_popup").load(g5_bbs_url + "/work_member_schedule.php?mb_id=" + mb_id);
+            $("#layer_popup").load(g5_bbs_url + "/work_member_schedule.php?mb_id=" + mb_id + "&client_idx=" + client_idx);
 
             // Layer Popup 보이기
             $('#layer_popup').css('display', 'block');
@@ -251,35 +296,44 @@ $sch_status = $_GET['sch_status'];
 
         // 기간연장 버튼 클릭시
         $(document).on('click', '#extend_period_btn', function(){
-            //
+            if(confirm('기간을 연장하시겠습니까?')) {
+                return false;
+            }
         });
 
-        // 파견관리사 버튼 클릭시
-        $(document).on('click', '#work_member_btn', function(){
-            //
-        });
-
-        // 관리사교체 버튼 클릭시
+        // 관리사 교체 버튼 클릭시
         $(document).on('click', '#change_member_btn', function(){
-            //
+            let idx = $('#work_selected_list > .list_selected').attr('idx');
+            let work_idx = $('#work_selected_list > .list_selected').attr('work_idx');
+            let selected_date = $('#work_selected_list > .list_selected').attr('selected_date');
+
+            $('#layer_popup').addClass('selected_member_change');
+            $('#layer_popup').empty();
+
+            $('#layer_popup').css('display', 'block');
+            $('#layer_popup_bg').css('display', 'block');
+
+            $("#layer_popup").load(g5_bbs_url + "/work_selected_member_change.php?idx=" + idx + "&work_idx=" + work_idx + "&selected_date=" + selected_date);
         });
 
         // 파견관리사 선택(변경) 버튼 클릭시
         $(document).on('click', '#work_member_change_btn', function(){
             let client_idx = $('#client_idx').val();
+            let client_service = $('#client_service').val();
             let mb_id = $('#mb_id').val();
             let now_year = $('#now_year').val();
             let now_month = $('#now_month').val();
 
             $('#layer_popup').empty();
 
-            $("#layer_popup").load(g5_bbs_url + "/work_member_change.php?client_idx=" + client_idx + '&mb_id=' + mb_id + '&now_year=' + now_year + '&now_month=' + now_month);
+            $("#layer_popup").load(g5_bbs_url + "/work_member_change.php?client_idx=" + client_idx + '&client_service=' + client_service + '&mb_id=' + mb_id + '&now_year=' + now_year + '&now_month=' + now_month);
         });
         <?php } ?>
 
         // Layer Popup 닫기 버튼 클릭시 Layer Popup 초기화 + 숨기기
         $(document).on('click', '#popup_close_btn', function(){
             // Layer Popup 초기화
+            $('#layer_popup').removeClass('selected_member_change');
             $('#layer_popup').empty();
 
             // Layer Popup 숨기기
@@ -292,6 +346,7 @@ $sch_status = $_GET['sch_status'];
             let client_idx = $('#client_idx').val();
             let mb_id = '';
 
+            $('#layer_popup').removeClass('selected_member_change');
             $("#layer_popup").empty();
 
             $("#layer_popup").load(g5_bbs_url + "/work_add.php?client_idx=" + client_idx + '&mb_id=' + mb_id);
@@ -320,7 +375,11 @@ $sch_status = $_GET['sch_status'];
             $('#next_year_btn').attr('year', next_year);
             $('#next_year_btn').attr('month', next_month);
 
-            calendar_call();
+            let mode = '';
+            if($('#mode').length > 0) {
+                mode = $('#mode').val();
+            }
+            calendar_call(mode);
         });
 
         // 참석자 리스트 클릭(선택)시
@@ -349,6 +408,48 @@ $sch_status = $_GET['sch_status'];
                 $(this).parents('tr').addClass('member_select_list_selected');
             }else{
                 $('.member_select_check').prop('checked', false);
+            }
+        });
+
+        // 관리사 교체 리스트 클릭(선택)시
+        $(document).on('click', '.selected_member_change_tbl > tbody > tr', function(){
+            //$('.change_check').prop('checked', false);
+            if($(this).hasClass('member_select_list_selected') == true) {
+                $(this).removeClass('member_select_list_selected');
+                $(this).find('.change_check').prop('checked', false);
+            }else{
+                $(this).find('.change_check').prop('checked', true);
+                $(this).addClass('member_select_list_selected');
+            }
+        });
+
+        // 관리사 교체 리스트 체크박스 클릭(선택)시
+        $(document).on('click', '.change_check', function(e){
+            e.stopPropagation();
+        });
+
+        // 관리사 교체 리스트 체크박스 체크상태 변경시
+        $(document).on('change', '.change_check', function(e){
+            //$('.change_check').parents('tr').removeClass('member_select_list_selected');
+            if($(this).is(':checked') == true) {
+                //$('.change_check').prop('checked', false);
+                $(this).prop('checked', true);
+                $(this).parents('tr').addClass('member_select_list_selected');
+            }else{
+                $(this).prop('checked', false);
+                $(this).parents('tr').removeClass('member_select_list_selected');
+            }
+        });
+
+        $(document).on('change', '#change_check_all', function(e){
+            e.stopPropagation();
+
+            if($(this).is(':checked') == true) {
+                $('.change_check').prop('checked', true);
+                $('.selected_member_change_tbl > tbody > tr').addClass('member_select_list_selected');
+            }else{
+                $('.change_check').prop('checked', false);
+                $('.selected_member_change_tbl > tbody > tr').removeClass('member_select_list_selected');
             }
         });
 
@@ -394,6 +495,18 @@ $sch_status = $_GET['sch_status'];
                     location.reload();
                 }
             });
+        });
+
+        $(document).on('click', '.selected_delete_btn', function(){
+            let selected_date = $(this).attr('selected_date');
+            if(confirm('선택을 취소하시겠습니까?')) {
+                if($('.date_selected[this_date=' + selected_date + ']').length > 0) {
+                    $('.date_selected[this_date=' + selected_date + ']').removeClass('date_selected');
+                }
+                $(this).parents('li').remove();
+                tot_price();
+            }
+            return false;
         });
 
         $(document).on('click', '.calendar_btn', function(){
@@ -442,6 +555,7 @@ $sch_status = $_GET['sch_status'];
                     datas += '<li class="date_selected" selected_date="' + this_date + '" style="order:' + this_date.replaceAll('-', '') + ';">';
                     datas += '<input type="hidden" name="date_selected[]" value="' + this_date + '">';
                     datas += '<a>' + this_date + '</a>';
+                    datas += '<button type="button" class="selected_delete_btn" selected_date="' + this_date + '"><img src="<?php echo G5_IMG_URL ?>/selected_delete_btn.png"></button>';
                     datas += '</li>';
 
                     $.ajax({
@@ -456,6 +570,7 @@ $sch_status = $_GET['sch_status'];
                                     $(".calendar_btn[this_date='" + response.next_date[i] + "']").addClass('date_selected');
                                     datas += '<li class="date_selected" selected_date="' + response.next_date[i] + '" style="order:' + response.next_date[i].replaceAll('-', '') + ';">';
                                     datas += '<a>' + response.next_date[i] + '</a>';
+                                    datas += '<button type="button" class="selected_delete_btn" selected_date="' + response.next_date[i] + '"><img src="<?php echo G5_IMG_URL ?>/selected_delete_btn.png"></button>';
                                     datas += '</li>';
                                 }
                             }
@@ -471,6 +586,7 @@ $sch_status = $_GET['sch_status'];
                     $(this).addClass('date_selected');
                     datas += '<li class="date_selected" selected_date="' + this_date + '" style="order:' + this_date.replaceAll('-', '') + ';">';
                     datas += '<a>' + this_date + '</a>';
+                    datas += '<button type="button" class="selected_delete_btn" selected_date="' + this_date + '"><img src="<?php echo G5_IMG_URL ?>/selected_delete_btn.png"></button>';
                     datas += '</li>';
 
                     $('#date_selected_box').append(datas).promise().done(function(){
@@ -508,6 +624,7 @@ $sch_status = $_GET['sch_status'];
                     datas += '<option value="' + h + '" ' + selected + '>' + h_val + '</option>';
                 }
                 datas += '</select>';
+                datas += '<button type="button" class="selected_delete_btn" selected_date="' + this_date + '"><img src="<?php echo G5_IMG_URL ?>/selected_delete_btn.png"></button>';
                 datas += '</li>';
 
                 $('#date_selected_box').append(datas).promise().done(function(){
@@ -544,6 +661,7 @@ $sch_status = $_GET['sch_status'];
                     datas += '<option value="' + h + '" ' + selected + '>' + h_val + '</option>';
                 }
                 datas += '</select>';
+                datas += '<button type="button" class="selected_delete_btn" selected_date="' + this_date + '"><img src="<?php echo G5_IMG_URL ?>/selected_delete_btn.png"></button>';
                 datas += '</li>';
 
                 $('#date_selected_box').append(datas).promise().done(function(){
@@ -553,6 +671,11 @@ $sch_status = $_GET['sch_status'];
 
             // 반찬
             if(client_service == '반찬') {
+                if(weeknum == 0 || weeknum == 6 || $(this).hasClass('holiday') == true) {
+                    alert('주말 및 공휴일은 선택이 불가능합니다.');
+                    return false;
+                }
+
                 $(this).addClass('date_selected');
 
                 let selected = '';
@@ -580,6 +703,7 @@ $sch_status = $_GET['sch_status'];
                     datas += '<option value="' + h + '" ' + selected + '>' + h_val + '</option>';
                 }
                 datas += '</select>';
+                datas += '<button type="button" class="selected_delete_btn" selected_date="' + this_date + '"><img src="<?php echo G5_IMG_URL ?>/selected_delete_btn.png"></button>';
                 datas += '</li>';
 
                 $('#date_selected_box').append(datas).promise().done(function(){
@@ -752,36 +876,152 @@ $sch_status = $_GET['sch_status'];
                 return false;
             }
 
-            write_ajax = $.ajax({
-                url: g5_bbs_url + '/work_add_update.php',
-                async: true,
-                type: "POST",
-                data: {'client_idx': client_idx, 'mb_id': mb_id, 'now_year': now_year, 'now_month': now_month, 'client_service': client_service, 'spe_period': spe_period, 'spe_period_hour': spe_period_hour, 'date_selected': date_selected, 'str_hour': str_hour, 'end_hour': end_hour},
-                dataType: "json",
-                success: function(rst) {
-                    console.log(rst);
-                },
-                error: function(error) {
-                    // 전송이 실패한 경우 받는 응답 처리
-                    location.reload();
-                }
-            });
+            let filter_msg = $('.work_add_form .filter_box > label').text();
+
+            if(confirm(filter_msg + "\n정말 파견하시겠습니까?")) {
+
+                write_ajax = $.ajax({
+                    url: g5_bbs_url + '/work_add_update.php',
+                    async: true,
+                    type: "POST",
+                    data: {'client_idx': client_idx, 'mb_id': mb_id, 'now_year': now_year, 'now_month': now_month, 'client_service': client_service, 'spe_period': spe_period, 'spe_period_hour': spe_period_hour, 'date_selected': date_selected, 'str_hour': str_hour, 'end_hour': end_hour},
+                    dataType: "json",
+                    success: function(rst) {
+                        if(rst.msg != '') {
+                            alert(rst.msg);
+                        }
+
+                        if(rst.code == '9999') {
+                            location.reload();
+                            return false;
+                        }
+
+                        if(rst.code == '0000') {
+                            // Layer Popup 초기화
+                            $('#layer_popup').empty();
+
+                            // Layer Popup 숨기기
+                            $('#layer_popup').css('display', 'none');
+                            $('#layer_popup_bg').css('display', 'none');
+
+                            list_act();
+                            holiday_update();
+                        }
+                    },
+                    error: function(error) {
+                        // 전송이 실패한 경우 받는 응답 처리
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+
+        $(document).on('click', '#selected_member_change_btn', function(){
+            $('#member_change_list_wrap').css('display', 'block');
+        });
+
+        $(document).on('click', '#member_change_close_btn', function(){
+            $('#member_change_list_wrap').css('display', 'none');
+        });
+
+        $(document).on('click', '#member_change_submit_btn', function(){
+            if($('.member_select_check').is(':checked') == false) {
+                alert('변경할 파견관리사를 선택해주세요');
+                return false;
+            }
+
+            let mb_id = $('.member_select_check:checked').val();
+            let mb_name = $('.member_select_check:checked').attr('mb_name');
+
+            $('#change_mb_id').val(mb_id);
+            $('#change_mb_name_txt').css('display', 'block').text(mb_name);
+            $('#selected_member_change_btn').css('display', 'none');
+            $('#member_change_list_wrap').css('display', 'none');
+        });
+
+        $(document).on('click', '#selected_change_submit_btn', function(){
+            if (typeof write_ajax !== 'undefined') {
+                write_ajax.abort(); // 비동기 실행취소
+            }
+
+            if($('#change_mb_id').val() == '') {
+                alert('변경할 파견사를 선택해주세요');
+                return false;
+            }
+
+            if($('.change_check').is(':checked') == false) {
+                alert('변경할 파견일을 선택해주세요');
+                return false;
+            }
+
+            let writeForm = document.getElementById("selected_member_change_form");
+            let formData = new FormData(writeForm);
+
+            if(confirm('정말 관리사를 교체하시겠습니까?')) {
+                write_ajax = $.ajax({
+                    url: g5_bbs_url + '/work_selected_member_change_update.php',
+                    async: true,
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    success: function(response) {
+                        // 전송이 성공한 경우 받는 응답 처리
+                        if(response.msg != '') {
+                            alert(response.msg);
+                        }
+
+                        $('#layer_popup').empty();
+
+                        // Layer Popup 숨기기
+                        $('#layer_popup').css('display', 'none');
+                        $('#layer_popup_bg').css('display', 'none');
+
+                        list_act();
+                        holiday_update();
+                    },
+                    error: function(error) {
+                        // 전송이 실패한 경우 받는 응답 처리
+                        location.reload();
+                    }
+                });
+            }
         });
     });
 
     // 고객 정보 불러오기
     function list_act() {
+        if (typeof list_ajax !== 'undefined') {
+            list_ajax.abort(); // 비동기 실행취소
+        }
+        
+        // FIlter : 서비스분류
         let sch_service_cate = $('#sch_service_cate').val();
+        // Filter : 접수기간(STR)
         let sch_str_receipt_date = $('#sch_str_receipt_date').val();
+        // Filter : 접수기간(END)
         let sch_end_receipt_date = $('#sch_end_receipt_date').val();
+        // Filter : 신청인(고객명)
         let sch_cl_name = $('#sch_cl_name').val();
+        // Filter : 연락처(고객 연락처)
         let sch_cl_hp = $('#sch_cl_hp').val();
+        // 접수상태
         let sch_status = $('#sch_status').val();
 
-        $.ajax({
+        let sort_btn = $('.sort_btn');
+        let sort_orderby = '';
+        $.each(sort_btn, function(index, className) {
+            if($('.sort_btn').eq(index).attr('order_fd') != '' && $('.sort_btn').eq(index).attr('orderby') != '') {
+                sort_orderby += ', ' + $('.sort_btn').eq(index).attr('order_fd') + ' ' + $('.sort_btn').eq(index).attr('orderby');
+            }
+        });
+
+        list_ajax = $.ajax({
             url: g5_bbs_url + '/ajax.work_list.php',
             type: "POST",
-            data: {'sch_service_cate': sch_service_cate, 'sch_str_receipt_date': sch_str_receipt_date, 'sch_end_receipt_date': sch_end_receipt_date, 'sch_cl_name': sch_cl_name, 'sch_cl_hp': sch_cl_hp, 'sch_status': sch_status},
+            data: {'sch_service_cate': sch_service_cate, 'sch_str_receipt_date': sch_str_receipt_date, 'sch_end_receipt_date': sch_end_receipt_date, 'sch_cl_name': sch_cl_name, 'sch_cl_hp': sch_cl_hp, 'sch_status': sch_status, 'sort_orderby': sort_orderby},
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
@@ -796,19 +1036,19 @@ $sch_status = $_GET['sch_status'];
                             list_selected = 'list_selected';
                         }
 
-                        datas += '<tr class="' + list_selected + '" client_idx="' + response[i].client_idx + '" area_x="' + response[i].area_x + '" area_y="' + response[i].area_y + '" client_service="' + response[i].client_service + '">';
+                        datas += '<tr class="' + response[i].bg_color + ' ' + list_selected + '" client_idx="' + response[i].client_idx + '" area_x="' + response[i].area_x + '" area_y="' + response[i].area_y + '" client_service="' + response[i].client_service_data + '">';
                         datas += '<td>' + response[i].use_status + '</td>';
                         datas += '<td>' + response[i].receipt_date + '</td>';
                         datas += '<td>' + response[i].client_service + '</td>';
                         datas += '<td>' + response[i].cl_service_cate2 + '</td>';
-                        datas += '<td>' + response[i].cl_service_period + '</td>';
                         datas += '<td>' + response[i].cl_name + '</td>';
                         datas += '<td>' + response[i].cl_hp + '</td>';
                         datas += '<td>' + response[i].cl_security_number + '</td>';
+                        datas += '<td>' + response[i].cl_service_period + '</td>';
                         datas += '<td>' + response[i].str_date + '</td>';
                         datas += '<td>' + response[i].end_date + '</td>';
                         datas += '<td>' + response[i].cancel_date + '</td>';
-                        datas += '<td>' + response[i].cctv + '</td>';
+                        datas += '<td>' + response[i].cctv.toUpperCase() + '</td>';
                         datas += '<td>' + response[i].pet + '</td>';
                         datas += '<td>' + response[i].prior_interview + '</td>';
                         datas += '</tr>';
@@ -817,6 +1057,7 @@ $sch_status = $_GET['sch_status'];
                     $('#work_list').append(datas);
 
                     list_member_act();
+                    list_work_selected_act();
                 }
             },
             error: function(error) {
@@ -825,15 +1066,17 @@ $sch_status = $_GET['sch_status'];
         });
     }
 
+    // 파견 제공인력 리스트 추출
     function list_member_act() {
         let area_x = $('.layer_list_wrap .list_selected').attr('area_x');
         let area_y = $('.layer_list_wrap .list_selected').attr('area_y');
+        let client_idx = $('#work_list > .list_selected').attr('client_idx');
         let client_service = $('#work_list > .list_selected').attr('client_service');
 
         $.ajax({
             url: g5_bbs_url + '/ajax.work_member_list.php',
             type: "POST",
-            data: {'area_x': area_x, 'area_y': area_y, 'client_service': client_service},
+            data: {'area_x': area_x, 'area_y': area_y, 'client_idx': client_idx, 'client_service': client_service},
             dataType: "json",
             success: function(response) {
                 // 전송이 성공한 경우 받는 응답 처리
@@ -849,12 +1092,12 @@ $sch_status = $_GET['sch_status'];
                         }
 
                         datas += '<tr class="' + list_selected + '" mb_id="' + response[i].mb_id + '">';
-                        datas += '<td></td>';
+                        datas += '<td>' + response[i].work_stat + '</td>';
                         datas += '<td>' + response[i].mb_name + '</td>';
                         datas += '<td>' + response[i].team_category + '</td>';
                         datas += '<td>' + response[i].mb_hp + '</td>';
                         datas += '<td>' + response[i].birthday + '</td>';
-                        datas += '<td>';
+                        datas += '<td class="talign_l">';
                         if(area_x != '' && area_y != '') {
                             datas += '[' + response[i].area + 'km] ';
                         }
@@ -872,19 +1115,68 @@ $sch_status = $_GET['sch_status'];
         });
     }
 
-    function calendar_call() {
+    function list_work_selected_act() {
+        let client_idx = $('.list_selected').attr('client_idx');
+        let client_service = $('.list_selected').attr('client_service');
+
+        $.ajax({
+            url: g5_bbs_url + '/ajax.work_selected_list.php',
+            type: "POST",
+            data: {'client_idx': client_idx, 'client_service': client_service},
+            dataType: "json",
+            success: function(response) {
+                // 전송이 성공한 경우 받는 응답 처리
+                $('#work_selected_list').empty();
+                let datas = '';
+                let list_selected = '';
+
+                if(response.length > 0) {
+                    for(let i=0; i<response.length; i++) {
+                        list_selected = '';
+                        if(i == 0) {
+                            list_selected = 'list_selected';
+                        }
+
+                        datas += '<tr class="' + list_selected + '" idx="' + response[i].idx + '" work_idx="' + response[i].work_idx + '" selected_date="' + response[i].selected_date + '" selected_date_mk="' + response[i].selected_date_mk + '" str_hour="' + response[i].str_hour + '" end_hour="' + response[i].end_hour + '">';
+                        datas += '<td></td>';
+                        datas += '<td>' + response[i].yoil + '요일</td>';
+                        datas += '<td>' + response[i].weekend + '</td>';
+                        datas += '<td>' + response[i].selected_date + '</td>';
+                        datas += '<td>' + response[i].mb_name + '</td>';
+                        datas += '<td>' + '1명' + '</td>';
+                        datas += '<td></td>';
+                        datas += '<td></td>';
+                        datas += '<td></td>';
+                        // datas += '<td class="talign_l">' + response[i].mb_memo2 + '</td>';
+                        datas += '</tr>';
+                    }
+
+                    $('#work_selected_list').append(datas);
+                }
+            },
+            error: function(error) {
+                // 전송이 실패한 경우 받는 응답 처리
+            }
+        });
+    }
+
+    function calendar_call(mode = '') {
         if (typeof write_ajax !== 'undefined') {
             write_ajax.abort(); // 비동기 실행취소
         }
 
         let year = $('#now_year').val();
         let month = $('#now_month').val();
+        let mb_id = '';
+        if(mode == 'schedule') {
+            mb_id = $('#mb_id').val();
+        }
         
         write_ajax = $.ajax({
             url: g5_bbs_url + '/ajax.calendar_call.php',
             async: true,
             type: "POST",
-            data: {'year': year, 'month': month},
+            data: {'year': year, 'month': month, 'mb_id': mb_id},
             dataType: "json",
             success: function(rst) {
                 let weekend = '';
@@ -911,14 +1203,27 @@ $sch_status = $_GET['sch_status'];
                         if(k == 6) weekend = 'saturday';
                         if(typeof rst[this_date] != 'undefined') weekend = 'holiday';
 
-                        if(this_date < '<?php echo date('Y-m-d') ?>') {
-                            datas += '<a class="calendar_btn last_date ' + weekend + '" this_date="' + this_date + '">';
-                        }else{
-                            datas += '<a class="calendar_btn ' + weekend + '" this_date="' + this_date + '" weeknum="' + k + '">';
+                        if(mode == '') {
+                            if(this_date < '<?php echo date('Y-m-d') ?>') {
+                                // datas += '<a class="calendar_btn last_date ' + weekend + '" this_date="' + this_date + '">';
+                                datas += '<a class="calendar_btn ' + weekend + '" this_date="' + this_date + '" weeknum="' + k + '">';
+                            }else{
+                                datas += '<a class="calendar_btn ' + weekend + '" this_date="' + this_date + '" weeknum="' + k + '">';
+                            }
+                            datas +=  '<p>'+ nn + '</p>';
+                            datas += '</a>';
+                        }else if(mode == 'schedule') {
+                            if(this_date < '<?php echo date('Y-m-d') ?>') {
+                                datas += '<a class="calendar_schedule_btn last_date ' + weekend + '" this_date="' + this_date + '" weeknum="' + k + '">';
+                            }else{
+                                datas += '<a class="calendar_schedule_btn ' + weekend + '" this_date="' + this_date + '" weeknum="' + k + '">';
+                            }
+                            datas += '<p>' + nn + '</p>';
+                            if(rst['selected-' + this_date] == 'selected') {
+                                datas += '<div><span class="schedule_selected">파견</span></div>';
+                            }
+                            datas += '</a>';
                         }
-                        datas +=  '<p>'+ nn + '</p>';
-                        datas += '<div class="work_calendar_list"></div>';
-                        datas += '</a>';
 
                         n++;
                         datas += '</td>';
@@ -931,11 +1236,10 @@ $sch_status = $_GET['sch_status'];
                 $('.work_calendar_tbl > tbody').append(datas);
 
                 $('.calendar_btn').removeClass('date_selected');
-                if($('#date_selected_box > .date_selected').length > 0) {
-                    for(let i=0; i<$('#date_selected_box > .date_selected').length; i++) {
-                        let selected_date = $('#date_selected_box > .date_selected').eq(i).attr('selected_date');
-                        $(".calendar_btn[this_date='" + selected_date + "']").addClass('date_selected');
-                    }
+
+                for(let i=0; i<$('#date_selected_box > .date_selected').length; i++) {
+                    let selected_date = $('#date_selected_box > .date_selected').eq(i).attr('selected_date');
+                    $(".calendar_btn[this_date='" + selected_date + "']").addClass('date_selected');
                 }
             },
             error: function(error) {
@@ -964,6 +1268,9 @@ $sch_status = $_GET['sch_status'];
         let client_idx = $('#client_idx').val();
         let client_service = $('#client_service').val();
         let li_date_selected = document.querySelectorAll('li.date_selected');
+        if(li_date_selected.length == 0) {
+            return false;
+        }
         let date_selected = new Array();
         for(let i=0; i<li_date_selected.length; i++) {
             date_selected[i] = li_date_selected[i].getAttribute('selected_date');
@@ -985,9 +1292,13 @@ $sch_status = $_GET['sch_status'];
             data: {'client_idx': client_idx, 'client_service': client_service, 'date_selected': date_selected, 'str_hour': str_hour, 'end_hour': end_hour},
             dataType: "json",
             success: function(response) {
-                console.log(response);
-
                 if(typeof response.tot_price != 'undefined') {
+                    if(response.tot_price == false) {
+                        alert('고객 서비스 금액 관리에서 금액 설정이 필요합니다!');
+                        $('.tot_price_box > span').text('');
+                        return false;
+                    }
+
                     if(response.tot_price == null) response.tot_price = 0;
                     $('.tot_price_box > span').text(response.tot_price);
                 }
